@@ -1,0 +1,5 @@
+revolt PX-4945-675 Akku
+NodeMCU Lua Lolin V3
+RFID RC522 Set
+Raspberry Pi Zero
+Sonstige Kabel
