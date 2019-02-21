@@ -1,0 +1,7 @@
+SDA -> S3
+SCK -> D7
+MOSI -> S1
+MISO -> D6
+GND -> G
+RST -> RST
+3.3V -> 3V
