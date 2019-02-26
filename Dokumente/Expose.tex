@@ -1,0 +1,73 @@
+\documentclass[12pt,titlepage]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\setkomafont{disposition}{\normalfont\bfseries}
+\usepackage[a4paper,lmargin={3cm},rmargin={3cm},
+tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{cite}
+\usepackage{hyperref}
+
+\begin{document}
+	\begin{titlepage}
+		\title{Exposé \\ \glqq Synchronisierung von analogen und digitalen Scrum-Boards\grqq{}} 
+		\subtitle{Praxisprojekt}
+		\author{Alexander Strutz \vspace{0.5cm}\\ Betreuer: 
+		Prof. Dr. Matthias Böhmer,\\Oliver Blum}
+ 		\date{26. Februar 2019}
+		\maketitle
+	\end{titlepage}
+	\textbf{Domäne} \\
+	In 63\% der IT-Firmen und Agenturen werden laut Umfrage der Hochschule Koblenz agile Arbeitstechniken wie das Framework „Scrum“ verwendet \cite{hskob}. Während sich agile, auch leichtgewichtig genannte, Prozesse an dem „Agilen Manifest“ orientieren, ist für Scrum ein Satz an Grundregeln und Vorgehensweisen definiert. \\
+So sind selbstorganisierte Teams ebenso ein Bestandteil wie ein Team-Board, an dem die Aufgaben (Stories genannt) hängen. Stories werden auf kleinen Zetteln mit ihrem Titel, wie z.B: „Anpassung der mobilen Navigation“ niedergeschrieben, wobei diese verschiedene Status annehmen können: „Zu bearbeiten“, „in Bearbeitung“ oder „Erledigt“. Durch einen täglichen Termin innerhalb des Teams, dem sogenannten Daily, wird der aktuelle Status der Stories erläutert und entsprechend auf dem Board verschoben. \\
+Parallel dazu nutzen viele Firmen digitale Ticketsysteme, wie z.B. Jira. Der Vorteil dieser Systeme ist die Sichtbarkeit des Fortschrittes. Während Kunden die Boards des Teams nicht immer sehen können, sind Systeme wie Jira dafür ausgelegt sowohl Kunden als auch Dienstleistern einen Überblick über Stories zu geben. Darüber hinaus können im digitalen System auch Anhänge, Zuweisungen, Kommentare und verknüpfte Stories hinterlegt werden. \\ \\
+\textbf{Problemszenario und Zielsetzung} \\
+Bei dieser Arbeitsweise entsteht das Problem, dass das physische Board und das digitale Ticketsystem synchron  nicht gehalten werden können ohne einen zeitlichen Aufwand entstehen zu lassen \cite{sync}. Daher ist das Ziel dieses Praxisprojektes die möglichst automatisierte Synchronisierung dieser Systeme. Es ergibt sich somit die Forschungsfrage: \\
+„Wie lassen sich analoge und digitale Scrum-Boards synchronisieren?“ \\ \\
+\textbf{Literatur} \\
+Um diese Synchronisierung nah an Scrum zu halten, sind der Scrum-Guide und das dahinter stehende „Agile Manifest“ die referenzierten Haupttheorien (vgl. \cite{manifest} und \cite{guide}). Denn für eine Synchronisierungslösung ist die Einhaltung des Manifestes, sowie des Scrum Guide unabdingbar. \\
+Darüber hinaus sind weitere Werke zur Psychologie von analogen und digitalen Anwendungen nötig, siehe dazu \cite{pen}. \\ \\
+\textbf{Ergebnis und Verwertung} \\
+Das Ergebnis dieser Arbeit soll ein Protoyp eines Systems sein, welches physische Boards um digitale Komponenten erweitert. Dieser Prototyp soll den organisatorischen Aufwand von Product Owner und Scrum Master reduzieren und somit ein effizienteres Arbeit ermöglichen. Weitergehend kann ein Produkt entwickelt werden, welches agiles Prozesse weiter unterstützt. 
+Ein solches Produkt kann als Grundlage zur Entwicklung weiterer „Brückensysteme“ dienen, die die Verzahnung von digitalen und analogen Boards weiter vorantreiben würden. Ein positiver Nebeneffekt wäre die Verbesserung der Kommunikation innerhalb des Teams durch ein stets aktuelles Board. \\
+Die Relevanz dieses Themas wird verdeutlicht, wenn man Studie ''Status Quo Agile 2016/2017'' betrachtet. Demnach nutzen 85\% der agilen Unternehmen Scrum \cite{hskob}. Diese Unternehmen können durch die Ergebnisse dieser Arbeit die Qualität ihrer Teams, sowie ihren Umsatz steigern. Somit entstehen auch wirtschaftlich wertvolle Erkenntnisse. \\
+An diesen Erkenntnissen sind dementsprechend Personen in leitenden Positionen interessiert. Aber auch Scrum Master, Product Owner und Entwickler profitieren von einem Prototyp und einer Weiterentwicklung. Ferner können diese Boards zur Weiterentwicklung und auf Messen zu Agilität in Unternehmen genutzt werden. \\ \\
+\textbf{Struktur und Planung der Arbeit} \\
+Im Mittelpunkt des Praxisprojektes steht die Entwicklung eines Prototypen zur Erfüllung verschiedener POCs. Zu Beginn werden diese POCs definiert. Daraufhin werden verschiedene technologische Ansätze recherchiert und abgewogen. Nach der Entscheidung geeigneter Technologien, sowohl für die Hardware am Board als auch für die Software zur Kommunikation mit dem Ticketsystem wird eine Architektur entwickelt, die auf diese Technologien abgestimmt ist. Im Rahmen dieser Architektur werden die POCs realisiert und zu einem zusammengehörigen System vervollständigt. Schlussendlich wird das System anhand der selbstdefinerten POCs getestet.\\
+Die Weiterentwicklung des Prototypen zu einem lauffähigen Produkt, sowie die Evaluation dessen sind Gegenstand der Bachelorarbeit. Zu Beginn wird eine Testgruppe befragt wie sie Scrum-Boards verwenden und wie sie das Problem der Synchronität bewältigen. Auch werden sie nach möglichen Verbesserungen in ihren Arbeitsprozessen befragt. Nach der Auswertung werden aus den Ergebnissen Anforderungen an das System abgeleitet. Diese Anforderungen gilt es in den Prototypen zu integrieren und ggf. die Architektur, sowie die verwendeten Technologien anzupassen. Darüber hinaus werden die Umsetzungen der POCs zu vollständigen Features erweitert. Das daraus entstandene Produkt wird durch die Testgruppe evaluiert und getestet. Außerdem findet eine weitere Befragung statt. Nach der erfolgreichen Evaluation werden die neuen Ergebnisse und somit die durch das Produkt gewonnen Erkenntnisse zusammengefasst.
+\\ \\
+\textbf{Definiton eigener Meilensteine} \\
+Im Folgenden werden die selbstdefinierten Meilensteine mit einer Deadline aufgelistet.
+\begin{table}[H]
+\centering
+\caption{\textbf{Meilensteine des PP und der BA}}
+\begin{tabular}{|c|l|}
+\hline
+\multicolumn{1}{|l|}{\textbf{Datum}} & {\textbf{Artefakt}} \\ \hline
+26.02.2019                                 & Expose \\ \hline
+11.03.2019                                 & Definition der POCs \\ \hline
+25.03.2019                                       & Architekturmodell und Technologieentscheidung \\ \hline
+22.04.2019                                       & Umsetzung POCs                                  \\ \hline
+29.04.2019                                       & Dokumentation PP und Prüfung POCs                                \\ \hline
+30.04.2019                                       & Abgabe PP \\ \hline
+06.05.2019                                       & Anmeldung BA \\ \hline
+20.05.2019                                       & Befragung Testgruppe \\ \hline
+27.05.2019                                       & Definition Anforderungen \\ \hline
+10.06.2019                                       & Umsetzung Anforderungen \\ \hline
+17.06.2019                                       & Vervollständigung System \\ \hline
+01.07.2019                                       & Evaluation und Befragung \\ \hline
+15.07.2019                                       & Zusammenfassung und Abgabe BA \\ \hline
+29.07.2019                                       & Kolloquium \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
+
+\bibliography{Expose}
+ 	\bibliographystyle{plain}
+\end{document}
