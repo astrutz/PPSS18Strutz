@@ -6,6 +6,7 @@
 \usepackage[a4paper,lmargin={3cm},rmargin={3cm},
 tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 \usepackage{graphicx}
+\usepackage{tabularx}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{caption}
@@ -28,15 +29,88 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	\newpage
 	
 	\section{Domänenrecherche}
-	 \cite{manifest}
-	\newpage
-	\section{Problemstellung}
+		Im Folgenden wird eine Einleitung in die Domäne, die Problemstellung mit ihren Folgen, sowie 			den verwendeten Paradigmen gegeben. Anschließend wird aus dieser Recherche eine 						Forschungsfrage abgeleitet.
+		\subsection{Einleitung}
+		Laut der Studie ''Status Quo Agile 2016/2017'' der Hochschule Koblenz verwenden 63\% der 				Software-Firmen und Agenturen agile Methoden in ihren täglichen Arbeitsprozessen 						\cite{hskob}. 
+		Agile, auch leichtgewichtig genannte Prozesse, können in verschiedenen Frameworks realisiert 			werden, jedoch orientieren sich alle an dem Rahmenwerk des ''Agilen Manifests''. Das agile 				Manifest setzt den Fokus auf die vier Werte ''Individuals and interactions over processes and 		tools'', ''Working software over comprehensive documentation'', ''Customer collaboration over 		contract negotiation'' und ''Responding to change over following a plan'' \cite{manifest}. 				Aus diesen Werten 			ergeben sich zwölf Prinzipien, die dem agilen Manifest angehören. 		Jedes agile Framework 				versucht die Werte und Prinzipien des Manifests 					umzusetzen und praktisch zu integrieren. \\
+		Das in 82\% der befragten Firmen genutzte Framework ''Scrum'' gilt als meist genutzte agile 			Arbeitsmethode \cite{hskob}. Im Vordergrund stehen hierbei selbstorganisierte Teams. Diese 				Teams arbeiten interdisziplinär und bestehen aus drei bis neun Mitgliedern \cite{guide}. Sie 			''entscheiden selbst, wie sie ihre Arbeit am besten erledigen, anstatt dieses durch andere
+		Personen außerhalb des Teams vorgegeben zu bekommen'' \cite{guide}. Die zu erledigenden 				Aufgaben (''Stories'' genannt) werden durch den ''Product Owner'', einem Mitglied des Teams, 			in Absprache mit dem Kunden definiert und im ''Product Backlog'' priorisiert. Zu Beginn eines 		jeden Arbeitsinkrements, auch ''Sprint'' genannt, wählt das Team gemäß Priorisierung die 				Stories, die 		im folgenden Sprint zu bearbeiten sind. Die Stories werden anhand von 				''Story Points'' in ihrer Komplexität eingeschätzt. Hierbei werden Punkte nicht nach 					Zeitaufwand, sondern nach vergleichbaren Stories geschätzt. Der Sprint sollte so geplant 				werden, dass am Sprintende alle gewählten Stories erledigt sind. Eine Story kann hierbei drei 		Status einnehmen: ''To Do'', ''In Work'' oder ''Done''. Um das Team über die Status der 				einzelnen Stories informiert zu halten, gibt es täglich das ''Daily''. Hier berichtet jedes 			Teammitglied welche Story es am Vortag bearbeitet hat und ob sich der Status verändert hat. 			Um den Sprint sichtbarer zu machen werden ''Boards'' verwendet. Bei diesen Boards kann es 				sich um Tafeln, Whiteboards oder Software handeln, die die aktuellen Stories anzeigt. Hierbei 		gibt es drei Spalten, die die Status der Stories abbilden. Im Daily werden die Stories gemäß 			dem aktuellen Status verschoben. Die Organisation und Administration des Boards obliegt dem 			''Scrum Master'', der '' dafür verantwortlich ist, Scrum entsprechend des Scrum Guides zu 				fördern	und zu unterstützen'' \cite{guide}.
+		\subsection{Problemstellung}
+		\subsection{Folgen}
+		\subsection{Paradigmen}
+		\subsection{Stakeholder}
+		\subsection{Forschungsfrage}
 	\newpage	
 	\section{Zielsetzung}
+		\subsection{Strategische Ziele}
+		\subsection{Taktische Ziele}
+		\subsection{Operative Ziele}
 	\newpage	
 	\section{Marktrecherche}
-	\newpage	
-	\section{PoCs}
+		\subsection{Produkt 1}
+		\subsection{Produkt 2}
+		\subsection{Fazit}
+	\newpage
+	\section{Alleinstellungsmerkmale}	
+	
+	\section{Proof of Concept}
+Im Folgenden werden Proofs of Concept aufgelistet, die die Kernfunktionen des Systems abbilden und mögliche Fehler abfangen.
+
+\begin{table}[H]
+\centering
+\caption{\textbf{POC 1: Story einer Karte zuweisen}}
+\label{poc1}
+\begin{tabularx}{\linewidth}{|r|X|}
+\hline
+Beschreibung  & Über das JIRA lassen sich Stories zu Karten zuordnen, die dann Informationen zur Story beinhalten. qwat                                  \\ \hline
+Exitkriterium & Es lässt sich aus einer Liste von verfügbaren Karten eine auswählen, die Informationen zur Story werden versendet. \\ \hline
+Failkriterium & Es werden keine Karten angezeigt, obwohl es verfügbare Karten im Netz gibt. \\ \hline
+Fallback      & Es gibt die Möglichkeit Stories der ''nächsten verfügbaren Karte'' zuzuweisen. Sobald sich eine Karte wieder im Netz befindet erhält sich automatisch die Informationen der Story. \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{POC 2: Story auf einer Karte anzeigen}}
+\label{poc2}
+\begin{tabularx}{\linewidth}{|r|X|}
+\hline
+Beschreibung  & Eine Karte kann durch ihr Display Informationen wie Titel und Kürzel einer Story anzeigen. \\ \hline
+Exitkriterium & Die Karte enthält die aktuellen Informationen zur Story. \\ \hline
+Failkriterium & Die Karte enthält Informationen zur Story, die veraltet sind, da die Story im JIRA verändert wurde.
+ \\ \hline
+Fallback      & Der Nutzer hat die Möglichkeit eine Aktualisierung der Karte anzustoßen. Außerdem kann sich die Karte in einem bestimmten Intervall selbst aktualisieren.
+ \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{POC 3: Story einem Teammitglied zuweisen}}
+\label{poc3}
+\begin{tabularx}{\linewidth}{|r|X|}
+\hline
+Beschreibung  & Durch Anlegen eines RFID-Tags kann sich ein Teammitglied eine Story selbst zuweisen.  \\ \hline
+Exitkriterium & Sowohl im JIRA als auch auf der Karte ist die Story dem Besitzer des RFID-Tags zugewiesen. \\ \hline
+Failkriterium & Das System kann dem RFID-Tag keinen Nutzer zuordnen.
+ \\ \hline
+Fallback      & Wenn ein Nutzer im JIRA einer Story zugewiesen wird, wird die Karte wie in PoC 2 aktualisiert. 
+ \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{POC 4: Status der Story verändern}}
+\label{poc4}
+\begin{tabularx}{\linewidth}{|r|X|}
+\hline
+Beschreibung  & Durch Verschieben einer Karte in eine andere Spalte wird der Status der Story angepasst.  \\ \hline
+Exitkriterium & Nach Verschiebung hat die Story im JIRA einen anderen Status. \\ \hline
+Failkriterium & Der Status der Story wurde im JIRA und nicht auf dem Board verändert. \\ \hline
+Fallback      & Wenn eine Karte in einer anderen Spalte hängt als im JIRA wird dies auf der Karte angezeigt, bis sie verschoben wurde.  \\ \hline
+\end{tabularx}
+\end{table}
 	\newpage	
 	\section{Technologieentscheidung}
 	\newpage	
@@ -45,8 +119,9 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	\section{Implementation}
 	\newpage	
 	\section{Fazit}
+	\newpage
 
 	
 \bibliography{Dokumentation}
- 	\bibliographystyle{plain}
+ 	\bibliographystyle{unsrt}
 \end{document}
