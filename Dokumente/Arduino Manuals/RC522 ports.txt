@@ -1,7 +1,25 @@
-SDA -> S3
-SCK -> D7
-MOSI -> S1
-MISO -> D6
-GND -> G
-RST -> RST
-3.3V -> 3V
+RFID-Reader RC522
+-------------------------
+RC522		ESP8266
+------		--------
+SDA		S3
+SCK		D7
+MOSI		S1
+MISO		D6
+GND		G
+RST		RST
+3.3V		3V
+
+
+4.2 e-Paper Module 3farbig
+---------------------------
+e-Paper		ESP8266
+-------		-------
+BUSY		D2
+RST		D4
+DC		D3
+CS		D8
+CLK		D5	
+DIN		D7
+GND		G
+3.3V		3V
