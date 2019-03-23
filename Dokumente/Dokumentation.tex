@@ -43,19 +43,20 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		\subsection{Folgen}
 		Eine direkte Folge des doppelten Boards ist der Mehraufwand, der für den Scrum Master und das Team entsteht. Denn jede Änderung des Status, muss sowohl im Daily, als auch auf dem digitalen Board vorgenommen werden. Jede andere Änderung bedarf weiteren Aufwand durch den Scrum Master. Da dieser Aufwand nicht auf einen Kunden abrechenbar ist, entsteht hiermit auch ein finanzieller Aufwand seitens des Unternehmens. Durch eine analoge Synchronisierung können sich Fehler ergeben. So kann ein Teammitglied vergessen eine Änderung ans physische Board zu übertragen, wodurch Inkonsistenzen entstehen können. Daraus kann eine Fehlkommunikation mit dem Kunden entstehen. So könnten Kunden falsche Stände erhalten und fälschlicherweise unzufrieden mit der Leistung des Teams sein. \\
 		Außerhalb des zeitlichen und finanziellen Aufwands steht diese Vorgehensweise in Konflikt mit dem Scrum Guide. Wie in Kapitel \ref{Einleitung} beschrieben soll der Fokus auf Interaktion statt auf Tools liegen. Durch die intensive Administration beider Boards werden hierbei Tools in den Vordergrund gestellt, was dem Scrum Guide widerspricht.
-		\subsection{Lösungsansätze}
-		Um das Problem der Synchronisierung zu lösen, können verschiedene Lösungsansätze verfolgt werden. Hierzu werden die Vor -und Nachteile der ausschließlichen Nutzung eines analogen oder digitalen Boards diskutiert. Daraufhin wird ein grober Lösungsansatz beschrieben, der die Vorteile beider Konzepte //?// kombiniert. \\
-		Die ausschließliche Nutzung eines physischen Boards ist vom Kunden abhängig, da dies seine Anwesenheit im Daily voraussetzt, beispielsweise durch eine Videokonferenz. Dies ist jedoch nur möglich, wenn es sich nicht um eine Multiprojektumgebung handelt. In dem Falle wäre für jeden Kunden ein einzelnes Daily nötig, was den im Scrum Guide angegebenen Zeitaufwand von 15 Minuten übersteigen würde. Auch müsste das physische Boards so gestaltet sein, dass jeder Kunde nur den Teil sieht, der für ihn bestimmt ist, was sich kaum umsetzen lässt. Ein Vorteil des physischen Boards ist die gesteigerte Kommunikation im Daily. Darüber hinaus zeigt eine Studie von PA Müller und DM Oppenheimer aus dem Jahr 2014, dass der Lerneffekt bei händischen Mitschriften deutlich höher ist als bei Mitschriften auf digitalen Endgeräten \cite{pen}. Übertragen auf Scrum-Boards bedeutet das, dass Teammitglieder während des Dailys aufmerksamer sind, wenn es vor einem physischen Board stattfindet. Durch die gesteigerte Auffassungsgabe kann das Team nach dem Daily die Arbeit schneller fortsetzen und hat einen besser Überblick über den Stand der Arbeit. Somit ist die Haptik eines physischen Boards ein Vorteil im Hinblick auf die Produktivität und den Fokus des Teams. \\
+		\subsection{Lösungsansätze} \label{loesungsansaetze}
+		Um das Problem der Synchronisierung zu lösen, können verschiedene Lösungsansätze verfolgt werden. Hierzu werden die Vor -und Nachteile der ausschließlichen Nutzung eines analogen oder digitalen Boards diskutiert. Daraufhin wird ein grober Lösungsansatz beschrieben, der die Vorteile beider Ansätze kombiniert. \\
+		Die ausschließliche Nutzung eines physischen Boards ist vom Kunden abhängig, da dies seine Anwesenheit im Daily voraussetzt, beispielsweise durch eine Videokonferenz. Dies ist jedoch nur möglich, wenn es sich nicht um eine Multiprojektumgebung handelt. In dem Falle wäre für jeden Kunden ein einzelnes Daily nötig, was den im Scrum Guide angegebenen Zeitaufwand von 15 Minuten übersteigen würde. Auch müsste das physische Boards so gestaltet sein, dass jeder Kunde nur den Teil sieht, der für ihn bestimmt ist, was sich kaum umsetzen lässt. Ein Vorteil des physischen Boards ist die gesteigerte Kommunikation im Daily. Darüber hinaus zeigt eine Studie von PA Müller und DM Oppenheimer aus dem Jahr 2014, dass der Lerneffekt bei händischen Mitschriften deutlich höher ist als bei Mitschriften auf digitalen Endgeräten \cite{pen}. \\
+		Übertragen auf Scrum-Boards bedeutet das, dass Teammitglieder während des Dailys aufmerksamer sind, wenn es vor einem physischen Board stattfindet. Durch die gesteigerte Auffassungsgabe kann das Team nach dem Daily die Arbeit schneller fortsetzen und hat einen besser Überblick über den Stand der Arbeit. Somit ist die Haptik eines physischen Boards ein Vorteil im Hinblick auf die Produktivität und den Fokus des Teams. Darüber hinaus ist der Fortschritt der Arbeit für Teammitglieder greifbarer, wenn sie die Stories händisch verschieben. Das dadurch im Daily präsente Gefühl des Fortschritts steigert die Stimmung und Motivation im Team \cite{progress}.\\
 		Bei der ausschließlichen Nutzung eines digitalen Boards ist eine Anpassung auf verschiedene Kunden ohne weiteres möglich. So bietet Jira beispielweise die Möglichkeit verschiedene Projekte mit verschiedenen Sichtbarkeiten zu erstellen. Ein weiterer Vorteil ist die Archivierung von alten Stories und Sprints. Nach Sprintende werden die Karten der erledigten Stories entsorgt, während sie im Jira vorhanden bleiben, um sich beispielsweise in späteren Sprints über alte Stories zu informieren \cite{softtools}. Auch bieten digitale Boards eine bessere Speicherung von Zusatzinformationen. So lassen sich einer Karte auf Papier nur wenige Informationen speichern, während ein System wie JIRA Stories Kommentare, Anhänge und Commits aus einer Versionierungssoftware zuordnen kann. Ein Nachteil von digitalen Boards ist die Einschränkung der Kommunikation und Diskussion innerhalb des Teams \cite{drift}. Statt den Status der Stories auf dem Board während des Dailys händisch zu verändern kann dies im JIRA am Rechner des jeweiligen Teammitglieds geschehen, was eine Isolation hervorrufen kann. \\
 		Die Kombination dieser Boards würde eine Mischung aus Software-System und modifiziertem physischen Board bedeuten. Die Software bleibt hierbei größtenteils unverändert, sodass sich keine zu integrierenden Änderungen ergeben. Das physische Board muss modifiziert werden, sodass es in der Lage ist mit dem digitalen Board zu kommunizieren. Wichtig ist hierbei eine automatische Synchronisation, um weiteren Aufwand für den Scrum Master zu verhindern (vgl. Problemstellung in Kapitel \ref{Problemstellung}). Am effektivsten wäre hierbei eine bidirektionale Synchronisation, die bei Änderungen auf beiden Boards das jeweils andere Board aktualisiert. Das physische Board darf hierbei seine intuitive Verwendung seitens der Teammitglieder nicht verlieren.
 		\subsection{Paradigmen}
 		Im Folgenden werden verschiedene Begriffe und Konzepte erläutert, die Bestandteil dieser Arbeit sind. \\
 		Wie bereits in Kapitel \ref{Einleitung} erwähnt gibt es verschiedene Softwarelösungen, die sich mit der Realisierung von digitalen Boards beschäftigen. In dieser Arbeit wird ein System entwickelt, welches mit der Software JIRA der Firma Atlassian interagiert. Grund hierfür ist, dass die API von Atlassian alle nötigen Möglichkeiten zur Kommunikation mit dem Board anbietet (vgl. Kapitel \ref{Digitales Board}). Darüber hinaus ist JIRA mit etwas 125000 Nutzern eine weit verbreitete Software, womit der Prototyp dadurch eine größere Zielgruppe hat \cite{jirarevenue}. Somit ist der Ausdruck ''digitales Board'' stets auf ein JIRA-System bezogen, welches für agile Arbeitsorganisation verwendet wird. \\
-		Auch ist Kapitel \ref{Einleitung} zu entnehmen, dass physische Boards aus verschiedenen Materialien bestehen können. In dieser Arbeit liegt der Fokus auf Whiteboards, auf denen die Stories auf Zetteln mit Magneten befestigt werden (siehe hierzu Abbildung xxx). //hier muss noch was hin//
+		Auch ist Kapitel \ref{Einleitung} zu entnehmen, dass physische Boards aus verschiedenen Materialien bestehen können. In dieser Arbeit liegt der Fokus auf Whiteboards, auf denen die Stories auf Zetteln mit Magneten befestigt werden (siehe hierzu Abbildung xxx). 
 		\subsection{Stakeholder}
 		Im Folgenden werden Stakeholder nach ISO 15288:2015 vorgestellt, die einen Anteil, ein Anrecht, einen Anspruch oder ein Interesse an einem neuen System haben \cite{ISO15288}.  \\
 		Das größte Interesse am System haben Scrum-Teams. Da das System dafür ausgelegt wird ihre Probleme bzgl. der Asynchronität von Boards zu lösen, ist ihr Interesse am höchsten, da das System ihre Arbeit direkt positiv beeinflussen wird. Sie werden auch die Stakeholder sein, die das größte Interesse am Erwerb eines solchen Systems haben. Hierbei gibt es leichte Unterschiede zwischen Entwicklern und Scrum Mastern. Entwickler wird damit die Arbeit genommen den Status von Stories doppelt zu pflegen. Scrum Master erhalten durch das System eine größere Unterstützung, da sie nach der Vorbereitung der Boards zu Sprintbeginn keine späteren Änderungen vornehmen müssen und sich somit auch nicht mit kleinen Anfragen zu Boardänderungen befassen müssen. Dieser (insbesondere finanziell) verringerte Aufwand interessiert auch das Management, sowie das Controlling von agilen Unternehmen, da hierdurch Personalkosten gesenkt werden. \\
-		Einen Anteil am System haben Unternehmen, die digitale Scrum-Software zur Verfügung stellen, wie z.B. Atlassian, die die Software JIRA entwickeln. Da ein solches System mit den Schnittstellen der Board-Software kommuniziert, ist somit auch der Hersteller der Software involviert. Dies kann sich beispielsweise durch Gebühren bei Nutzung der API zeigen. //anderes Wort// \\
+		Einen Anteil am System haben Unternehmen, die digitale Scrum-Software zur Verfügung stellen, wie z.B. Atlassian, die die Software JIRA entwickeln. Da ein solches System mit den Schnittstellen der Board-Software kommuniziert, ist somit auch der Hersteller der Software involviert. Dies kann sich beispielsweise durch Gebühren bei Nutzung der API bemerkbar machen. \\
 		IT-Abteilungen von agilen Unternehmen können einen noch größeren Anteil am System haben, da diese oft die Server bereitstellen, auf denen die Software der digitalen Boards installiert ist. Damit sind IT-Abteilungen oft in der Bereitstellung und Wartung der digitalen Boardsoftware involviert und wären es somit auch in der Bereitstellung des Systems, beispielsweise durch Zugriff auf verschiedene Netzwerke. \\
 		Ferner können sowohl Personalabteilungen von Unternehmen, als auch Scrum Coaches Interesse am System haben. Hier steht nicht die Minimierung des Arbeitsaufwandes, sondern die Vermarktung und Präsentation innerhalb der Scrum-Community im Vordergrund. Personalabteilungen können mit so einem fortschrittlichen System neue Mitarbeiter anwerben, während Scrum Coaches das System in Weiterbildungen nutzen können. \\
 		Abschließend lässt sich sagen, dass es verschiedene Stakeholder mit verschiedenen Interessen und Anteilen gibt, die es in der Entwicklung zu berücksichtigen gilt.
@@ -64,20 +65,61 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		\textit{''Wie lassen sich analoge und digitale Scrum-Boards automatisch synchronisieren?''} \\
 		Durch die Implementation eines Prototypen soll diese Frage beantwortet werden. Zuerst werden die Ziele festgelegt, die durch den Prototypen erreicht werden sollen. Daraufhin werden auf dem Markt vorhandene Lösungen im Hinblick auf die definierten Ziele bewertet. Aufbauend auf dieser Marktrecherche werden die Alleinstellungsmerkmale des Systems festgelegt, welche daraufhin durch Proofs of Concept definiert werden. Danach werden die zu verwendenden Technologien bestimmt, sowie eine grundlegende Architektur konstruiert. Auf Basis dessen wird der Prototyp erstellt und dessen Implementation dokumentiert. Zuletzt wird die Forschungsfrage in Bezug auf den Prototyp und die Zielerreichung beantwortet.
 	\newpage	
-	\section{Zielsetzung}
+	\section{Zielsetzung} \label{Zielsetzung}
+	Im Folgenden werden die Ziele für dieses Projekt definiert, die die Problemstellung adressieren. Dabei wird zwischen strategischen, taktischen und operativen Ziele unterschieden. Sowohl die taktischen als auch operativen Ziele können aus einem oder mehreren Zielen der jeweils höheren Stufe abgeleitet werden.
 		\subsection{Strategische Ziele}
-		\subsection{Taktische Ziele}
+		\begin{description}
+ 			\item[1. Produktivitätssteigerung der Teammitglieder] \hfill \\
+ 			Durch den zusätzlichen Verwaltungsaufwand während des Sprints werden Teammitglieder von ihrer Arbeit abgehalten. Dieser Aufwand muss minimiert werden, um das Team produktiver auszurichten.
+ 			\item[2. Vermeidung von Mehrkosten] \hfill \\
+ 			Insbesondere der Scrum Master muss durch das doppelte Board in Vorbereitung auf den Sprint redundante Arbeiten vollbringen. Diese Arbeit muss vermieden werden, um keine Mehrkosten für das Unternehmen entstehen zu lassen.
+ 			\item[3. Vermeidung von Inkonsistenzen] \hfill \\
+ 			Zwei verschiedene Boards sorgen dafür, dass die Informationen über Stories und den Sprint an verschiedenen Orten ausgelagert sind. Diese Informationen sollten stets konsistent sein. 
+		\end{description}
+		\subsection{Taktische Ziele} \label{taktisch}
+		\begin{description}
+ 			\item[1. Automatische Synchronisation der Boards] \hfill \\
+ 			Die händische Synchronisation der Boards ist aufwendig und fehleranfällig. Um diesen Prozess zu verbessern, muss ein System vorhanden sein, welches die Boards ohne oder mit wenig Interaktion des Nutzers synchronisiert.
+ 			\item[2. Adaption der Funktionalität] \hfill \\
+ 			Viele Funktionalitäten, die die Software JIRA bietet sind für agile Teams notwendig. Daher muss ein angepasstes Board möglichst viele Funktionalitäten aus JIRA abbilden können.
+ 			\item[3. Beibehaltung der Haptik] \hfill \\
+ 			Wie in Kapitel \ref{loesungsansaetze} beschrieben ist eine haptische Bedienung des Boards wichtig. Aus diesem Grund sollte das Team weiterhin in der Lage sein Stories per Hand zu verschieben.
+ 			\item[4. Vereinfachung des Dailys] \hfill \\
+ 			Die Veränderung des Status in einer Story sowohl im JIRA als auch auf dem physischen Board bedeutet, dass sich Teammitglieder nach dem Daily noch weiter mit organisatorischen Aufgaben beschäftigen müssen. Diese Organisation nach dem Daily soll vermieden werden, sodass das Team schneller weiterarbeiten kann.
+		\end{description}
 		\subsection{Operative Ziele}
+		\begin{description}
+ 			\item[1. Kommunikation zwischen analogem und digitalem Board] \hfill \\
+ 			Um die Boards synchron zu halten, müssen die Boards miteinander kommunizieren. Daher müssen beide Boards eine technische Schnittstelle haben, über der sie Daten austauschen können. 
+ 			\item[2. Übernommene Darstellung von Stories] \hfill \\
+ 			Eine unterschiedliche Darstellung von Stories auf den einzelnen Boards kann für das Team eine stetige mentale Umstellung bedeuten //?//. Daher sollte die Darstellung der Stories auf beiden Boards ähnlich sein.
+ 			\item[3. Automatische Aktualisierung beider Boards] \hfill \\
+ 			Um Inkonsistenzen zu vermeiden, müssen beide Boards synchron gehalten werden. Zu diesem Zweck sollte sich ein Board selbst aktualisieren, sobald es am anderen Board eine Änderung gibt.
+ 			\item[4. Einfache Vorbereitung des Sprints] \hfill \\
+ 			Insbesondere die Vorbereitung der Boards auf den Sprint ist für Scrum Master zeitintensiv. Daher sollte es dem Scrum Master möglich sein beide Boards an einer Stelle vorzubereiten.
+ 			\item[5. Zuweisung von Teammitgliedern] \hfill \\
+ 			Zur besseren Übersicht welches Teammitglied an welcher Story arbeitet ist das Zuweisen von Bearbeitern eine wichtige Funktion von JIRA. Daher sollte es Teammitgliedern möglich sein sich auf beiden Boards einer Story zuzuweisen.
+ 			\item[6. Veränderungen des Status] \hfill \\
+ 			Die wichtigste Aufgabe im Daily ist die Aktualisierung der Status der Stories. Daher müssen Stories auf beiden Boards so verschoben werden können, dass sich der Status auf beiden Boards anpasst.
+		\end{description}
 	\newpage	
 	\section{Marktrecherche}
+	Im Folgenden wird die aktuelle Marktsituation beschrieben und hinsichtlich der Problemstellung
+analysiert. Dabei werden konkurrierende und inhaltlich ähnliche Systeme beschrieben und anhand ihrer Vor- und Nachteile eingestuft, insbesondere in Bezug auf folgende in Kapitel \ref{taktisch} definierten Ziele:
+	\begin{itemize} 
+		\item Automatische Synchronisation der Boards 
+		\item Adaption der Funktionalität
+		\item Beibehaltung der Haptik 
+	\end{itemize}
 		\subsection{Produkt 1}
 		\subsection{Produkt 2}
-		\subsection{Fazit}
 	\newpage
 	\section{Alleinstellungsmerkmale}	
+	Aus der Marktrecherche lassen sich Alleinstellungsmerkmale ableiten, die die Stärken der bereits vorhandenen Produkte mit den zu erreichenden Zielen kombinieren und das System so zu einer attraktiven Alternative gestalten.
+		\subsection{Erkenntnisse der Marktrecherche}
 	\newpage
 	\section{Proof of Concept}
-	Im Folgenden werden Proofs of Concept aufgelistet, die die Kernfunktionen des Systems abbilden und mögliche Fehler abfangen.
+	Im Folgenden werden Proofs of Concept aufgelistet, die die Kernfunktionen und Alleinstellungsmerkmale des Systems abbilden und mögliche Fehler abfangen.
 
 \begin{table}[H]
 \centering
