@@ -7,6 +7,7 @@
 tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage[official]{eurosym}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{caption}
@@ -51,8 +52,9 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		Die Kombination dieser Boards würde eine Mischung aus Software-System und modifiziertem physischen Board bedeuten. Die Software bleibt hierbei größtenteils unverändert, sodass sich keine zu integrierenden Änderungen ergeben. Das physische Board muss modifiziert werden, sodass es in der Lage ist mit dem digitalen Board zu kommunizieren. Wichtig ist hierbei eine automatische Synchronisation, um weiteren Aufwand für den Scrum Master zu verhindern (vgl. Problemstellung in Kapitel \ref{Problemstellung}). Am effektivsten wäre hierbei eine bidirektionale Synchronisation, die bei Änderungen auf beiden Boards das jeweils andere Board aktualisiert. Das physische Board darf hierbei seine intuitive Verwendung seitens der Teammitglieder nicht verlieren.
 		\subsection{Paradigmen}
 		Im Folgenden werden verschiedene Begriffe und Konzepte erläutert, die Bestandteil dieser Arbeit sind. \\ \\
-		Wie bereits in Kapitel \ref{Einleitung} erwähnt gibt es verschiedene Softwarelösungen, die sich mit der Realisierung von digitalen Boards beschäftigen. In dieser Arbeit wird ein System entwickelt, welches mit der Software JIRA der Firma Atlassian interagiert. Grund hierfür ist, dass die API von Atlassian alle nötigen Möglichkeiten zur Kommunikation mit dem Board anbietet (vgl. Kapitel \ref{Digitales Board}). Darüber hinaus ist JIRA mit etwas 125000 Nutzern eine weit verbreitete Software, womit der Prototyp dadurch eine größere Zielgruppe hat \cite{jirarevenue}. Somit ist der Ausdruck ''digitales Board'' stets auf ein JIRA-System bezogen, welches für agile Arbeitsorganisation verwendet wird. \\ \\
-		Auch ist Kapitel \ref{Einleitung} zu entnehmen, dass physische Boards aus verschiedenen Materialien bestehen können. In dieser Arbeit liegt der Fokus auf Whiteboards, auf denen die Stories auf Zetteln mit Magneten befestigt werden (siehe hierzu Abbildung xxx). 
+		Wie bereits in Kapitel \ref{Einleitung} erwähnt gibt es verschiedene Softwarelösungen, die sich mit der Realisierung von digitalen Boards beschäftigen. In dieser Arbeit wird ein System entwickelt, welches mit der Software JIRA der Firma Atlassian interagiert. Grund hierfür ist, dass die API von Atlassian alle nötigen Möglichkeiten zur Kommunikation mit dem Board anbietet. Darüber hinaus ist JIRA mit etwas 125000 Nutzern eine weit verbreitete Software, womit der Prototyp dadurch eine größere Zielgruppe hat \cite{jirarevenue}. Somit ist der Ausdruck ''digitales Board'' stets auf ein JIRA-System bezogen, welches für agile Arbeitsorganisation verwendet wird. \\ \\
+		Auch ist Kapitel \ref{Einleitung} zu entnehmen, dass physische Boards aus verschiedenen Materialien bestehen können. In dieser Arbeit liegt der Fokus auf Whiteboards, auf denen die Stories auf Zetteln mit Magneten befestigt werden (siehe hierzu Abbildung xxx). \\ \\
+		Der Begriff ''Karte'' wird in dieser Arbeit für mit Stories bedruckte Zettel, bzw. für die in Kapitel //?// beschriebenen digitalen Zettel verwendet. 
 		\subsection{Stakeholder}
 		Im Folgenden werden Stakeholder nach ISO 15288:2015 vorgestellt, die einen Anteil, ein Anrecht, einen Anspruch oder ein Interesse an einem neuen System haben \cite{ISO15288}.  \\
 		Das größte Interesse am System haben Scrum-Teams. Da das System dafür ausgelegt wird ihre Probleme bzgl. der Asynchronität von Boards zu lösen, ist ihr Interesse am höchsten, da das System ihre Arbeit direkt positiv beeinflussen wird. Sie werden auch die Stakeholder sein, die das größte Interesse am Erwerb eines solchen Systems haben. Hierbei gibt es leichte Unterschiede zwischen Entwicklern und Scrum Mastern. Entwickler wird damit die Arbeit genommen den Status von Stories doppelt zu pflegen. Scrum Master erhalten durch das System eine größere Unterstützung, da sie nach der Vorbereitung der Boards zu Sprintbeginn keine späteren Änderungen vornehmen müssen und sich somit auch nicht mit kleinen Anfragen zu Boardänderungen befassen müssen. Dieser (insbesondere finanziell) verringerte Aufwand interessiert auch das Management, sowie das Controlling von agilen Unternehmen, da hierdurch Personalkosten gesenkt werden. \\ \\
@@ -63,7 +65,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		\subsection{Forschungsfrage und Vorgehensweise}
 		Aus der Problemstellung ergibt sich folgende Forschungsfrage: \\ \\
 		\textit{''Wie lassen sich analoge und digitale Scrum-Boards automatisch synchronisieren?''} \\ \\
-		Durch die Implementation eines Prototypen soll diese Frage beantwortet werden. Zuerst werden die Ziele festgelegt, die durch den Prototypen erreicht werden sollen. Daraufhin werden auf dem Markt vorhandene Lösungen im Hinblick auf die definierten Ziele bewertet. Aufbauend auf dieser Marktrecherche werden die Alleinstellungsmerkmale des Systems festgelegt, welche daraufhin durch Proofs of Concept definiert werden. Danach werden die zu verwendenden Technologien bestimmt, sowie eine grundlegende Architektur konstruiert. Auf Basis dessen wird der Prototyp erstellt und dessen Implementation dokumentiert. Zuletzt wird die Forschungsfrage in Bezug auf den Prototyp und die Zielerreichung beantwortet.
+		Durch die Implementation eines Prototypen soll diese Frage beantwortet werden. Zuerst werden die Ziele festgelegt, die durch den Prototypen erreicht werden sollen. Daraufhin werden auf dem Markt vorhandene Lösungen im Hinblick auf die definierten Ziele bewertet. Aufbauend auf dieser Marktrecherche werden die Alleinstellungsmerkmale des Systems festgelegt, welche daraufhin durch Proofs of Concept definiert werden. Danach werden die zu verwendenden Technologien bestimmt sowie eine grundlegende Architektur konstruiert. Auf Basis dessen wird der Prototyp erstellt und dessen Implementation dokumentiert. Zuletzt wird die Forschungsfrage in Bezug auf den Prototyp und die Zielerreichung beantwortet.
 	\newpage	
 	\section{Zielsetzung} \label{Zielsetzung}
 	Im Folgenden werden die Ziele für dieses Projekt definiert, die die Problemstellung adressieren. Dabei wird zwischen strategischen, taktischen und operativen Ziele unterschieden. Sowohl die taktischen als auch operativen Ziele können aus einem oder mehreren Zielen der jeweils höheren Stufe abgeleitet werden.
@@ -87,7 +89,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
  			\item[4. Vereinfachung des Dailys] \hfill \\
  			Die Veränderung des Status in einer Story sowohl im JIRA als auch auf dem physischen Board bedeutet, dass sich Teammitglieder nach dem Daily noch weiter mit organisatorischen Aufgaben beschäftigen müssen. Diese Organisation nach dem Daily soll vermieden werden, sodass das Team schneller weiterarbeiten kann.
 		\end{description}
-		\subsection{Operative Ziele}
+		\subsection{Operative Ziele} \label{operativeZiele}
 		\begin{description}
  			\item[1. Kommunikation zwischen analogem und digitalem Board] \hfill \\
  			Um die Boards synchron zu halten, müssen die Boards miteinander kommunizieren. Daher müssen beide Boards eine technische Schnittstelle haben, über der sie Daten austauschen können. 
@@ -132,6 +134,15 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	\section{Alleinstellungsmerkmale}	
 	Aus der Marktrecherche lassen sich Alleinstellungsmerkmale ableiten, die die Stärken der bereits vorhandenen Produkte mit den zu erreichenden Zielen kombinieren und das System so zu einer attraktiven Alternative gestalten.
 		\subsection{Erkenntnisse der Marktrecherche}
+		Die bisher vorhandenen Lösungen und Produkte versuchen meist ein Abbild des JIRAs in ein physisches Board zu übertragen, indem Displays oder ähnliche elektronische Anzeigen verwendet werden. Obwohl man damit ein Board für Dailies und den Überblick im Team besitzt, handelt es sich nicht mehr um ein physisches Board. Viel mehr wird hier das digitale Board dupliziert. Zwar entfällt hierdurch eine Synchronisation, doch auch die in Kapitel \ref{loesungsansaetze} erwähnten positiven Aspekte des physischen Boards entfallen. Ein angemessenerer Ansatz ist die Nutzung einer Schnittstelle zwischen den Boards. Im Beispiel der Kartenscanner sind dies die QR-Codes, die Kamera und das System, welches mit dem JIRA kommuniziert. Jedoch ist diese Lösung im Vergleich zu den Displays eher umständlich, was die beschränkte Funktionalität und den Aufwand zu Sprintbeginn angeht.
+		\subsection{Bidirektionale Aktualisierung}
+		Ein wichtiger Aspekt ist die Möglichkeit das Board in beide Richtungen zu aktualisieren. Das bedeutet, dass auch Änderungen am digitalen Board während des Sprints durch das System ans physische Board übertragen werden, insofern das möglich ist. Somit sind Änderungen am Namen, dem Bearbeiter oder den Storypunkten gemeint. Änderungen des Status werden weiterhin händisch am physischen Board verschoben werden. Allerdings kann das System den Nutzer hier durch Hinweise über Stories in falschen Spalten informieren. Ebenfalls kann das physische Board bei Veränderungen diese direkt an das JIRA weiterleiten.
+		\subsection{Haptik am Board}
+		Ein weiteres Alleinstellungsmerkmal ist die Haptik am Board. Die Stories befinden sich auf Karten am physischen Board, können bewegt und in die Hand genommen werden. Die einzelnen Karten haben eine angemessene Größe. So ist es möglich im Daily Karten zu bewegen und in die Hand zu nehmen, während man über sie spricht. 
+		\subsection{Vereinfachte Sprintvorbereitung}
+		Bisher müssen Scrum Master zwei Boards auf den Sprint vorbereiten, was insbesondere am physischen Board durch Ausdrucken und Aufhängen der Karten zeitintensiv ist. Dieser Aufwand kann vermieden werden, indem der Scrum Master bei der Sprintvorbereitung im JIRA auch direkt das physische Board vorbereiten kann. Dadurch wird der Sprintbeginn vereinfacht, da der Sprint nur noch im JIRA gestartet werden muss und am physischen Board keine weiteren Maßnahmen nötig sind.
+		\subsection{Adaptierte JIRA-Funktionalitäten}
+		Bisher sind physische Boards in ihren Funktionalitäten sehr beschränkt, insbesondere im Vergleich zu JIRA. Das Team kann unterstützt werden, indem häufig getätigte Interaktionen am digitalen Board auch am physischen Board verfügbar sind. Hilfreich ist hier die Zuweisung des Bearbeiters, da sich dieser oft im Daily ergibt, wenn die aktuellen Aufgaben für den Tag festgelegt werden. 
 	\newpage
 	\section{Proof of Concept}
 	Im Folgenden werden Proofs of Concept aufgelistet, die die Kernfunktionen und Alleinstellungsmerkmale des Systems abbilden und mögliche Fehler abfangen.
@@ -192,15 +203,39 @@ Fallback      & Wenn eine Karte in einer anderen Spalte hängt als im JIRA wird 
 \end{tabularx}
 \end{table}
 	\newpage	
-	\section{Technologieentscheidung}
-		\subsection{Mikrocontroller}
-		\subsection{Display}
-		\subsection{RFID-Reader}
-		\subsection{Sensorik am Board}
-		\subsection{Server}
-		\subsection{Digitales Board} \label{Digitales Board}
-	\newpage	
 	\section{Architektur}
+	\newpage	
+	\section{Technologieentscheidung}
+	In diesem Kapitel werden Technologien für die in der Systemarchitektur enthaltenen Komponenten recherchiert und bewertet. Der Fokus liegt hier auf die Eignung zur Erfüllung der Proofs of Concept.
+		\subsection{Mikrocontroller und Mikrocomputer}
+		Jede Karte benötigt einen eigenen Mikrocontroller. Dieser sollte möglichst klein und leicht sein, um mit wenigen Magneten am Board befestigt zu werden. Für einen Einsatz der Karte über einen Sprint hinweg sollte der Mikrocontroller einen geringen Stromverbrauch haben, sodass er durch einen austauschbaren Akku betrieben werden kann. Von Vorteil ist ein integrierter WLAN-Chip, um Verkabelungen und zusätzliche Hardware zu reduzieren. Weniger relevant sind die Speichergröße und die Rechenleistung, da die meiste Logik auf dem Server hinterlegt werden kann. 
+			\subsubsection{VoCore2}
+			Gestartet als Hobbyprojekt brachte der Single-Board-Computer VoCore insgesamt 102.641 \euro{} Investitionen über Fundraising ein \cite{vocorefundraising}. Der Chip zeichnet sich insbesondere durch seine Größe aus. Mit seinen Maßen von 25,8mm * 25,8mm ist er kaum größer als ein Centstück \cite{vocoregeneral}. Trotz der schmalen Abmessungen besitzt er einen verbauten WLAN-Chip und 28 generelle Input/Output-Kontakte (GPIO). Auch der Stromverbrauch ist mit 200mA bei Nutzung mit WLAN über 5V gering \cite{vocorepower}. Das Format des Chips bringt aber auch Nachteile mit sich. So ist eine Stromversorgung nur über die Kontakte möglich, ein USB-Port ist nicht vorhanden. Das Betriebssystem ist die Linux Distribution OpenWRT. Dadurch ist das Kompilieren von Software lediglich mit Ubuntu Server beispielsweise auf einer virtuellen Maschine möglich, was die Entwicklung des Systems erschwert \cite{vocorecompile}.
+			\subsubsection{Raspberry Pi Zero W}
+			Etwa doppelt so groß wie der VoCore2 ist der Single-Board-Computer Raspberry Pi Zero W der Raspberry Pi Foundation \cite{pizerowgeneral}. Mit 512MB RAM Speicher und einem mit 1 GHz getakteten Prozessor bietet er genügend Ressourcen, um ein Betriebsystem und verschiedene Programme parallel laufen zu lassen. Er bietet mit einem SD-Kartenslot, Micro-USB- und HDMI-Anschluss, sowie integriertem WLAN-Modul mehrere Schnittstellen an. Doch dies ist problematisch, da er dadurch einen höheren Stromverbrauch hat. Darüber hinaus sind viele Schnittstellen und Funktionen des Raspberry Pi Zero W für das Projekt nicht nötig.
+			\subsubsection{Arduino UNO}
+			Der Arduino UNO ist ein Single-Board-Mikrocontroller der Firma Arduino. Im Gegensatz zum Raspberry PI ist er mit 16MHz Prozessortaktung und 2 kB SRAM-Speicher deutlich leistungsschwächer \cite{arduinounogeneral}. Es ist nicht möglich ein Betriebssystem zu installieren, stattdessen ist der Arduino UNO für simplere Programme wie das Auslesen von Sensoren geeignet. Das spiegelt sich auch im Stromverbrauch wieder. Dieser lässt sich vorallem durch den ''Deep Sleep Mode'' reduzieren. In diesem Modus werden ungenutzte Module und Schnittstellen deaktiviert, bis eine definierte Unterbrechung (z.B. Signale eines Sensors) eintritt \cite{arduinounosleep}, was für einen dauerhaften Betrieb der Karte am Board von Vorteil ist. Der größte Nachteil des Arduino UNO ist das Fehlen eines integrierten WLAN Moduls. Zwar ist das Nachrüsten mit einem sogenannten Shield möglich, jedoch belegt dieses Kontakte des Mikrocontrollers, die für RFID-Leser und Display benötigt werden. Daher ist auch dieser Controller nicht geeignet.			
+			\subsubsection{ESP8266 mit NodeMCU}
+			Eine Kombination der bisher genannten Vorteile ist der ESP8266 Mikrocontroller mit NodeMCU. Auf diesem Chip läuft ebenfalls Arduino, wodurch er für kleinere Programme geeignet ist. Er enthält sowohl ein integriertes WLAN-Modul als auch einen USB-Anschluss. Wie der Arduino UNO bietet auch der ESP8266 die Möglichkeit den Controller in den Deep Sleep Modus zu schalten \cite{esp8266general}. Mit seinen Abmessungen von 58mm * 31mm ist er etwa zu vergleichem mit dem Raspberry Pi Zero W. Durch die open-source Firmware NodeMCU lässt sich der Controller mit vergleichsweise wenig Aufwand mit einem REST-Server verbinden \cite{nodemcuexamples}. Der größte Nachteil des ESP8266 ist seine verhältnismäßig geringe Zahl an I/O Kontakten. So gibt es nur 16 I/O-Pins. Dieses Problem lässt sich mit einem sogenannten I/O Extender, wie dem MCP23017 lösen. Dieses Bauteil verwendet zwei GPIO-Pins und erweitert diese zu 16. Darüber hinaus kann auch dieser Extender Interrupts empfangen, um den Deep Sleep Modus zu deaktivieren. \\ \\
+			Aufgrund des geringen Stromverbrauchs, des Deep Sleep Modus, der Integration der NodeMCU-Firmware und des eingebauten WLAN-Moduls wird der ESP8266 mit NodeMCU in Kombination mit einem GPIO-Extender verwendet.
+		\subsection{Display}
+		Die wichtigste Ergänzung des Mikrocontrollers ist das Display. Es soll möglichst lange die selben Informationen anzeigen und verändert sein Bild sehr selten, verglichen mit PC-Monitoren. Der wichtigste Aspekt ist der Stromverbrauch und die Kompatibilität mit dem Deep Sleep Modus des ESP8266.  Die Größe des Displays sollte so sein, dass man die Informationen der Story gut lesen kann, die Karte aber nicht zu viel Platz auf dem Board einnimmt. Eine für das Display passende Arduino-Library ist obligatorisch für die Nutzbarkeit.
+			\subsubsection{HD44780 LCD}
+			Das ursprünglich von der Firma Hitachi hergestellte HD44780 LCD-Modul ist in der Lage je 16 Zeichen in zwei Spalten einfarbig anzuzeigen. Hierbei ist eine weiße Schrift auf blauen Hintergrund zu sehen. Die Beleuchtung erfolgt durch weiße LEDs bei einer Auflösung von 16 * 80 Pixel \cite{hd44780manual}. Die Zeichenkodierung ist auf das Alphabet und wesentliche Satzzeichen beschränkt. Dieses Display eignet sich nicht, da es lediglich 32 Zeichen anzeigen kann und keine Funktion bietet den Text zu formatieren, was zum einen die Möglichkeiten der Anzeige einschränkt als auch das in Kapitel \ref{operativeZiele} beschriebene zweite Ziel verfehlt.
+			\subsubsection{OLED Display}
+			vier Pins!
+			\subsubsection{eInk Display}
+		\subsection{RFID-Reader}
+			\subsubsection{RDM6300}
+			\subsubsection{RC522}
+		\subsection{Sensorik am Board}
+			\subsubsection{RFID}
+			\subsubsection{Bluetooth Beacons}
+			\subsubsection{Infrarot}
+		\subsection{Server}
+			\subsubsection{PHP}
+			\subsubsection{JSP}
+			\subsubsection{NodeJS}
 	\newpage
 	\section{Implementation}
 	\newpage	
