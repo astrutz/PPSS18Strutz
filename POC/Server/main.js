@@ -13,13 +13,14 @@ app.get('/:issue', function (req, res) {
         }
     })
         .then(function (response) {
-            console.log(response.data.fields.description);
+            console.log(response);
+            res.send(JSON.stringify(response.data));
         })
         .catch(function (error) {
             console.log(error);
         })
         .then(function () {
-            res.sendStatus(200);
+            console.log("DONE");
         });
 });
 
