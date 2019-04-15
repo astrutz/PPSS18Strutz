@@ -54,7 +54,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		Im Folgenden werden verschiedene Begriffe und Konzepte erläutert, die Bestandteil dieser Arbeit sind. \\ \\
 		Wie bereits in Kapitel \ref{Einleitung} erwähnt gibt es verschiedene Softwarelösungen, die sich mit der Realisierung von digitalen Boards beschäftigen. In dieser Arbeit wird ein System entwickelt, welches mit der Software JIRA der Firma Atlassian interagiert. Grund hierfür ist, dass die API von Atlassian alle nötigen Möglichkeiten zur Kommunikation mit dem Board anbietet. Darüber hinaus ist JIRA mit etwas 125000 Nutzern eine weit verbreitete Software, womit der Prototyp dadurch eine größere Zielgruppe hat \cite{jirarevenue}. Somit ist der Ausdruck ''digitales Board'' stets auf ein JIRA-System bezogen, welches für agile Arbeitsorganisation verwendet wird. \\ \\
 		Auch ist Kapitel \ref{Einleitung} zu entnehmen, dass physische Boards aus verschiedenen Materialien bestehen können. In dieser Arbeit liegt der Fokus auf Whiteboards, auf denen die Stories auf Zetteln mit Magneten befestigt werden (siehe hierzu Abbildung xxx). \\ \\
-		Der Begriff ''Karte'' wird in dieser Arbeit für mit Stories bedruckte Zettel, bzw. für die in Kapitel //?// beschriebenen digitalen Zettel verwendet. 
+		Der Begriff ''Karte'' wird in dieser Arbeit für mit Stories bedruckte Zettel, bzw. für die in Kapitel \ref{defKarte} beschriebenen digitalen Zettel verwendet. 
 		\subsection{Stakeholder}
 		Im Folgenden werden Stakeholder nach ISO 15288:2015 vorgestellt, die einen Anteil, ein Anrecht, einen Anspruch oder ein Interesse an einem neuen System haben \cite{ISO15288}.  \\
 		Das größte Interesse am System haben Scrum-Teams. Da das System dafür ausgelegt wird ihre Probleme bzgl. der Asynchronität von Boards zu lösen, ist ihr Interesse am höchsten, da das System ihre Arbeit direkt positiv beeinflussen wird. Sie werden auch die Stakeholder sein, die das größte Interesse am Erwerb eines solchen Systems haben. Hierbei gibt es leichte Unterschiede zwischen Entwicklern und Scrum Mastern. Entwickler wird damit die Arbeit genommen den Status von Stories doppelt zu pflegen. Scrum Master erhalten durch das System eine größere Unterstützung, da sie nach der Vorbereitung der Boards zu Sprintbeginn keine späteren Änderungen vornehmen müssen und sich somit auch nicht mit kleinen Anfragen zu Boardänderungen befassen müssen. Dieser (insbesondere finanziell) verringerte Aufwand interessiert auch das Management, sowie das Controlling von agilen Unternehmen, da hierdurch Personalkosten gesenkt werden. \\ \\
@@ -204,6 +204,15 @@ Fallback      & Wenn eine Karte in einer anderen Spalte hängt als im JIRA wird 
 \end{table}
 	\newpage	
 	\section{Architektur}
+	Im Folgenden wird der Aufbau und die grobe Struktur des Systems inklusive seiner Komponenten beschrieben. Hierbei liegt der Fokus nicht auf einzelnen Technologien, sondern auf die Verteiltheit des System sowie der Kommunikation zwischen den einzelnen Elementen.
+		\subsection{Physisches Board}
+		Das Board bildet die Basis des Systems und sollte stationär sein. Auf dem Board werden wie bisher Karten platziert, vorzugsweise durch Magneten. Wie bisher soll das Board nicht-digital sein. Dies ist insbesondere für bereits montierte Boards von Vorteil, da sonst eine Aufrüstung mit Aufwand und Kosten verbunden wäre. Außerdem steigert dies die Portabilität des Systems. Somit besitzt das Board auch keine technische Schnittstelle oder Kommunikation mit anderen Komponenten des Systems. Denkbar ist jedoch eine ''Aufrüstung'' zur Lokalisierung einer Karte. Hierbei sollte ein bereits montiertes Board jedoch nicht verändert, sondern lediglich ergänzt werden. Siehe dazu auch Kapitel \ref{changeStatus}.
+		\subsection{Karte} \label{defKarte}
+		Die Karte ist eine Repräsentation einer Story oder einer Unteraufgabe. Auf bisherigen Boards wurde dies durch ausgedruckte oder beschriebene Zettel gelöst. Diese Zettel sollen durch eine digitale Lösung ersetzt werden. Dazu wird ein Mikrocontroller oder Mikrocomputer genutzt in Kombination mit einem Display in der Größe einer Papierkarte. Gegebenenfalls wird die Karte mit Sensoren oder Eingabemöglichkeiten ausgestattet, um den Status der Karte zu ermitteln. Wichtig sind hierbei möglichst kleine Abmessungen, damit eine Story nicht mehr Platz wie bisher auf dem Board einnimmt. 
+		\subsection{Anmeldeterminal}
+		\subsection{Server}
+		\subsection{Digitales Board}
+		\subsection{Architekturskizze}
 	\newpage	
 	\section{Technologieentscheidung}
 	In diesem Kapitel werden Technologien für die in der Systemarchitektur enthaltenen Komponenten recherchiert und bewertet. Der Fokus liegt hier auf die Eignung zur Erfüllung der Proofs of Concept.
@@ -233,7 +242,7 @@ Daher eignen sich e-Ink Displays sehr gut für eine längere Nutzung, insbesonde
 			Das Modul RDM6300 der Firma Seeedstudio besteht aus einem eigenen Board mit Ein-/Ausgängen. Dazu wird eine Spule, die ein elektromagnetisches Feld erzeugt, mit den Eingängen des Boards verbunden. Die Ausgänge werden mit dem entsprechenden Mikrocontroller verbunden. Diese Architektur hat den Nachteil, dass sie mehr Platz verbraucht und doppelt verkabelt werden muss. Jedoch lässt sich so die Spule bzw. das Board oder Kabel bei einem Defekt einfacher austauschen.
 			\subsubsection{RC522}
 			Der RFID-Reader RC522 ist von verschiedenen Händlern erhältlich und bietet die gleiche Funktionalität wie der RDM6300. Allerdings ist der Leser hier im Modul integriert. So muss nur einmal verkabelt werden. Außerdem nimmt er weniger Platz ein und bietet eine Verbindung über die SPI Schnittstelle an. Insbesondere durch die Abmessungen eignet er sich hier besser und wird daher im Prototyp verwendet.
-		\subsection{Veränderungen des Status}
+		\subsection{Veränderungen des Status} \label{changeStatus}
 		Um den Status einer Story zu erfassen, soll es möglich sein diesen an einer Karte zu verändern. Wichtig ist hierbei sind Minimierung möglicher Fehler, eine einfache Wartung und Portierbarkeit. Auch sollte die Lösung keine weitere Stromversorgung seitens der Karte benötigen.
 			\subsubsection{RFID}
 			RFID-Reader können entsprechende Tags auf sehr kurzer Zeit erkennen und ihre ID auslesen. Daher wäre es auch möglich das Board mit RFID-Folie zu bekleben und die Karten mit Reader auszustatten. Je nach dem um welche Spalte es sich handelt, besitzt diese eine andere ID. Sobald der Reader in der Karte eine neue ID erkennt, leitet er diese an den Server weiter, der dementsprechend den Status der Story verändert. Die Präparierung des Boards wäre ein aufwendiger Prozess. Auch müsste so jede Karte einen RFID-Leser besitzen, wodurch die Karte größer und unhandlicher wird. Außerdem steigt der Stromverbrauch der Karte.
@@ -248,12 +257,8 @@ Daher eignen sich e-Ink Displays sehr gut für eine längere Nutzung, insbesonde
 Jedoch ist ein Schalter keine automatisierte Lösung, wodurch das Daily komplizierter und länger wird. Insbesondere das Verschieben in einen vorherigen Status muss somit mit dreimaligem Drücken kenntlich gemacht werden. Auch kann das System nicht erkennen wo sich eine Karte aktuell befindet, sondern es nur festhalten. So sind alle Karte zu Sprintbeginn in To Do. Wenn nun ein Knopf betätigt wird, speichert das System dies, kann es aber nicht mit dem Board prüfen. Bei einer manuellen Statusänderung im JIRA kann eine Inkonsistenz zum physischen Board nur durch die gespeicherten Status auf dem Server geprüft werden. \\ \\
 Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine dauerhafte Lösung dar. Wenn die Nutzer in der Evaluation (in der Bachelorarbeit) Probleme mit der Benutzung bekommen, werden hier weitere Technologien und Ansätze in Erwägung gezogen. Der vierte PoC lässt sich damit jedoch umsetzen.
 		\subsection{Server}
-		Boards wie das ESP8266 besitzen meist einen geringen Speicher und können keine aufwendigen Prozesse ausführen. Aus diesem Grund soll ein möglichst großer Teil der Anwendungslogik auf einen Server verlagert werden, der sowohl mit den einzelnen Karten als auch mit JIRA kommuniziert. Weitere Systeme, die in Zukunft an das neue Board verknüpft werden, sollten ebenfalls mit diesem Server kommunizieren.
-			\subsubsection{JSP}
-			Die auf Java und HTML basierende Sprache JSP ist besonders für dynamische Webseiten geeignet. Mit ihr lässt sich Java-Logik in Markup integrieren. Da die Karten per REST mit dem Server kommunizieren, muss dieser eine entsprechende Schnittstelle anbieten. JSP ist weniger für die Entwicklung von APIs als für erweiterte Websiten geeignet, insbesondere weil die Karte kein Markup verarbeiten kann.
-			\subsubsection{PHP}
-			
-			\subsubsection{NodeJS}
+		Boards wie das ESP8266 besitzen meist einen geringen Speicher und können keine aufwendigen Prozesse ausführen. Aus diesem Grund soll ein möglichst großer Teil der Anwendungslogik auf einen Server verlagert werden, der sowohl mit den einzelnen Karten als auch mit JIRA kommuniziert. Weitere Systeme, die in Zukunft an das neue Board verknüpft werden, sollten ebenfalls mit diesem Server kommunizieren. \\ \\
+		Es wird sich um einen REST-Server handeln, da sich der ESP8266 einfach mit diesem verbinden kann \cite{nodemcuexamples}. Umgesetzt wird der Server 
 	\newpage
 	\section{Implementation}
 	\newpage	
