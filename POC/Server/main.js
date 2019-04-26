@@ -23,11 +23,12 @@ app.get('/:issue', function (req, res) {
             console.log(error);
         })
         .then(function () {
-            console.log("DONE " + counter);
+            console.log("DONE in Versuch " + counter);
+
         });
 });
 
-app.listen(3000, function () {
+app.listen(1339, function () {
     console.log('Server listening on port 3000!');
 });
 
