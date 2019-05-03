@@ -66,7 +66,7 @@ void loop()
 HTTPClient http;  
  
 //http.begin("http://192.168.178.52:3000/AGRV-729");  von zuhause
-http.begin("http://192.168.107.245:3000/AGRV-729"); //von der Arbeit
+http.begin("http://192.168.107.245:3000/PPBA-21"); //von der Arbeit
 int httpCode = http.GET(); 
  
 if (httpCode > 0) { 
