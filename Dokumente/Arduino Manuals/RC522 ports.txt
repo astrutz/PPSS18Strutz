@@ -23,3 +23,12 @@ CLK		D5
 DIN		D7
 GND		G
 3.3V		3V
+
+
+Button KY-002
+--------------
+Button		ESP8266
+------		-------
+S		D6
++		3V
+-		G
