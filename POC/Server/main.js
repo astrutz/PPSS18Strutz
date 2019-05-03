@@ -53,7 +53,6 @@ function filterData(data, abbreviation) {
     let filteredData = {};
     if (data["issuetype"]["name"].toLowerCase() === "story") {
         filteredData.name = data["summary"];
-        filteredData.description = data["description"];
         filteredData.abbreviation = abbreviation;
         filteredData.assignee = data["assignee"]["displayName"];
         filteredData.status = data["status"]["name"];
