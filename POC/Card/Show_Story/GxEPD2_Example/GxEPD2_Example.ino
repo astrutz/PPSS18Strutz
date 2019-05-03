@@ -2,7 +2,9 @@
 
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
-#include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeSansBold18pt7b.h>
+#include <Fonts/FreeSans18pt7b.h>
+#include <Fonts/FreeSans12pt7b.h>
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>;
@@ -37,7 +39,7 @@ GxEPD2_3C < GxEPD2_420c, GxEPD2_420c::HEIGHT / 2 > display(GxEPD2_420c(/*CS=D8*/
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 StaticJsonDocument<2048> doc;
-void drawStory(const char &name, const char &desc, const char &abbr);
+void drawStory(const char &name, const char &abbr, const char &assignee);
 
 void setup()
 {
@@ -48,14 +50,6 @@ void setup()
   delay(1000); 
   }
   
-  Serial.println("WiFI Connected");
-  /*
-  display.init(115200);
-  helloWorld();
-  delay(1000);
-  display.powerOff();
-  deepSleepTest();
-  */
   Serial.println("setup done");
 }
 
@@ -66,16 +60,19 @@ void loop()
 HTTPClient http;  
  
 //http.begin("http://192.168.178.52:3000/AGRV-729");  von zuhause
-http.begin("http://192.168.107.245:3000/PPBA-21"); //von der Arbeit
+//http.begin("http://192.168.107.245:3000/PPBA-21"); //von der Arbeit
+http.begin("http://demo2672001.mockable.io/PPBA-8"); //von der Arbeit
+
 int httpCode = http.GET(); 
  
 if (httpCode > 0) { 
- 
+
+Serial.println(http.getString());
 deserializeJson(doc, http.getString());
 const char* storyName = doc["name"];
-const char* storyDesc = doc["description"];
 const char* storyAbbr = doc["abbreviation"];
-drawStory(storyName, storyDesc, storyAbbr);
+const char* storyAssignee = doc["assignee"];
+drawStory(storyName, storyAbbr, storyAssignee);
 }
  
 http.end();   //Close connection
@@ -86,104 +83,30 @@ delay(30000);    //Send a request every 30 seconds
  
 }
 
-const char HelloWorld[] = "Hello Ivan!";
-
-void drawStory(const char* text, const char* desc, const char* abbr)
+void drawStory(const char* text, const char* abbr, const char* assignee)
 {
   display.init(115200);
-  display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(&FreeSans18pt7b);
   display.setTextColor(GxEPD_BLACK);
   int16_t tbx, tby; uint16_t tbw, tbh;
-  display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
-  uint16_t x = (display.width() - tbw) / 2;
-  uint16_t y = (display.height() + tbh) / 2; // y is base line!
+  display.getTextBounds(text, 0, 0, &tbx, &tby, &tbw, &tbh);
+  uint16_t x = tbw;
+  uint16_t y = tbh;
   display.setFullWindow();
   display.firstPage();
   display.fillScreen(GxEPD_WHITE);
-  String sum = "";
-  sum.concat(abbr);
-  sum.concat("\n");
-  sum.concat(text);
-  sum.concat("\n");
-  sum.concat(desc);
   do
   {
     display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(sum);
+    display.setCursor(x + 50, 0);
+    display.println(abbr);
+    display.setFont(&FreeSansBold18pt7b);
+    display.println(text);
+    display.setCursor(x + 50, display.height() - 50);
+    display.setFont(&FreeSans12pt7b);
+    display.print(assignee);
   }
   while (display.nextPage());
   display.powerOff();
-}
-
-void helloWorld()
-{
-  //Serial.println("helloWorld");
-  display.setRotation(1);
-  display.setFont(&FreeMonoBold9pt7b);
-  display.setTextColor(GxEPD_BLACK);
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
-  uint16_t x = (display.width() - tbw) / 2;
-  uint16_t y = (display.height() + tbh) / 2; // y is base line!
-  display.setFullWindow();
-  display.firstPage();
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(HelloWorld);
-  }
-  while (display.nextPage());
-  //Serial.println("helloWorld done");
-}
-
-void deepSleepTest()
-{
-  //Serial.println("deepSleepTest");
-  const char hibernating[] = "hibernating ...";
-  const char wokeup[] = "woke up from deep sleep";
-  const char again[] = "hibernating again ...";
-  display.setRotation(1);
-  display.setFont(&FreeMonoBold9pt7b);
-  display.setTextColor(GxEPD_BLACK);
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  // center text
-  display.getTextBounds(hibernating, 0, 0, &tbx, &tby, &tbw, &tbh);
-  uint16_t x = (display.width() - tbw) / 2;
-  uint16_t y = (display.height() + tbh) / 2; // y is base line!
-  display.setFullWindow();
-  display.firstPage();
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(hibernating);
-  }
-  while (display.nextPage());
   display.hibernate();
-  delay(5000);
-  display.getTextBounds(wokeup, 0, 0, &tbx, &tby, &tbw, &tbh);
-  x = (display.width() - tbw) / 2;
-  display.firstPage();
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(wokeup);
-  }
-  while (display.nextPage());
-  delay(5000);
-  display.getTextBounds(again, 0, 0, &tbx, &tby, &tbw, &tbh);
-  x = (display.width() - tbw) / 2;
-  display.firstPage();
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(again);
-  }
-  while (display.nextPage());
-  display.hibernate();
-  //Serial.println("deepSleepTest done");
 }

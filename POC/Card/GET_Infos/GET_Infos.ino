@@ -31,7 +31,9 @@ if (WiFi.status() == WL_CONNECTED) {
 HTTPClient http;  
  
 //http.begin("http://192.168.178.52:3000/AGRV-728");  von zuhause
-http.begin("http://192.168.107.245:3000/AGRV-728"); //von der Arbeit
+//http.begin("http://192.168.107.245:3000/PPBA-8"); //von der Arbeit
+http.begin("http://demo2672001.mockable.io/PPBA-8"); //von der 
+
 int httpCode = http.GET(); 
  
 if (httpCode > 0) { 
@@ -63,5 +65,4 @@ delay(30000);    //Send a request every 30 seconds
 }
 
 void writeCard(){
-}
 }
