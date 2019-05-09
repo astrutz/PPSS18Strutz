@@ -73,7 +73,6 @@ app.put('/login/:id', async function (req, res) {
     activeUser = getUserById(req.params.id);
     res.sendStatus(200);
     await startDaily();
-    //TODO: Timer auf 15 Minuten setzen!
 });
 
 app.get('/dailyStatus', function (req, res) {
