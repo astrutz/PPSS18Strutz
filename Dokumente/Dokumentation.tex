@@ -219,6 +219,10 @@ Die dritte Kernfunktionalität ist die Verbindung mit dem Server. Die Karte muss
 		Wird der erste RFID-Tag an den Leser gehalten, beginnt für das System eine Session, also ein Daily mit der ersten angemeldeten Person. Werden nun Karten verschoben, werden sie im JIRA der angemeldeten Person zugewiesen. Sobald der nächste Tag an das Terminal gehalten wird, verändert sich auch der zuzuweisende Bearbeiter der Story. Damit nicht der letzte Teilnehmer des Daily bis zum nächsten Tag ''angemeldet'' bleibt, wird er nach einer Inaktivität von 10 Minuten abgemeldet. \\ \\
 		Alternativ zu einem Anmeldeterminal wäre es auch möglich die Karten mit einem RFID-Sensor auszustatten. Jedoch müssen die Teammitglieder dann ihren Tag an jede Karte einzeln halten, um sich einer Story zuzuweisen, was im Daily störender ist als sich nur zu Beginn anzumelden. Außerdem bekämen die Karten dadurch zum einen mehr Anwendungslogik, aber auch ein größeres Gewicht, was wie zu vor erwähnt vermieden werden soll.
  		\subsection{Server} \label{archserver}
+ 		Wie bereits erwähnt ist der Server die zentrale Instanz zur Kommunikation zwischen digitalem und physischen Board. Darüber hinaus koordiniert der Server die Karten und verarbeitet die verschiedenen Requests.
+ 		Anzeigen der Story
+ 		Einleiten der Session
+ 		Verändern des Status
 		\subsection{Digitales Board}
 		\subsection{Architekturskizze}
 	\newpage	
