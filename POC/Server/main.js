@@ -8,9 +8,9 @@ let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/card/issue/:cardId', function (req, res) {
-    let issueID = "PPBA-12";
+    let issueID = "PPBA-7";
     //TODO: Get all active stories, check the custom field and find the one for the id and save in issueID
-    if (req.params.cardId === 1234) {
+    if (req.params.cardId === "1234") {
         axios({
             method: 'get',
             url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueID,
@@ -28,7 +28,6 @@ app.get('/card/issue/:cardId', function (req, res) {
             .then(function () {
             });
     }
-    res.sendStatus(200);
 });
 
 app.get('/issue/:issue', function (req, res) {
