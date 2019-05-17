@@ -4,7 +4,7 @@ const fs = require('fs');
 var myParser = require("body-parser");
 let activeUser = "null";
 let app = express();
-let PORT = process.env.port || 3000;
+let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/issue/:issue', function (req, res) {
