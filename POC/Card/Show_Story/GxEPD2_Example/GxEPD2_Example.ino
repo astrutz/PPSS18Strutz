@@ -59,9 +59,9 @@ void loop()
  
 HTTPClient http;  
  
-//http.begin("http://192.168.178.52:3000/AGRV-729");  von zuhause
-//http.begin("http://192.168.107.245:3000/PPBA-21"); //von der Arbeit
-http.begin("http://demo2672001.mockable.io/PPBA-8"); //von der Arbeit
+//http.begin("http://192.168.178.52:3000/issue/AGRV-729");  von zuhause
+//http.begin("http://192.168.107.245:3000/issue/PPBA-21"); //von der Arbeit
+http.begin("http://demo2672001.mockable.io/PPBA-8"); //mocked API von der Arbeit
 
 int httpCode = http.GET(); 
  
