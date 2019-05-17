@@ -8,9 +8,26 @@ let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/card/issue/:cardId', function (req, res) {
-    //TODO: Get all active stories, check the custom field and find the one for the id
-    console.log("cardId: " + req.params.cardId);
-    res.sendStatus(200);
+    let issueID = "PPBA-7";
+    //TODO: Get all active stories, check the custom field and find the one for the id and save in issueID
+    if (req.params.cardId === "1234") {
+        axios({
+            method: 'get',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueID,
+            auth: {
+                username: 'astrutz',
+                password: 'Pitesti12345!'
+            }
+        })
+            .then(function (response) {
+                res.send(filterData(response.data["fields"], issueID));
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+            });
+    }
 });
 
 app.get('/issue/:issue', function (req, res) {
