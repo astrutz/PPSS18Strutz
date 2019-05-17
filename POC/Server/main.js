@@ -20,7 +20,7 @@ app.get('/card/issue/:cardId', function (req, res) {
             }
         })
             .then(function (response) {
-                res.send(filterData(response.data["fields"], req.params.issue));
+                res.send(filterData(response.data["fields"], issueID));
             })
             .catch(function (error) {
                 console.log(error);
