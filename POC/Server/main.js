@@ -6,9 +6,11 @@ let activeUser = "null";
 let app = express();
 app.use(myParser.json({extended: true}));
 
-app.get('/issue/:issue', function (req, res) { //TODO: Bei Arduino die URL ändern
+app.get('/issue/:issue', function (req, res) {
 
-    axios.get('https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue, {
+    axios({
+        method: 'get',
+        url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue,
         auth: {
             username: 'astrutz',
             password: 'Pitesti12345!'
@@ -26,16 +28,18 @@ app.get('/issue/:issue', function (req, res) { //TODO: Bei Arduino die URL ände
 
 app.put('/status/:issue', function (req, res) {
     let transitionId = increaseStatus(req.params.issue);
-    console.log(transitionId);
-    axios.post('https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue + '/transitions?expand=transitions.fields', {
+    axios({
+        method: 'post',
+        url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue + '/transitions?expand=transitions.fields',
         auth: {
             username: 'astrutz',
             password: 'Pitesti12345!'
         },
-        transition: {
-            "id": transitionId //TODO: Restrictions on kernarea Server, try on other Server!
+        data: {
+            transition: {
+                "id": transitionId
+            }
         }
-
     }).then(function (response) {
 
     }).catch(function (error) {
@@ -43,7 +47,9 @@ app.put('/status/:issue', function (req, res) {
     }).then(function () {
         if (activeUser !== "null") {
 
-            axios.put('https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue, {
+            axios({
+                method: 'put',
+                url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue,
                 auth: {
                     username: 'astrutz',
                     password: 'Pitesti12345!'
@@ -58,20 +64,19 @@ app.put('/status/:issue', function (req, res) {
             }).then(function (response) {
 
             }).catch(function (error) {
-
+                console.error(error['response']['data']['errorMessages']);
             }).then(function () {
 
             });
         }
-        res.sendStatus(200); //TODO: Send the new status string to change the card
+        res.send("Forwarding status of " + req.params.issue + " assigned to " + activeUser);
     });
 
-})
-;
+});
 
 app.put('/login/:id', async function (req, res) {
     activeUser = getUserById(req.params.id);
-    res.sendStatus(200);
+    res.sendStatus("User " + activeUser + " log in successfully");
     await startDaily();
 });
 
