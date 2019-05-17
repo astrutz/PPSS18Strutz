@@ -7,6 +7,12 @@ let app = express();
 let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
+app.get('/card/issue/:cardId', function (req, res) {
+    //TODO: Get all active stories, check the custom field and find the one for the id
+    console.log("cardId: " + req.params.cardId);
+    res.sendStatus(200);
+});
+
 app.get('/issue/:issue', function (req, res) {
 
     axios({
@@ -28,25 +34,26 @@ app.get('/issue/:issue', function (req, res) {
 });
 
 app.put('/status/:issue', function (req, res) {
-    let transitionId = increaseStatus(req.params.issue);
-    axios({
-        method: 'post',
-        url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue + '/transitions?expand=transitions.fields',
-        auth: {
-            username: 'astrutz',
-            password: 'Pitesti12345!'
-        },
-        data: {
-            transition: {
-                "id": transitionId
+    if (activeUser !== "null") {
+        let transitionId = increaseStatus(req.params.issue);
+        axios({
+            method: 'post',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue + '/transitions?expand=transitions.fields',
+            auth: {
+                username: 'astrutz',
+                password: 'Pitesti12345!'
+            },
+            data: {
+                transition: {
+                    "id": transitionId
+                }
             }
-        }
-    }).then(function (response) {
+        }).then(function (response) {
 
-    }).catch(function (error) {
-        console.error(error['response']['data']['errorMessages']);
-    }).then(function () {
-        if (activeUser !== "null") {
+        }).catch(function (error) {
+            console.error(error['response']['data']['errorMessages']);
+        }).then(function () {
+
 
             axios({
                 method: 'put',
@@ -69,17 +76,22 @@ app.put('/status/:issue', function (req, res) {
             }).then(function () {
 
             });
-        }
-        let responseString = "Forwarding status of " + req.params.issue + " assigned to " + activeUser;
-        console.log(responseString);
-        res.send(responseString);
-    });
+
+            let responseString = "Forwarding status of " + req.params.issue + " assigned to " + activeUser;
+            console.log(responseString);
+            res.send(responseString);
+        });
+
+        //no user logged in, look for new issues on the
+    } else {
+
+    }
 
 });
 
 app.put('/login/:id', async function (req, res) {
     activeUser = getUserById(req.params.id);
-    let responseString = "User " + activeUser + " log in successfully";
+    let responseString = "User " + activeUser + " logged in successfully";
     console.log(responseString);
     res.send(responseString);
     await startDaily();
@@ -90,7 +102,7 @@ app.get('/dailyStatus', function (req, res) {
 });
 
 app.listen(PORT, function () {
-    console.log('Server listening on port '+PORT+'!');
+    console.log('Server listening on port ' + PORT + '!');
 });
 
 function filterData(data, abbreviation) {
@@ -171,13 +183,13 @@ function getSavedIssues() {
     return fs.readFileSync("savedIssues.json", 'UTF8');
 }
 
-function setSavedIssues(issues){
+function setSavedIssues(issues) {
     fs.writeFileSync('savedIssues.json', JSON.stringify(issues), 'UTF-8');
 }
 
-async function startDaily(){
-    return new Promise(function() {
-        setTimeout(function() {
+async function startDaily() {
+    return new Promise(function () {
+        setTimeout(function () {
             activeUser = "null";
         }, 600000);
     });
