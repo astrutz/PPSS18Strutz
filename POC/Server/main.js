@@ -4,6 +4,7 @@ const fs = require('fs');
 var myParser = require("body-parser");
 let activeUser = "null";
 let app = express();
+let PORT = process.env.port || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/issue/:issue', function (req, res) {
@@ -69,14 +70,18 @@ app.put('/status/:issue', function (req, res) {
 
             });
         }
-        res.send("Forwarding status of " + req.params.issue + " assigned to " + activeUser);
+        let responseString = "Forwarding status of " + req.params.issue + " assigned to " + activeUser;
+        console.log(responseString);
+        res.send(responseString);
     });
 
 });
 
 app.put('/login/:id', async function (req, res) {
     activeUser = getUserById(req.params.id);
-    res.sendStatus("User " + activeUser + " log in successfully");
+    let responseString = "User " + activeUser + " log in successfully";
+    console.log(responseString);
+    res.send(responseString);
     await startDaily();
 });
 
@@ -84,8 +89,8 @@ app.get('/dailyStatus', function (req, res) {
     res.send(activeUser);
 });
 
-app.listen(3000, function () {
-    console.log('Server listening on port 3000!');
+app.listen(PORT, function () {
+    console.log('Server listening on port '+PORT+'!');
 });
 
 function filterData(data, abbreviation) {
