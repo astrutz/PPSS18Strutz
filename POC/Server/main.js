@@ -16,7 +16,7 @@ app.get('/card/issue/:cardId', function (req, res) {
             url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueID,
             auth: {
                 username: 'astrutz',
-                password: 'Pitesti12345!'
+                password: 'Tanacu12345!'
             }
         })
             .then(function (response) {
