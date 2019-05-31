@@ -219,6 +219,13 @@ Die dritte Kernfunktionalität ist die Verbindung mit dem Server. Die Karte muss
 		Wird der erste RFID-Tag an den Leser gehalten, beginnt für das System eine Session, also ein Daily mit der ersten angemeldeten Person. Werden nun Karten verschoben, werden sie im JIRA der angemeldeten Person zugewiesen. Sobald der nächste Tag an das Terminal gehalten wird, verändert sich auch der zuzuweisende Bearbeiter der Story. Damit nicht der letzte Teilnehmer des Daily bis zum nächsten Tag ''angemeldet'' bleibt, wird er nach einer Inaktivität von 10 Minuten abgemeldet. \\ \\
 		Alternativ zu einem Anmeldeterminal wäre es auch möglich die Karten mit einem RFID-Sensor auszustatten. Jedoch müssen die Teammitglieder dann ihren Tag an jede Karte einzeln halten, um sich einer Story zuzuweisen, was im Daily störender ist als sich nur zu Beginn anzumelden. Außerdem bekämen die Karten dadurch zum einen mehr Anwendungslogik, aber auch ein größeres Gewicht, was wie zuvor erwähnt vermieden werden soll. \\ 
 		\subsection{Architekturskizze}
+		In Abbildung \ref{fig:Architekturskizze} wird die verteilte Systemarchitektur erläutert. Hierbei wird das Anwendungsschichtprotokoll HTTP mit der Datenstruktur JSON genutzt. Als Schnittstelle wird hierbei die Technologie REST verwendet.  \\
+		\begin{figure}[htbp] 
+  			\centering
+    		\includegraphics[height=0.55\textheight]{Architekturdiagramm}
+  			\caption{Visualisierung der Systemarchitektur}
+  			\label{fig:Architekturskizze}
+		\end{figure}
 	\newpage	
 	\section{Technologieentscheidung}
 	In diesem Kapitel werden Technologien für die in der Systemarchitektur enthaltenen Komponenten recherchiert und bewertet. Der Fokus liegt hier auf die Eignung zur Erfüllung der Proofs of Concept.
