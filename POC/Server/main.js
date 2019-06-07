@@ -114,6 +114,13 @@ app.put('/login/:id', async function (req, res) {
     await startDaily();
 });
 
+app.put('/logoff', function (req, res) {
+    let responseString = "User " + activeUser + " logged off successfully";
+    activeUser = "null";
+    console.log(responseString);
+    res.send(responseString);
+});
+
 app.get('/dailyStatus', function (req, res) {
     res.send(activeUser);
 });
