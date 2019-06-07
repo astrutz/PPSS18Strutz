@@ -37,7 +37,7 @@ app.get('/issue/:issue', function (req, res) {
         url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue,
         auth: {
             username: 'astrutz',
-            password: 'Pitesti12345!'
+            password: 'Tanacu12345!'
         }
     })
         .then(function (response) {
@@ -58,7 +58,7 @@ app.put('/status/:issue', function (req, res) {
             url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue + '/transitions?expand=transitions.fields',
             auth: {
                 username: 'astrutz',
-                password: 'Pitesti12345!'
+                password: 'Tanacu12345!'
             },
             data: {
                 transition: {
@@ -77,7 +77,7 @@ app.put('/status/:issue', function (req, res) {
                 url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue,
                 auth: {
                     username: 'astrutz',
-                    password: 'Pitesti12345!'
+                    password: 'Tanacu12345!'
                 },
                 data: {
                     "fields": {
@@ -112,6 +112,13 @@ app.put('/login/:id', async function (req, res) {
     console.log(responseString);
     res.send(responseString);
     await startDaily();
+});
+
+app.put('/logoff', function (req, res) {
+    let responseString = "User " + activeUser + " logged off successfully";
+    activeUser = "null";
+    console.log(responseString);
+    res.send(responseString);
 });
 
 app.get('/dailyStatus', function (req, res) {
