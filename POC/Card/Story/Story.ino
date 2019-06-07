@@ -1,6 +1,5 @@
 #define ENABLE_GxEPD2_GFX 0
 
-#include "OneButton.h"
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
 #include <Fonts/FreeSansBold18pt7b.h>
@@ -43,33 +42,115 @@ GxEPD2_3C < GxEPD2_420c, GxEPD2_420c::HEIGHT / 2 > display(GxEPD2_420c(/*CS=D8*/
 const char* ssid = "kernarea.de/BYOD";
 const char* password =  "4m0b!l35";
 const char* abbreviation = "";
+const byte interruptPin = 12;
+const int cardID = 1234;
+int pressed = false;
 int Led = 2; //LED_BUILTIN = GPIO2
-OneButton button(12, false); //D6 = GPIO12
 StaticJsonDocument<2048> doc;
-void drawStory(const char &name, const char &abbr, const char &assignee); 
+void drawStory(const char &name, const char &abbr, const char &assignee);
+void(* resetFunc) (void) = 0; //declare reset function @ address 0
 
 void setup ()
 {
   Serial.begin(115200);
-  //pinMode (Taster, INPUT);
-  WiFi.begin(ssid, password); 
- 
+  wdt_enable(WDTO_1S);   // Watchdog auf 1 s stellen
+  pinMode (interruptPin, INPUT_PULLUP);
+  WiFi.begin(ssid, password);
+
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
   }
 
-  button.attachClick(clicked);
-  button.attachDoubleClick(doubleClicked);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), test, RISING);
+  HTTPClient http;
+
+  http.begin("http://jiracardserver.herokuapp.com/card/issue/1234");
+  //http.addHeader("Content-Type", "text/plain");
+
+  int httpCode = http.GET();
+  if (httpCode > 0) {
+    deserializeJson(doc, http.getString());
+    abbreviation = doc["abbreviation"];
+  }
   Serial.println("Setup done");
 }
 
 void loop ()
 {
-  button.tick();
- Serial.println("Wait..");
- 
-} 
+  if (pressed == true) {
+    if (WiFi.status() == WL_CONNECTED) {
+
+      HTTPClient http;
+
+      http.begin("http://jiracardserver.herokuapp.com/dailyStatus");
+      //http.addHeader("Content-Type", "text/plain");
+
+      int httpCode = http.GET();
+
+      if (httpCode > 0) {
+
+        String response = http.getString();
+        if (response == "null") {
+          char url[128];
+          strcpy(url, "http://jiracardserver.herokuapp.com/card/issue/");
+          strcat(url, cardID);
+          http.begin(url);
+
+          int httpResponseCode = http.GET();
+
+          if (httpResponseCode > 0) {
+
+            String response = http.getString();
+            deserializeJson(doc, http.getString());
+            const char* storyName = doc["name"];
+            abbreviation = doc["abbreviation"];
+            const char* storyAssignee = doc["assignee"];
+            Serial.println(storyName);
+            drawStory(storyName, abbreviation, storyAssignee);
+            Serial.println("Story written on display");
+
+          } else {
+
+            Serial.print("Error on sending GET Request: ");
+            Serial.println(httpResponseCode);
+          }
+
+        } else {
+          Serial.println("Logged in user is " + response);
+          if (abbreviation != "") {
+            char url[128];
+            strcpy(url, "http://jiracardserver.herokuapp.com/status/");
+            strcat(url, abbreviation);
+            http.begin(url);
+            int httpResponseCode = http.PUT("");
+            if (httpResponseCode > 0) {
+              Serial.println("Status changed");
+            } else {
+
+            }
+          } else {
+            Serial.println("Somebody is logged in, but no Story here to change Status");
+          }
+        }
+
+      } else {
+
+        Serial.print("Error on sending GET Request: ");
+        Serial.println(httpCode);
+
+      }
+
+      http.end();
+
+    } else {
+      Serial.println("Error in WiFi connection");
+    }
+    resetFunc();
+  }
+  pressed = false;
+
+}
 
 
 void drawStory(const char* text, const char* abbr, const char* assignee)
@@ -101,74 +182,8 @@ void drawStory(const char* text, const char* abbr, const char* assignee)
   //display.hibernate();
 }
 
-void clicked()
+void test()
 {
-  if(WiFi.status() == WL_CONNECTED){
-      HTTPClient http;   
-
-      http.begin("http://jiracardserver.herokuapp.com/dailyStatus");
-      http.addHeader("Content-Type", "text/plain");
-     
-      int httpResponseCode = http.GET();
-
-      if(httpResponseCode>0){
-     
-        String response = http.getString(); 
-        Serial.println("Logged in user is " + response);  
-        if(response == "null"){
-          http.begin("http://jiracardserver.herokuapp.com/card/issue/1234"); //TODO: Change cardID for each card
-     
-          int httpResponseCode = http.GET();
-     
-          if(httpResponseCode>0){
-     
-            String response = http.getString();   
-            deserializeJson(doc, http.getString());
-            const char* storyName = doc["name"];
-            const char* storyAbbr = doc["abbreviation"];
-            const char* storyAssignee = doc["assignee"];
-            Serial.println(storyName);
-            drawStory(storyName, storyAbbr, storyAssignee);
-            Serial.println("Story written on display");       
- 
-          }else{
- 
-            Serial.print("Error on sending GET Request: ");
-            Serial.println(httpResponseCode);
-          } 
-                     
-        } else {
-          if(abbreviation != ""){
-            char url[40];
-            strcpy(url, "http://jiracardserver.herokuapp.com/status/");
-            strcat(url, abbreviation);
-            http.begin(url);
-            int httpResponseCode = http.PUT("PUT Status sent");
-            if(httpResponseCode > 0){
-                Serial.println("Status changed");
-              } else{
-                
-              }
-          } else{
-            Serial.println("Somebody is logged in, but no Story here to change Status");
-          }
-        }
- 
-      }else{
- 
-        Serial.print("Error on sending PUT Request: ");
-        Serial.println(httpResponseCode);
-
-      }
- 
-   http.end();
- 
- }else{
-    Serial.println("Error in WiFi connection");
- }
-}
-
-void doubleClicked()
-{
-  Serial.print("DOUBLECLICK");
+  Serial.println("Button pressed");
+  pressed = true;
 }
