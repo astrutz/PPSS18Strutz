@@ -4,30 +4,38 @@ const fs = require('fs');
 var myParser = require("body-parser");
 let activeUser = "null";
 let app = express();
+let issueID = '';
 let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/card/issue/:cardId', function (req, res) {
-    let issueID = "PPBA-8";
     //TODO: Get all active stories, check the custom field and find the one for the id and save in issueID
-    if (req.params.cardId === "1234") {
-        axios({
-            method: 'get',
-            url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueID,
-            auth: {
-                username: 'astrutz',
-                password: 'Tanacu12345!'
-            }
-        })
-            .then(function (response) {
+    axios({
+        method: 'get',
+        url: 'https://jira.kernarea.de/rest/api/2/search?jql=card_id~' + req.params.cardId,
+        auth: {
+            username: 'astrutz',
+            password: 'Tanacu12345!'
+        }
+    })
+        .then(function (response) {
+            issueID = response.data['issues'][0]['key'];
+            axios({
+                method: 'get',
+                url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueID,
+                auth: {
+                    username: 'astrutz',
+                    password: 'Tanacu12345!'
+                }
+            }).then(function (response) {
                 res.send(filterData(response.data["fields"], issueID));
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
             });
-    }
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+        })
 });
 
 app.get('/issue/:issue', function (req, res) {
