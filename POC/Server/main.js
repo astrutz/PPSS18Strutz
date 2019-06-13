@@ -8,7 +8,7 @@ let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/card/issue/:cardId', function (req, res) {
-    let issueID = "PPBA-7";
+    let issueID = "PPBA-8";
     //TODO: Get all active stories, check the custom field and find the one for the id and save in issueID
     if (req.params.cardId === "1234") {
         axios({
