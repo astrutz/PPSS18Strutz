@@ -266,8 +266,31 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 	Im folgenden Kapitel wird die Umsetzung der User Stories in Form eines Prototypen erläutert. Hierbei liegt der Fokus auf //?//
 		\subsection{Umsetzung eines Anmeldeterminals zur Verwendung des Boards in Dailies}
 			\subsubsection{Benötigte Sensoren und angeschlossene Hardware}
-			Wie in Kapitel \ref{esp8266} beschrieben wird die Anmeldung mit RFID-Tags und einem RC522 Leser an einem ESP8266 mit NodeMCU umgesetzt. Der RFID-Reader kommuniziert über das Serial Peripheral Interface, kurz SPI \cite{spistandard} mit dem Mikrocontroller. Das SPI wird für eine synchron-serielle Verbindung zwischen einem Host (in dem Fall der Mikrocontroller) und einem Peripheriegerät (in dem Fall der Reader) verwendet.
+			Wie in Kapitel \ref{esp8266} beschrieben wird die Anmeldung mit RFID-Tags und einem RC522 Leser an einem ESP8266 mit NodeMCU umgesetzt. Der RFID-Reader kommuniziert über das Serial Peripheral Interface, kurz SPI \cite{spistandard} mit dem Mikrocontroller. Das SPI wird für eine synchron-serielle Verbindung zwischen einem Host (in dem Fall der Mikrocontroller) und einem Peripheriegerät (in dem Fall der Reader) verwendet. Hierfür sind vier SPI-spezifische, sowie drei Mikrocontroller-spezifische Leitungen notwendig. \\ \\
+			Mit der SCK-Verbindung (''Serial Clock'') gibt der Host eine Zeit vor, um eine Synchronisation zu ermöglichen. Zum parallelen Austausch wird je eine Leitung pro Richtung benötigt. Dazu gibt es MISO (''Master in, Slave out'') und MOSI (''Master out, Slave in''), wobei sich Master auf den Host und Slave auf das Peripheriegerät bezieht. Zusätzlich gibt es die SDA-Verbindung (''Serial Data''), die für eine I$^2$C Kommunikation notwendig ist. Die drei weiteren Anschlüsse 3.3V, GND (''Ground'') und RST (''Reset'') sind für Stromzufuhr, Erdung und Neustart notwendig, wie sie die meisten angeschlossenen Geräte benötigen. In der folgenden Abbildung ist die Verbindung von Reader und Board skizziert.
+		\begin{figure}[H] 
+  			\centering
+    		\includegraphics[height=0.3\textheight]{VerbindungRC522}
+  			\caption{Verbindungsskizze zwischen dem RC522-Modul und dem ESP8266, Quelle: \url{https://www.instructables.com/id/MFRC522-RFID-Reader-Interfaced-With-NodeMCU/}}
+  			\label{fig:VerbindungRC522}
+		\end{figure}
+			\noindent Außerhalb des RFID-Readers ist noch ein Button angeschlossen, der bei Betätigung einen Stromkreis schließt und somit dem Mikrocontroller den Status ''HIGH'' und ansonsten den Status ''LOW'' signalisiert. Auch er ist mit GND und 3.3V, sowie einem GPIO-Pin verbunden, um das Signal weiterzuleiten. //Interrupts und Pin erläutern??// 
 			\subsubsection{Implementation der Anwendungslogik}
+			Zur Einbindung des Readers wird sowohl die SPI-, sowie die MFRC522-Bibliothek benötigt. Diese bietet eine unkomplizierte Kommunikation mit dem Sensor an \cite{mfrc522git}. Dazu wird zu Beginn eine Instanz von MFRC522 erstellt und als Parameter der Pin für SDA, sowie für RST übergeben, da diese konfigurierbar sind. Wichtig ist hierbei nicht die digitalen Pinnummer des Boards, sondern die Nummer des GPIO-Pins zu übergeben, der sich vom digitalen Pin unterscheidet. Alle weiteren Verbindung müssen nach Vorgabe der Bibliothek wie in Abbildung \ref{fig:VerbindungRC522} beschrieben bleiben. //MIFAREKEY?!// Die Variablen ''pressed'' und ''interruptPin'', sowie die Methode ''resetFunc'' werden für die Nutzung des Buttons in Form einer Interrupt Service Routine benötigt, näheres dazu in der Setup-Methode. Um bei einer Anmeldung am Terminal die NUID des RFID-Tags zu speichern, wird ein Byte-Array benötigt, welches ''nuidPICC'' heißt.\\
+		\begin{figure}[H] 
+  			\centering
+    		\includegraphics[height=0.4\textheight]{terminalHead}
+  			\caption{Terminalcode mit Instanzierung von globalen Variablen. Hinweis: SSID und Passwort des Drahtlosnetzwerkes wurden aus datenschutzrechtlichen Gründen entfernt.}
+  			\label{fig:terminalHead}
+		\end{figure}
+		\noindent Zu Beginn wird ein Interrupt auf dem GPIO-Pin des Buttons festgelegt. Ein Interrupt ist ein Programmteil, der bei einem bestimmten Event (hier: Drücken des Buttons) ausgelöst wird, den eigentlichen Programmteil unterbricht und stattdessen eine Ausweichmethode ausführt. In diesem Fall wird bei Druck des Buttons die Methode logOff() aufgerufen, die lediglich die Variable pressed auf true setzt. Diese Interrupt Service Routine wird nur ausgeführt, wenn der Buttonstatus ''RISING'' ist, also der Wert steigend ist, was nur bei einem Knopfdruck der Fall ist. Die Variable pressed und somit die Information, dass der Button gedrückt wurde, wird in der loop-Methode verarbeitet. Ebenfalls initiiert wird die serielle Verbindung zwischen dem Entwicklungsrechner und dem Mikrocontroller auf einer Rate von 115200 Baud. Sie ist für Logging und Fehlermeldungen nötig. So lässt sich am Rechner der USB-Port, an dem der Controller angeschlossen ist auf der Baud-Rate auslesen. Diese Verbindung wird mit Serial.begin() gestartet und mit Befehlen wie Serial.print(''Text'') angesprochen. Zu Weiterleitung der Terminalanmeldungen an den Server wird eine WLAN-Verbindung mit WiFi.begin(ssid, passwort) gestartet und auf eine erfolgreiche Verbindung (Status ''WL\_CONNECTED'') gewartet. Während des Herstellens der Verbindung werden keine weiteren Programmteile ausgeführt. Nach erfolgreicher Verbindung werden das SPI und der RFID-Reader mit Methoden der jeweiligen Bibliotheken initiiert. Zum Schluss wird über die serielle Verbindung eine Meldung über das abgeschlossene Setup ausgegeben. \\
+			\begin{figure}[H] 
+  			\centering
+    		\includegraphics[height=0.4\textheight]{terminalSetup}
+  			\caption{Terminalcode der Setup-Methode}
+  			\label{fig:terminalSetup}
+		\end{figure}
+		\noindent //LOOP-Methode//
 		\subsection{Umsetzung einer digitalen Karte zur Darstellung von Stories und Unteraufgaben}
 			\subsubsection{Benötigte Sensoren und angeschlossene Hardware}
 			\subsubsection{Implementation der Anwendungslogik}
