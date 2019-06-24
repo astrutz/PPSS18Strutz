@@ -13,42 +13,33 @@ const char* password =  "4m0b!l35";
 const byte interruptPin = 4; //GPIO4 = D2
 boolean pressed = false;
 
-MFRC522 rfid(SS_PIN, RST_PIN);  // Create MFRC522 instance
-
-MFRC522::MIFARE_Key key; 
-
-// Init array that will store new NUID 
-byte nuidPICC[4];
-void(* resetFunc) (void) = 0; //declare reset function @ address 0
+MFRC522 rfid(SS_PIN, RST_PIN);
+ 
+byte tagUID[4];
+void(* resetFunc) (void) = 0; 
 
 void setup() {
   attachInterrupt(digitalPinToInterrupt(interruptPin), logOff, RISING);
-	Serial.begin(115200);		// Initialize serial communications with the PC
+	Serial.begin(115200);		
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    Serial.println("Connecting to WiFi..");
+    Serial.println("Waiting for WiFi Connection..");
   }
   
-	SPI.begin();			// Init SPI bus
-	rfid.PCD_Init();		// Init MFRC522
+	SPI.begin();	
+	rfid.PCD_Init();	
   delay(5);
-
-   for (byte i = 0; i < 6; i++) {
-    key.keyByte[i] = 0xFF;
-  }
 
   Serial.println("Setup complete");
 }
 
 void loop() {
-
   if (WiFi.status() == WL_CONNECTED && pressed == true) {
 
       HTTPClient http;
       http.begin("http://jiracardserver.herokuapp.com/logoff");
-
       int httpCode = http.PUT("");
 
       if (httpCode > 0) {
@@ -58,51 +49,33 @@ void loop() {
   }
   pressed = false;
   
-	// Look for new cards
   if ( ! rfid.PICC_IsNewCardPresent())
     return;
-
-  // Verify if the NUID has been readed
   if ( ! rfid.PICC_ReadCardSerial())
     return;
 
-  MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
+  if (rfid.uid.uidByte[0] != tagUID[0] || 
+    rfid.uid.uidByte[1] != tagUID[1] || 
+    rfid.uid.uidByte[2] != tagUID[2] || 
+    rfid.uid.uidByte[3] != tagUID[3] ) {
 
-  // Check is the PICC of Classic MIFARE type
-  if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&  
-    piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
-    piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
-    Serial.println(F("Your tag is not of type MIFARE Classic."));
-    return;
-  }
-
-  if (rfid.uid.uidByte[0] != nuidPICC[0] || 
-    rfid.uid.uidByte[1] != nuidPICC[1] || 
-    rfid.uid.uidByte[2] != nuidPICC[2] || 
-    rfid.uid.uidByte[3] != nuidPICC[3] ) {
-
-    // Store NUID into nuidPICC array
     for (byte i = 0; i < 4; i++) {
-      nuidPICC[i] = rfid.uid.uidByte[i];
+      tagUID[i] = rfid.uid.uidByte[i];
     }
     sendUidToServer();
   }
   else Serial.println(F("Card read previously."));
 
-  // Halt PICC
   rfid.PICC_HaltA();
-
-  // Stop encryption on PCD
-  rfid.PCD_StopCrypto1();
-
+  rfid.PCD_StopCrypto1(); 
 }
 
 void sendUidToServer() {
   unsigned long hex_num;
-  hex_num =  nuidPICC[0] << 24;
-  hex_num += nuidPICC[1] << 16;
-  hex_num += nuidPICC[2] <<  8;
-  hex_num += nuidPICC[3];
+  hex_num =  tagUID[0] << 24;
+  hex_num += tagUID[1] << 16;
+  hex_num += tagUID[2] <<  8;
+  hex_num += tagUID[3];
 
   if (WiFi.status() == WL_CONNECTED) {
 
