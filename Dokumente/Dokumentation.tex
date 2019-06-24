@@ -263,7 +263,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 		Um das digitale Board in Form von JIRA mit der Karte zu verknüpfen muss es möglich sein einer Story eine Karte zuzuweisen. Dazu soll eine Story eine neue Eingabekomponente, ein sogenanntes ''Custom Field'', erhalten \cite{jiracustomfield}. In diesem Feld wird eine eindeutige ID eingetragen, die jede Karte vorher erhalten hat. So kann der Server die JIRA API nach einer Story und dem Custom Field anfragen und somit Karte und Story verbinden. 
 	\newpage
 	\section{Implementation des Prototypen}
-	Im folgenden Kapitel wird die Umsetzung der User Stories in Form eines Prototypen erläutert. Hierbei liegt der Fokus auf //?//
+	Im folgenden Kapitel wird die Umsetzung der User Stories in Form eines Prototypen erläutert. Hierbei liegt der Fokus auf die Anwendungslogik und den Anschluss von Sensoren an die jeweiligen Mikrocontrollern.
 		\subsection{Umsetzung eines Anmeldeterminals zur Verwendung des Boards in Dailies}
 			\subsubsection{Benötigte Sensoren und angeschlossene Hardware}
 			Wie in Kapitel \ref{esp8266} beschrieben wird die Anmeldung mit RFID-Tags und einem RC522 Leser an einem ESP8266 mit NodeMCU umgesetzt. Der RFID-Reader kommuniziert über das Serial Peripheral Interface, kurz SPI \cite{spistandard} mit dem Mikrocontroller. Das SPI wird für eine synchron-serielle Verbindung zwischen einem Host (in dem Fall der Mikrocontroller) und einem Peripheriegerät (in dem Fall der Reader) verwendet. Hierfür sind vier SPI-spezifische, sowie drei Mikrocontroller-spezifische Leitungen notwendig. \\ \\
@@ -274,7 +274,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
   			\caption{Verbindungsskizze zwischen dem RC522-Modul und dem ESP8266, Quelle: \url{https://www.instructables.com/id/MFRC522-RFID-Reader-Interfaced-With-NodeMCU/}}
   			\label{fig:VerbindungRC522}
 		\end{figure}
-			\noindent Außerhalb des RFID-Readers ist noch ein Button angeschlossen, der bei Betätigung einen Stromkreis schließt und somit dem Mikrocontroller den Status ''HIGH'' und ansonsten den Status ''LOW'' signalisiert. Auch er ist mit GND und 3.3V, sowie einem GPIO-Pin verbunden, um das Signal weiterzuleiten. //Interrupts und Pin erläutern??//  
+			\noindent Außerhalb des RFID-Readers ist noch ein Button angeschlossen, der bei Betätigung einen Stromkreis schließt und somit dem Mikrocontroller den Status ''HIGH'' und ansonsten den Status ''LOW'' signalisiert. Auch er ist mit GND und 3.3V, sowie einem GPIO-Pin (D2) verbunden, um das Signal weiterzuleiten.
 			\subsubsection{Implementation der Anwendungslogik}
 			Zur Einbindung des Readers wird sowohl die SPI-, sowie die MFRC522-Bibliothek benötigt. Diese bietet eine unkomplizierte Kommunikation mit dem Sensor an \cite{mfrc522git}. Dazu wird zu Beginn eine Instanz von MFRC522 erstellt und als Parameter der Pin für SDA, sowie für RST übergeben, da diese konfigurierbar sind. Wichtig ist hierbei nicht die digitalen Pinnummer des Boards, sondern die Nummer des GPIO-Pins zu übergeben, der sich vom digitalen Pin unterscheidet. Alle weiteren Verbindung müssen nach Vorgabe der Bibliothek wie in Abbildung \ref{fig:VerbindungRC522} beschrieben bleiben. Die Variablen ''pressed'' und ''interruptPin'', sowie die Methode ''resetFunc'' werden für die Nutzung des Buttons in Form einer Interrupt Service Routine benötigt, näheres dazu in der Setup-Methode. Um bei einer Anmeldung am Terminal die NUID des RFID-Tags zu speichern, wird ein Byte-Array benötigt, welches ''tagUID'' heißt.\\
 		\begin{figure}[H] 
@@ -290,7 +290,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
   			\caption{Terminalcode der Setup-Methode}
   			\label{fig:terminalSetup}
 		\end{figure}
-		\noindent //LOOP-Methode//
+		\noindent Die loop-Methode wird mehrfach ohne Unterbrechung ausgeführt.
 		\subsection{Umsetzung einer digitalen Karte zur Darstellung von Stories und Unteraufgaben}
 			\subsubsection{Benötigte Sensoren und angeschlossene Hardware}
 			\subsubsection{Implementation der Anwendungslogik}
