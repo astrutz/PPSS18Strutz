@@ -14,7 +14,7 @@ GxEPD2_3C < GxEPD2_420c, GxEPD2_420c::HEIGHT / 2 > display(GxEPD2_420c(/*CS=D8*/
 #endif
 
 const char* ssid = "kernarea.de/BYOD";
-const char* password =  "4m0b!l35";
+const char* password = "4m0b!l35";
 const char* abbreviation = "";
 const byte interruptPin = 12;
 const char* cardID = "1234";
@@ -22,7 +22,7 @@ int pressed = false;
 int Led = 2; //LED_BUILTIN = GPIO2
 StaticJsonDocument<2048> doc;
 void drawStory(const char &title, const char &abbr, const char &assignee);
-void(* resetFunc) (void) = 0;
+void ICACHE_RAM_ATTR buttonClick();
 
 void setup ()
 {
@@ -114,7 +114,6 @@ void loop ()
     } else {
       Serial.println("Error in WiFi connection");
     }
-    resetFunc();
   }
   pressed = false;
 
@@ -146,7 +145,7 @@ void drawStory(const char* title, const char* abbr, const char* assignee)
   Serial.println("Display write completed");
 }
 
-void buttonClick()
+void ICACHE_RAM_ATTR buttonClick()
 {
   Serial.println("Button pressed");
   pressed = true;

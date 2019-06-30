@@ -2,8 +2,6 @@
 #include <MFRC522.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-#include "ESP8266HTTPClient.h"
-#include "ESP8266WiFi.h"
 
 #define RST_PIN  0          // GPIO0 = D3
 #define SS_PIN   15         // GPIO15 = D8
@@ -16,7 +14,7 @@ boolean pressed = false;
 MFRC522 rfid(SS_PIN, RST_PIN);
  
 byte tagUID[4];
-void(* resetFunc) (void) = 0; 
+void ICACHE_RAM_ATTR logOff();
 
 void setup() {
   attachInterrupt(digitalPinToInterrupt(interruptPin), logOff, RISING);
@@ -45,7 +43,6 @@ void loop() {
       if (httpCode > 0) {
         Serial.println(http.getString());
       }
-      resetFunc();
   }
   pressed = false;
   
@@ -96,7 +93,7 @@ void sendUidToServer() {
   }
 }
 
-void logOff()
+void ICACHE_RAM_ATTR logOff()
 {
   pressed = true;
 }
