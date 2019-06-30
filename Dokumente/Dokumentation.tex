@@ -275,7 +275,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
   			\label{fig:VerbindungRC522}
 		\end{figure}
 			\noindent Außerhalb des RFID-Readers ist noch ein Button angeschlossen, der bei Betätigung einen Stromkreis schließt und somit dem Mikrocontroller den Status ''HIGH'' und ansonsten den Status ''LOW'' signalisiert. Auch er ist mit GND und 3.3V, sowie einem GPIO-Pin (D2) verbunden, um das Signal weiterzuleiten.
-			\subsubsection{Implementation der Anwendungslogik}
+			\subsubsection{Implementation der Anwendungslogik} \label{logicTerminal}
 			Zur Einbindung des Readers wird sowohl die SPI-, sowie die MFRC522-Bibliothek benötigt. Diese bietet eine unkomplizierte Kommunikation mit dem Sensor an \cite{mfrc522git}. Dazu wird zu Beginn eine Instanz von MFRC522 erstellt und als Parameter der Pin für SDA, sowie für RST übergeben, da diese konfigurierbar sind. Wichtig ist hierbei nicht die digitalen Pinnummer des Boards, sondern die Nummer des GPIO-Pins zu übergeben, der sich vom digitalen Pin unterscheidet. \\ \\
 			Alle weiteren Verbindung müssen nach Vorgabe der Bibliothek wie in Abbildung \ref{fig:VerbindungRC522} beschrieben bleiben. Die Variablen ''pressed'' und ''interruptPin'', sowie die Methode ''resetFunc'' werden für die Nutzung des Buttons in Form einer Interrupt Service Routine benötigt, näheres dazu in der Setup-Methode. Um bei einer Anmeldung am Terminal die NUID des RFID-Tags zu speichern, wird ein Byte-Array benötigt, welches ''tagUID'' heißt.\\
 		\begin{figure}[H] 
@@ -307,14 +307,41 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 			\subsubsection{Implementation der Anwendungslogik}
 			Die Karte benötigt mehrere Bibliotheken. Zur Nutzung des Displays sind die AdafruitGFX- und die darauf aufbauende GxEPD2-Bibliothek (sowohl ''\_BW'' für schwarz/weiß als auch ''\_3C'' für Farbe) notwendig. Zur Verarbeitung der Daten vom Server ist wird die Bibliothek ArduinoJson verwendet, die den Umgang mit Daten im JSON-Format vereinfacht \cite{arduinojson}. Ferner werden Bibliotheken für die Verwendung von WLAN und HTTP, sowie Schriftarten für das Display eingebunden. \\ \\
 			Das Display muss zu Beginn initialisiert werden, hierzu werden einige frei wählbare Pins übergeben. Darüber hinaus werden globale Variablen für die WLAN-Verbindung, den Button und Interrupt-Pin festgelegt, wie beim Terminal. Die Karte erhält zusätzlich eine eigene ID. Diese ist nötig, um vom Server erkannt und identifiziert zu werden. Da die Abkürzung der Story aus verschiedenen Methoden aufgerufen wird, wird sie global deklariert und beim Laden einer Story befüllt. Ebenfalls wird ein JSON-Objekt initiiert und 2048 Byte für dieses reserviert. Zusätzlich wird die Methode zum Zeichnen von Stories und zum Neustart des Boards deklariert. \\
-			 //SCREEN Variablen// \\
-			 Auch für die Karte wird zu Beginn eine serielle Verbindung zum Logging hergestellt, der Interrupt-Pin definiert und eine WLAN-Verbindung aufgebaut. Bereits in der setup-Methode wird ein GET-Request an den Server gesendet. In diesem Request übergibt die Karte ihre ID an den Server und fragt an, ob im JIRA eine Story für die Karte hinterlegt ist. Der genaue Prozess seitens des JIRA wird in Kapitel XX erläutert. Die empfangenen Daten werden in der zuvor beschriebenen JSON-Variablen gespeichert. Ein Beispiel für eine solche JSON-Struktur findet sich in Anhang XYZ. \\
-			 BILD Setup \\
-			 In der Loop-Methode befindet sich ausschließlich der Workflow bei Drücken des Buttons. Das bedeutet, dass sich die Karte nur bei Knopfdruck verändert. Dazu wird wie beim Terminal eine Variable abgefragt, die in der ISR für den Button verändert wird. Wenn der Button gedrückt wurde und eine WLAN-Verbindung besteht, wird der aktuelle Status des Dailies vom Server abgefragt. Das bedeutet, dass der Server prüft, ob aktuell eine Person am Terminal angemeldet ist oder nicht. Abhängig von der Antwort des Server führt die Karte verschiedene Aktionen durch. Ist kein Teammitglied am Terminal angemeldet, liefert der Server ‚‘null‘‘ zurück. Das bedeutet für die Karte, dass aktuell kein Daily stattfindet und dementsprechend auch der Status der Story nicht verändert werden muss. Wird der Button außerhalb eines Dailies gedrückt, soll sich die Karte aktualisieren und die aktuelle Story vom Server anfragen und auf dem Display anzeigen. Hierzu fragt die Karte wie in der Setup-Methode, ob für ihre ID eine Story hinterlegt ist. Das vom Server empfangene JSON wird dann gespeichert und die Karte mit der Story in der Methode ‚‘drawStory‘‘ beschrieben, näheres dazu siehe unten. \\
-			 Bild loop 1 \\
-			 Für den Fall, dass der Button im Daily betätigt wird, soll sich der Status der Karte verändern und die Story dem angemeldeten Teammitglied zugewiesen werden. Zu Beginn wird die Variable ‚‘abbreviation‘‘ geprüft, die das Kürzel der Story gespeichert. Ist kein Kürzel vorhanden, gibt es auch keine anzupassende Story. Ist jedoch ein Kürzel vorhanden, wird ein PUT-Request an den Ressource ‚‘/status/issueID‘‘ gesendet, wobei issueID das Kürzel der Story beinhaltet. Das Verändern des Status, sowie die Zuweisung im JIRA übernimmt der Server. Zuletzt wird die Karte aktualisiert, um die neuen Änderungen anzuzeigen. Nach erfolgreicher Ausführung der jeweiligen Aktion muss der Mikrocontroller der Karte neu gestartet werden, siehe dazu auch //REF auf Terminal//. \\
-			 Bild loop 2 \\
-			 Um das Display mit neuen Informationen zu beschreiben gibt es die Methode ‚‘drawStory‘‘. Diese erhält den Titel, die Abkürzung und den Bearbeiter der Story und zeigt diese auf dem Display an. Dazu werden verschiedene Methoden der GxEPD2-Bibliothek verwendet, die den Umgang und die Nutzung des Displays vereinfachen. Zu Beginn wird das Display auf einer bestimmten Baud-Rate initiiert, sowie Schriftart, Schriftfarbe und Grenzen des Textes festgelegt. Das Display wird zunächst weiß gefüllt, um die bisherige Anzeige zu überschreiben. Daraufhin wird der Cursor 50 Pixel vom linken Rand entfernt platziert und die Abkürzung ausgegeben. In der nächsten Zeile folgt der Titel der Story. Für den Bearbeiter wird der Cursor am rechten unteren Rand platziert, sodass der Bearbeiter separat hinzugefügt. Hierzu wird die Schriftgröße von 18 Punkt auf 12 Punkt verändert. Die Angabe der Schriftgröße erfolgt als eigene Schriftart mit der Größe angehangen. Zuletzt wird das Display ausgeschaltet und in den Deep Sleep versetzt, um Strom bis zur nächsten Aktualisierung zu speichern.
+		\begin{figure}[H] 
+  			\centering
+    		\includegraphics[height=0.4\textheight]{storyHead}
+  			\caption{Terminalcode mit Instanzierung von globalen Variablen. Hinweis: SSID und Passwort des Drahtlosnetzwerkes wurden aus datenschutzrechtlichen Gründen entfernt.}
+  			\label{fig:storyHead}
+		\end{figure}
+		\noindent Auch für die Karte wird zu Beginn eine serielle Verbindung zum Logging hergestellt, der Interrupt-Pin definiert und eine WLAN-Verbindung aufgebaut. Bereits in der setup-Methode wird ein GET-Request an den Server gesendet. In diesem Request übergibt die Karte ihre ID an den Server und fragt an, ob im JIRA eine Story für die Karte hinterlegt ist. Der genaue Prozess seitens des JIRA wird in Kapitel XX erläutert. Die empfangenen Daten werden in der zuvor beschriebenen JSON-Variablen gespeichert. Ein Beispiel für eine solche JSON-Struktur findet sich in Anhang //XYZ//. \\
+		\begin{figure}[H] 
+  			\centering
+    		\includegraphics[height=0.6\textheight]{storySetup}
+  			\caption{Kartencode der Setup-Methode}
+  			\label{fig:storySetup}
+		\end{figure}
+		\noindent In der Loop-Methode befindet sich ausschließlich der Workflow bei Drücken des Buttons. Das bedeutet, dass sich die Karte nur bei Knopfdruck verändert. Dazu wird wie beim Terminal eine Variable abgefragt, die in der ISR für den Button verändert wird. Wenn der Button gedrückt wurde und eine WLAN-Verbindung besteht, wird der aktuelle Status des Dailies vom Server abgefragt. Das bedeutet, dass der Server prüft, ob aktuell eine Person am Terminal angemeldet ist oder nicht. Abhängig von der Antwort des Server führt die Karte verschiedene Aktionen durch. \\
+		\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.7\textheight]{storyLoop1}
+  				\caption{Kartencode der Loop-Methode, Teil 1}
+  				\label{fig:storyLoop1}
+			\end{figure}
+			\noindent Ist kein Teammitglied am Terminal angemeldet, liefert der Server ''null'' zurück. Das bedeutet für die Karte, dass aktuell kein Daily stattfindet und dementsprechend auch der Status der Story nicht verändert werden muss. Wird der Button außerhalb eines Dailies gedrückt, soll sich die Karte aktualisieren und die aktuelle Story vom Server anfragen und auf dem Display anzeigen. Hierzu fragt die Karte wie in der Setup-Methode, ob für ihre ID eine Story hinterlegt ist. Das vom Server empfangene JSON wird dann gespeichert und die Karte mit der Story in der Methode ''drawStory'' beschrieben, näheres dazu siehe unten. \\
+			 \begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.7\textheight]{storyLoop2}
+  				\caption{Kartencode der Loop-Methode, Teil 2}
+  				\label{fig:storyLoop2}
+			\end{figure}
+			\noindent Für den Fall, dass der Button im Daily betätigt wird, soll sich der Status der Karte verändern und die Story dem angemeldeten Teammitglied zugewiesen werden. Zu Beginn wird die Variable ''abbreviation'' geprüft, die das Kürzel der Story gespeichert. Ist kein Kürzel vorhanden, gibt es auch keine anzupassende Story. Ist jedoch ein Kürzel vorhanden, wird ein PUT-Request an den Ressource ''/status/issueID'' gesendet, wobei issueID das Kürzel der Story beinhaltet. Das Verändern des Status, sowie die Zuweisung im JIRA übernimmt der Server. Zuletzt wird die Karte aktualisiert, um die neuen Änderungen anzuzeigen. Nach erfolgreicher Ausführung der jeweiligen Aktion muss der Mikrocontroller der Karte neu gestartet werden, siehe dazu auch Kapitel \ref{logicTerminal}. \\
+			 \begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.5\textheight]{storyHelper}
+  				\caption{Kartencode der drawStory-Methode}
+  				\label{fig:storyHelper}
+			\end{figure}
+			\noindent Um das Display mit neuen Informationen zu beschreiben gibt es die Methode ''drawStory''. Diese erhält den Titel, die Abkürzung und den Bearbeiter der Story und zeigt diese auf dem Display an. Dazu werden verschiedene Methoden der GxEPD2-Bibliothek verwendet, die den Umgang und die Nutzung des Displays vereinfachen. Zu Beginn wird das Display auf einer bestimmten Baud-Rate initiiert, sowie Schriftart, Schriftfarbe und Grenzen des Textes festgelegt. Das Display wird zunächst weiß gefüllt, um die bisherige Anzeige zu überschreiben. Daraufhin wird der Cursor 50 Pixel vom linken Rand entfernt platziert und die Abkürzung ausgegeben. In der nächsten Zeile folgt der Titel der Story. Für den Bearbeiter wird der Cursor am rechten unteren Rand platziert, sodass der Bearbeiter separat hinzugefügt. Hierzu wird die Schriftgröße von 18 Punkt auf 12 Punkt verändert. Die Angabe der Schriftgröße erfolgt als eigene Schriftart mit der Größe angehangen. Zuletzt wird das Display ausgeschaltet und in den Deep Sleep versetzt, um Strom bis zur nächsten Aktualisierung zu speichern.
 		\subsection{Umsetzung eines NodeJS-Servers als Verbindung zwischen Board und JIRA} \label{implServer}
 			\subsubsection{Erstellung von REST-URIs als Schnittstelle für digitale Karte und Anmeldeterminal} \label{ressourcenServer}
 			\subsubsection{Schnittstellen zur JIRA Server platform REST-API}
