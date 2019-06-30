@@ -309,14 +309,14 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 			Das Display muss zu Beginn initialisiert werden, hierzu werden einige frei wählbare Pins übergeben. Darüber hinaus werden globale Variablen für die WLAN-Verbindung, den Button und Interrupt-Pin festgelegt, wie beim Terminal. Die Karte erhält zusätzlich eine eigene ID. Diese ist nötig, um vom Server erkannt und identifiziert zu werden. Da die Abkürzung der Story aus verschiedenen Methoden aufgerufen wird, wird sie global deklariert und beim Laden einer Story befüllt. Ebenfalls wird ein JSON-Objekt initiiert und 2048 Byte für dieses reserviert. Zusätzlich wird die Methode zum Zeichnen von Stories und zum Neustart des Boards deklariert. \\
 		\begin{figure}[H] 
   			\centering
-    		\includegraphics[height=0.4\textheight]{storyHead}
+    		\includegraphics[height=0.5\textheight]{storyHead}
   			\caption{Terminalcode mit Instanzierung von globalen Variablen. Hinweis: SSID und Passwort des Drahtlosnetzwerkes wurden aus datenschutzrechtlichen Gründen entfernt.}
   			\label{fig:storyHead}
 		\end{figure}
 		\noindent Auch für die Karte wird zu Beginn eine serielle Verbindung zum Logging hergestellt, der Interrupt-Pin definiert und eine WLAN-Verbindung aufgebaut. Bereits in der setup-Methode wird ein GET-Request an den Server gesendet. In diesem Request übergibt die Karte ihre ID an den Server und fragt an, ob im JIRA eine Story für die Karte hinterlegt ist. Der genaue Prozess seitens des JIRA wird in Kapitel XX erläutert. Die empfangenen Daten werden in der zuvor beschriebenen JSON-Variablen gespeichert. Ein Beispiel für eine solche JSON-Struktur findet sich in Anhang //XYZ//. \\
 		\begin{figure}[H] 
   			\centering
-    		\includegraphics[height=0.6\textheight]{storySetup}
+    		\includegraphics[height=0.5\textheight]{storySetup}
   			\caption{Kartencode der Setup-Methode}
   			\label{fig:storySetup}
 		\end{figure}
