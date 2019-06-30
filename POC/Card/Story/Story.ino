@@ -10,8 +10,7 @@
 #include <ESP8266HTTPClient.h>;
 
 #if defined (ESP8266)
-GxEPD2_3C < GxEPD2_420c, GxEPD2_420c::HEIGHT / 2 > display
-  (GxEPD2_420c(/*CS=D8*/ SS, /*DC=D3*/ 0, /*RST=D4*/ 2, /*BUSY=D2*/ 4));
+GxEPD2_3C < GxEPD2_420c, GxEPD2_420c::HEIGHT / 2 > display(GxEPD2_420c(/*CS=D8*/ SS, /*DC=D3*/ 0, /*RST=D4*/ 2, /*BUSY=D2*/ 4));
 #endif
 
 const char* ssid = "kernarea.de/BYOD";
