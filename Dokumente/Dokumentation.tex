@@ -344,9 +344,34 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 			\noindent Um das Display mit neuen Informationen zu beschreiben gibt es die Methode ''drawStory''. Diese erhält den Titel, die Abkürzung und den Bearbeiter der Story und zeigt diese auf dem Display an. Dazu werden verschiedene Methoden der GxEPD2-Bibliothek verwendet, die den Umgang und die Nutzung des Displays vereinfachen. Zu Beginn wird das Display auf einer bestimmten Baud-Rate initiiert, sowie Schriftart, Schriftfarbe und Grenzen des Textes festgelegt. Das Display wird zunächst weiß gefüllt, um die bisherige Anzeige zu überschreiben. Daraufhin wird der Cursor 50 Pixel vom linken Rand entfernt platziert und die Abkürzung ausgegeben. In der nächsten Zeile folgt der Titel der Story. Für den Bearbeiter wird der Cursor am rechten unteren Rand platziert, sodass der Bearbeiter separat hinzugefügt. Hierzu wird die Schriftgröße von 18 Punkt auf 12 Punkt verändert. Die Angabe der Schriftgröße erfolgt als eigene Schriftart mit der Größe angehangen. Zuletzt wird das Display ausgeschaltet und in den Deep Sleep versetzt, um Strom bis zur nächsten Aktualisierung zu speichern.
 		\subsection{Umsetzung eines NodeJS-Servers als Verbindung zwischen Board und JIRA} \label{implServer}
 			\subsubsection{Erstellung von REST-URIs als Schnittstelle für digitale Karte und Anmeldeterminal} \label{ressourcenServer}
-			Zur Kommunikation mit Karte und Terminal stellt der Server mehrere Pfade und REST-Ressourcen zur Verfügung, die über HTTP-Requests angesprochen werden können. 
+			Zur Kommunikation mit Karte und Terminal stellt der Server mehrere Pfade und REST-Ressourcen zur Verfügung, die über HTTP-Requests angesprochen werden können. Die Response-Daten vom Server werden stets als JSON (content-type: application/json) zur Verfügung gestellt. Die verschiedenen JSON-Strukturen werden in Anhang //XX// aufgelistet. Vara \\ \\
+			Die Ressource ''/card/issue/:issueID''
 			\subsubsection{Tabellarische Auflistung der REST-URIs}
+			Die zuvor erläuterten Ressourcen werden in der folgenden Tabelle mit einer kurzen Beschreibung und ihrer REST-Methode aufgelistet. 
+			\begin{table}[H]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Ressource}  & \textbf{Methode} & \textbf{Beschreibung}                                 \\ \hline
+/card/issue/:cardId & GET              & Ermittlung der der Karte zugewiesenen Story im JIRA   \\ \hline
+/issue/:issueId       & GET              & Ermittlung einer Story anhand ihrer Abkürzung         \\ \hline
+/status/:issueId      & PUT              & Verändert den Status und Bearbeiter einer Story       \\ \hline
+/login/:userId      & PUT              & Meldet ein Teammitglied zum Daily am Board an         \\ \hline
+/logoff             & PUT              & Meldet ein angemeldetes Teammitglied wieder ab         \\ \hline
+/dailyStatus        & GET              & Ermittelt, ob und welches Teammitglied angemeldet ist \\ \hline
+\end{tabular}
+\end{table}
 			\subsubsection{Schnittstellen zur JIRA Server platform REST-API}
+			In der folgenden Tabelle werden die Ressourcen der JIRA Server platform API aufgelistet, die vom Server angefragt und verwendet werden.
+			\begin{table}[H]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Ressource}                & \textbf{Methode} & \textbf{Beschreibung}                         \\ \hline
+/search?jql=card\_id$\sim$:cardId & GET              & Suche von Stories mit einer KartenID          \\ \hline
+/issue/:issueId                   & GET              & Ermittlung einer Story anhand ihrer Abkürzung \\ \hline
+/issue/:issueId/transitions       & POST             & Verändert den Status einer Story              \\ \hline
+/issue/:issueId                   & PUT              & Verändert den Bearbeiter einer Story          \\ \hline
+\end{tabular}
+\end{table}
 			\newpage
 	\section{Evaluation anhand der User Stories}
 			\subsection{Produktivitätssteigerung}
