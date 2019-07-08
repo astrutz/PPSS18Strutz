@@ -4,12 +4,11 @@ const fs = require('fs');
 var myParser = require("body-parser");
 let activeUser = "null";
 let app = express();
-let issueID = '';
+let issueId = '';
 let PORT = process.env.PORT || 3000;
 app.use(myParser.json({extended: true}));
 
 app.get('/card/issue/:cardId', function (req, res) {
-    //TODO: Get all active stories, check the custom field and find the one for the id and save in issueID
     axios({
         method: 'get',
         url: 'https://jira.kernarea.de/rest/api/2/search?jql=card_id~' + req.params.cardId,
@@ -17,53 +16,44 @@ app.get('/card/issue/:cardId', function (req, res) {
             username: 'astrutz',
             password: 'Tanacu12345!'
         }
-    })
-        .then(function (response) {
-            issueID = response.data['issues'][0]['key'];
-            axios({
-                method: 'get',
-                url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueID,
-                auth: {
-                    username: 'astrutz',
-                    password: 'Tanacu12345!'
-                }
-            }).then(function (response) {
-                res.send(filterData(response.data["fields"], issueID));
-            });
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-        })
+    }).then(function (response) {
+        issueId = response.data['issues'][0]['key'];
+        axios({
+            method: 'get',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/' + issueId,
+            auth: {
+                username: 'astrutz',
+                password: 'Tanacu12345!'
+            }
+        }).then(function (response) {
+            res.send(filterData(response.data["fields"], issueId));
+        });
+    }).catch(function (error) {
+        console.log(error);
+    });
 });
 
-app.get('/issue/:issue', function (req, res) {
-
+app.get('/issue/:issueId', function (req, res) {
     axios({
         method: 'get',
-        url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue,
+        url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issueId,
         auth: {
             username: 'astrutz',
             password: 'Tanacu12345!'
         }
-    })
-        .then(function (response) {
-            res.send(filterData(response.data["fields"], req.params.issue));
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-        });
+    }).then(function (response) {
+        res.send(filterData(response.data["fields"], req.params.issueId));
+    }).catch(function (error) {
+        console.log(error);
+    });
 });
 
-app.put('/status/:issue', function (req, res) {
+app.put('/status/:issueId', function (req, res) {
     if (activeUser !== "null") {
-        let transitionId = increaseStatus(req.params.issue);
+        let transitionId = increaseStatus(req.params.issueId);
         axios({
             method: 'post',
-            url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue + '/transitions?expand=transitions.fields',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issueId + '/transitions?expand=transitions.fields',
             auth: {
                 username: 'astrutz',
                 password: 'Tanacu12345!'
@@ -74,15 +64,12 @@ app.put('/status/:issue', function (req, res) {
                 }
             }
         }).then(function (response) {
-
         }).catch(function (error) {
             console.error(error['response']['data']['errorMessages']);
         }).then(function () {
-
-
             axios({
                 method: 'put',
-                url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issue,
+                url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issueId,
                 auth: {
                     username: 'astrutz',
                     password: 'Tanacu12345!'
@@ -95,29 +82,18 @@ app.put('/status/:issue', function (req, res) {
                     }
                 }
             }).then(function (response) {
-
             }).catch(function (error) {
                 console.error(error['response']['data']['errorMessages']);
-            }).then(function () {
-
             });
-
-            let responseString = "Forwarding status of " + req.params.issue + " assigned to " + activeUser;
-            console.log(responseString);
+            let responseString = "Forwarding status of " + req.params.issueId + " assigned to " + activeUser;
             res.send(responseString);
         });
-
-        //no user logged in, look for new issues on the
-    } else {
-
     }
-
 });
 
-app.put('/login/:id', async function (req, res) {
-    activeUser = getUserById(req.params.id);
+app.put('/login/:userId', async function (req, res) {
+    activeUser = getUserById(req.params.userId);
     let responseString = "User " + activeUser + " logged in successfully";
-    console.log(responseString);
     res.send(responseString);
     await startDaily();
 });
@@ -125,7 +101,6 @@ app.put('/login/:id', async function (req, res) {
 app.put('/logoff', function (req, res) {
     let responseString = "User " + activeUser + " logged off successfully";
     activeUser = "null";
-    console.log(responseString);
     res.send(responseString);
 });
 
@@ -202,10 +177,10 @@ function increaseStatus(abbreviation) {
     }
 }
 
-function getUserById(id) {
+function getUserById(userId) {
     let userMap = JSON.parse(fs.readFileSync("rfidUser.json", 'UTF8'));
     for (let i in userMap['user']) {
-        if (userMap['user'][i]['id'] === id) {
+        if (userMap['user'][i]['id'] === userId) {
             return userMap['user'][i]['name'];
         }
     }
