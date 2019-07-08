@@ -39,7 +39,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	Im Folgenden wird eine Einleitung in die Domäne, die Problemstellung mit ihren Folgen, sowie den verwendeten Paradigmen gegeben. Anschließend wird aus dieser Recherche eine Forschungsfrage abgeleitet.
 		\subsection{Problemstellung und entstehende Folgen} \label{Problemstellung}
 		Durch die Nutzung eines analogen Boards in der Nähe des Teams und eines digitalen Boards zur Sichtbarkeit beim Kunden treten Inkonsistenzen zwischen den Boards auf. Das Umhängen einer Story im Daily kann von einem System wie JIRA nicht erkannt werden. Somit muss der Status hier nachträglich verändert werden. Ebenso sieht es bei Änderungen im JIRA aus. Hierbei kann sich nicht nur der Status, sondern auch der Titel der Story, die Schätzung oder der Bearbeiter ändern. Dadurch muss die Story unter Umständen nicht nur verschoben, sondern durch den Scrum Master komplett neu ausgedruckt werden. \\ \\
-		Doch selbst wenn ein Board durch das Team stets synchron gehalten wird, können Probleme aufkommen. So werden Stories auf dem physischen Board nur im Daily verändert, während dies z.B. im JIRA ständig möglich ist. Daher muss man entweder im Daily das physische Board an das digitale Board angleichen oder das digitale auch erst im Daily aktualisieren. Die direkte Aktualisierung des digitalen Boards stellt jedoch einen Konflikt mit dem Scrum Guide dar, da dieser vorgibt, dass das Daily „ein entscheidendes Meeting zur Überprüfung und Anpassung“ ist \cite{guide}. Die zweite Möglichkeit das digitale Board auch im Daily zu aktualisieren bringt neue Probleme mit sich. Zum einen muss sich ein Entwickler bei der Bearbeitung verschiedener Stories stets den aktuellen Status notieren, um im Daily nicht in Gefahr zu kommen etwas zu vergessen. Hierdurch entsteht ein Mehraufwand. Auch verringert so ein Vorgehen die Sichtbarkeit und Aktualität beim Kunden.	
+		Doch selbst wenn ein Board durch das Team stets synchron gehalten wird, können Probleme aufkommen. So werden Stories auf dem physischen Board nur im Daily verändert, während dies z.B. im JIRA ständig möglich ist. Daher muss man entweder im Daily das physische Board an das digitale Board angleichen oder das digitale auch erst im Daily aktualisieren. Die direkte Aktualisierung des digitalen Boards stellt jedoch einen Konflikt mit dem Scrum Guide dar, da dieser vorgibt, dass das Daily ''ein entscheidendes Meeting zur Überprüfung und Anpassung'' ist \cite{guide}. Die zweite Möglichkeit das digitale Board auch im Daily zu aktualisieren bringt neue Probleme mit sich. Zum einen muss sich ein Entwickler bei der Bearbeitung verschiedener Stories stets den aktuellen Status notieren, um im Daily nicht in Gefahr zu kommen etwas zu vergessen. Hierdurch entsteht ein Mehraufwand. Auch verringert so ein Vorgehen die Sichtbarkeit und Aktualität beim Kunden.	
 		\\ \\
 		Eine direkte Folge des doppelten Boards ist der Mehraufwand, der für den Scrum Master und das Team entsteht. Denn jede Änderung des Status, muss sowohl im Daily, als auch auf dem digitalen Board vorgenommen werden. Jede andere Änderung bedarf weiteren Aufwand durch den Scrum Master. Da dieser Aufwand nicht auf einen Kunden abrechenbar ist, entsteht hiermit auch ein finanzieller Aufwand seitens des Unternehmens. Durch eine analoge Synchronisierung können sich Fehler ergeben. So kann ein Teammitglied vergessen eine Änderung ans physische Board zu übertragen, wodurch Inkonsistenzen entstehen können. Daraus kann eine Fehlkommunikation mit dem Kunden entstehen. So könnten Kunden falsche Stände erhalten und fälschlicherweise unzufrieden mit der Leistung des Teams sein. \\ \\
 		Außerhalb des zeitlichen und finanziellen Aufwands steht diese Vorgehensweise in Konflikt mit dem Scrum Guide. Wie in Kapitel \ref{Einleitung} beschrieben soll der Fokus auf Interaktion statt auf Tools liegen. Durch die intensive Administration beider Boards werden hierbei Tools in den Vordergrund gestellt, was dem Scrum Guide widerspricht.
@@ -145,7 +145,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		Bisher sind physische Boards in ihren Funktionalitäten sehr beschränkt, insbesondere im Vergleich zu JIRA. Das Team kann unterstützt werden, indem häufig getätigte Interaktionen am digitalen Board auch am physischen Board verfügbar sind. Hilfreich ist hier die Zuweisung des Bearbeiters, da sich dieser oft im Daily ergibt, wenn die aktuellen Aufgaben für den Tag festgelegt werden. 
 	\newpage
 	\section{Definition von Anforderungen an das System in Form von User Stories}
-	Im Folgenden werden aus den Alleinstellungsmerkmalen Anforderungen definiert. Diese werden als User Stories nach dem Template von Mike Cohn beschrieben \cite{template}. Die User Stories sind die Grundlage zu Diskussion der XXXEvaluiation in Kapitel xyz. \\ \\
+	Im Folgenden werden aus den Alleinstellungsmerkmalen Anforderungen definiert. Diese werden als User Stories nach dem Template von Mike Cohn beschrieben \cite{template}. Die User Stories sind die Grundlage zu Diskussion der Evaluation in Kapitel \ref{Eval}. \\ \\
 	\textbf{Story einer Karte zuweisen} \\
 	Als Scrum Master möchte ich einer digitalen Karte eine Story aus dem JIRA zuweisen, um den Sprint vorzubereiten und ein Abbild des digitalen Boards auf dem physischen Boards zu sehen. \\ \\
 	\textit{Akzeptanzkriterien}
@@ -246,7 +246,7 @@ Daher eignen sich e-Ink Displays sehr gut für eine längere Nutzung, insbesonde
 			\subsubsection{RFID}
 			RFID-Reader können entsprechende Tags auf sehr kurzer Zeit erkennen und ihre ID auslesen. Daher wäre es auch möglich das Board mit RFID-Folie zu bekleben und die Karten mit Reader auszustatten. Je nach dem um welche Spalte es sich handelt, besitzt diese eine andere ID. Sobald der Reader in der Karte eine neue ID erkennt, leitet er diese an den Server weiter, der dementsprechend den Status der Story verändert. Die Präparierung des Boards wäre ein aufwendiger Prozess. Auch müsste so jede Karte einen RFID-Leser besitzen, wodurch die Karte größer und unhandlicher wird. Außerdem steigt der Stromverbrauch der Karte.
 			\subsubsection{Vibrationssensor}
-			Vibrationssensoren messen die Erschütterung und geben diese als analogen Wert an einen Mikrocontroller weiter. Je höher die Bewegung, desto höher der entsprechende Wert. Ein solcher Sensor könnte in einer Karte angebracht werden. Wenn eine Karte z.B. in To Do hängt und der Vibrationssensor eine Bewegung vermerkt, kann die Karte diese an den Server weiterleiten. Der Server ändert den Status im JIRA dann auf „In Work“. Um die Interpretation von allgemeinen Erschütterungen nicht als Statusveränderung zu interpretieren, wird der Sensor erst aktiv, wenn sich ein Teammitglied per RFID am Daily anmeldet. Ein großes Problem ist hier das Zurückstellen von Stories und Karten. So kann ein Teammitglied eine Karte nicht in einen vorherigen Status überführen. Außerdem gibt es Dailies, in denen die Teammitglieder die Karte in die Hand nehmen über die sie reden, obwohl sie den Status nicht verändern. Aufgrund dieser Fehleranfälligkeit eignen sich Vibrationssensoren nicht.
+			Vibrationssensoren messen die Erschütterung und geben diese als analogen Wert an einen Mikrocontroller weiter. Je höher die Bewegung, desto höher der entsprechende Wert. Ein solcher Sensor könnte in einer Karte angebracht werden. Wenn eine Karte z.B. in To Do hängt und der Vibrationssensor eine Bewegung vermerkt, kann die Karte diese an den Server weiterleiten. Der Server ändert den Status im JIRA dann auf ''In Work''. Um die Interpretation von allgemeinen Erschütterungen nicht als Statusveränderung zu interpretieren, wird der Sensor erst aktiv, wenn sich ein Teammitglied per RFID am Daily anmeldet. Ein großes Problem ist hier das Zurückstellen von Stories und Karten. So kann ein Teammitglied eine Karte nicht in einen vorherigen Status überführen. Außerdem gibt es Dailies, in denen die Teammitglieder die Karte in die Hand nehmen über die sie reden, obwohl sie den Status nicht verändern. Aufgrund dieser Fehleranfälligkeit eignen sich Vibrationssensoren nicht.
 			\subsubsection{Infrarot}
 			Infrarotsensoren messen eine Infrarotstrahlung und geben die entsprechende Frequenz zurück. Wenn man das Board mit Infrarotsendern (beispielsweise über jeder Spalte in Richtung Boden) auf verschiedenen Frequenzen ausstattet, könnte man diese Strahlung über die Karte auslesen. Allerdings ist dieses Verfahren ungenau, da die Sender die Strahlen nicht gezielt nach unten strahlen können, sondern sie eher streuen, wie z.B. bei Lampen. Daher ließe sich zwar mit einem Sensor eine Strahlung messen, jedoch könnte man diese nicht exakt einem Sensor zuordnen, wodurch diese Methode zu fehleranfällig ist.
 			\subsubsection{Bluetooth Beacons}
@@ -258,8 +258,9 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 		\subsection{Server} \label{techserver}
 		Boards wie das ESP8266 besitzen einen verhältnismäßig geringen Speicher und können keine aufwendigen Prozesse ausführen. Aus diesem Grund soll ein möglichst großer Teil der Anwendungslogik auf einen Server verlagert werden, der sowohl mit den einzelnen Karten als auch mit JIRA kommuniziert. Weitere Systeme, die in Zukunft an das neue Board verknüpft werden, sollten ebenfalls mit diesem Server kommunizieren. \\ \\
 		Es wird sich um einen REST-Server handeln, da sich der ESP8266 relativ einfach mit diesem verbinden kann \cite{nodemcuexamples}. Umgesetzt wird der Server im Javascript-Framework NodeJS mit Nutzung der Middleware Express. Über HTTP tauschen sich die Karte und das Terminal mit dem Server aus. Dazu stellt der Server verschiedene Endpunkte bereit, über die Daten gesendet und empfangen können. Die Daten werden im JSON-Format versendet, da sie sowohl vom Server, als auch von der Karte leicht zu verarbeiten sind \cite{arduinojson}. \\ \\
-		Die Kommunikation mit dem digitalen Board findet über die ''Jira Software Server REST API'' statt \cite{jiraapi}. Hier werden Informationen zu Stories und Unteraufgaben geladen, sowie Status und Bearbeiter von Stories und Unteraufgaben verändert und angepasst. Die Authentifizierung findet durch HTTP Basic mit SSL Verschlüsselung statt, wobei die Zugangsdaten auf dem Server gespeichert sind. Um Missbrauch durch Nutzung des Servers zu verhindern, muss sich dieser im selben Netz wie die Karte und das Terminal befinden und darf nicht von außen erreichbar sein. Ist dies doch der Fall, so müssen die Zugangsdaten in der Karte und dem Terminal gespeichert sein, sodass der Server diese an die JIRA API weiterleitet. Für den Prototyp reicht es aus die Daten serverseitig zu speichern und diesen nur in Betrieb zu nehmen, wenn das System getestet wird.
+		Die Kommunikation mit dem digitalen Board findet über die ''Jira Software Server REST API'' statt \cite{jiraapi}. Hier werden Informationen zu Stories und Unteraufgaben geladen, sowie Status und Bearbeiter von Stories und Unteraufgaben verändert und angepasst. Die Authentifizierung findet durch HTTP Basic mit SSL Verschlüsselung statt, wobei die Zugangsdaten auf dem Server gespeichert sind. Um Missbrauch durch Nutzung des Servers zu verhindern, muss sich dieser im selben Netz wie die Karte und das Terminal befinden und darf nicht von außen erreichbar sein. Ist dies doch der Fall, so müssen die Zugangsdaten in der Karte und dem Terminal gespeichert sein, sodass der Server diese an die JIRA API weiterleitet. Für den Prototyp reicht es aus die Daten serverseitig zu speichern und diesen nur in Betrieb zu nehmen, wenn das System getestet wird. Die Requests an das JIRA werden mit dem Node-Modul axios versendet \cite{npmaxios}.
 		\subsection{Auswahl der JIRA API zur Anbindung des digitalen Boards}
+		//WELCHE JIRA API SIEHE ISSUE IN GITHUB// \\ \\
 		Um das digitale Board in Form von JIRA mit der Karte zu verknüpfen muss es möglich sein einer Story eine Karte zuzuweisen. Dazu soll eine Story eine neue Eingabekomponente, ein sogenanntes ''Custom Field'', erhalten \cite{jiracustomfield}. In diesem Feld wird eine eindeutige ID eingetragen, die jede Karte vorher erhalten hat. So kann der Server die JIRA API nach einer Story und dem Custom Field anfragen und somit Karte und Story verbinden. 
 	\newpage
 	\section{Implementation des Prototypen}
@@ -313,7 +314,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
   			\caption{Terminalcode mit Instanzierung von globalen Variablen. Hinweis: SSID und Passwort des Drahtlosnetzwerkes wurden aus datenschutzrechtlichen Gründen entfernt.}
   			\label{fig:storyHead}
 		\end{figure}
-		\noindent Auch für die Karte wird zu Beginn eine serielle Verbindung zum Logging hergestellt, der Interrupt-Pin definiert und eine WLAN-Verbindung aufgebaut. Bereits in der setup-Methode wird ein GET-Request an den Server gesendet. In diesem Request übergibt die Karte ihre ID an den Server und fragt an, ob im JIRA eine Story für die Karte hinterlegt ist. Der genaue Prozess seitens des JIRA wird in Kapitel //XX// erläutert. Die empfangenen Daten werden in der zuvor beschriebenen JSON-Variablen gespeichert. Ein Beispiel für eine solche JSON-Struktur findet sich in Anhang \ref{ANHJSON}. \\
+		\noindent Auch für die Karte wird zu Beginn eine serielle Verbindung zum Logging hergestellt, der Interrupt-Pin definiert und eine WLAN-Verbindung aufgebaut. Bereits in der setup-Methode wird ein GET-Request an den Server gesendet. In diesem Request übergibt die Karte ihre ID an den Server und fragt an, ob im JIRA eine Story für die Karte hinterlegt ist. Der genaue Prozess seitens des Servers wird in Kapitel \ref{ressourcenServer} erläutert. Die empfangenen Daten werden in der zuvor beschriebenen JSON-Variablen gespeichert. Ein Beispiel für eine solche JSON-Struktur findet sich in Anhang \ref{ANHJSON}. \\
 		\begin{figure}[H] 
   			\centering
     		\includegraphics[height=0.5\textheight]{storySetup}
@@ -345,33 +346,68 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 		\subsection{Umsetzung eines NodeJS-Servers als Verbindung zwischen Board und JIRA} \label{implServer}
 			\subsubsection{Erstellung von REST-URIs als Schnittstelle für digitale Karte und Anmeldeterminal} \label{ressourcenServer}
 			Zur Kommunikation mit Karte und Terminal stellt der Server mehrere Pfade und REST-Ressourcen zur Verfügung, die über HTTP-Requests angesprochen werden können. Die Response-Daten vom Server werden stets als JSON (content-type: application/json) zur Verfügung gestellt. Die verschiedenen JSON-Strukturen werden in Anhang \ref{ANHJSON} aufgelistet. \\ \\
-			Die Ressource ''/card/issue/:cardId'' nimmt in der Variable ''cardId'' die ID einer Karte entgegen und liefert als Response die im JIRA zugewiesene Story zurück. Zuerst wird vom Server ein GET-Request an die JIRA API versendet, der einen Befehl in der ''JIRA Query Language'' (kurz JQL) enthält, der das gesamte JIRA nach Stories durchsucht, die das Feld ''card\_id'' enthalten und der ID der Karte entsprechen \cite{jql}. \\ \\
-			GET cardID Bild1 \\ \\
-			Da das Custom Field card\_id ein Freitextfeld ist, ist es möglich bei mehreren Stories die gleiche ID zu hinterlegen. Bei einer Suche mittels JQL werden alle Ergebnisse aufgelistet. Diese werden einer Relevanzsortierung durch das JIRA unterzogen bevor sie versendet werden. Das sorgt dafür, dass die Karte (meist) die Story enthält, die am aktuellsten ist. Für die weitere Sortierung wird hier eine zusätzliche Variable in der JIRA Query nötig sein, um hier auch die aktuellste Story zu garantieren. Generell empfiehlt es sich die card\_id nach der Nutzung der Karte wieder zu entfernen. \\ \\
-			GET cardID Bild2 \\ \\
-			In den Suchergebnissen erhält man entsprechende Stories und einige weitere Informationen. Allerdings fehlen in den Suchergebnissen Informationen zu Bearbeiter und Status. Daher wird das Kürzel der ersten Story der Suchergebnisse in der Variable ''issueId'' gespeichert. Daraufhin wird ein weiterer Request an die Ressource ''/issue/:issueId'' abgesendet mit der zuvor ermittelten Id. \\ \\
-			GET cardID filterData \\ \\
-			Da die Response jedoch sehr viele für die Karte irrelevante Informationen enthält, werden diese in der Funktion ''filterData'' gekürzt und lokal auf dem Server gespeichert. Das ist notwendig, um bei Knopfdruck und Statusänderung den aktuellen Status ohne API-Call zu ermitteln. Dazu wird in der Funktion ''updateLocalIssues'' lediglich das JSON der aktuellen Stories vom Server geladen und um die neu ermittelte Story erweitert, falls sie nicht schon vorhanden ist. Zuletzt werden die gefilterten Daten an die Karte gesendet, Struktur siehe Anhang \ref{ANHInfStory}. Die Ressource /issue/:issueId führt lediglich den zweiten Schritt aus und ermittelt Informationen zum Kürzel einer Story in der Variable issueId. \\ \\
-			Platz für Bild? \\ \\
-			Für das Ändern eines Status gibt es die PUT-Ressource „/status/:issueId“, wobei die „issueId“ das Kürzel der Story beschreibt. Zu Beginn wird ermittelt, ob ein Teammitglied zum Daily angemeldet ist. Dies ist in der Variable „activeUser“ festgehalten. Ist niemand zum Daily angemeldet, wird die Variable auf „null“ gesetzt. Der Status einer Story soll nur verändert werden können, wenn ein Daily stattfindet und somit jemand angemeldet ist. In diesem Fall wird zuerst anhand des Kürzels der aktuelle Status ermittelt, indem die lokal gespeicherten Stories nach der issueId durchsucht werden und der Status gesucht wird. In JIRA geschieht dies durch sogenannte Transitions, die in jedem JIRA-Projekt selbst du den Administrator definiert werden können (REF). Jede diese Transitions hat eine eindeutige ID. Auf dem Server ist die Zuordnung von Status zu TransitionId in Form eines JSON gespeichert, siehe Anhang \ref{ANHTransi}. Der Server findet die TransitionId des nächsten Status und speichert diese in der Variable „transitionId“. \\ \\
-			Bild 1 von /status/issue \\ \\
-			Mit dieser ID wird die POST-Ressource „/issue/:issueId/transitions“ der JIRA API aufgerufen und die neue Transition übergeben. Daraufhin wird (unabhängig vom Erfolg des vorherigen Requests) der neue Bearbeiter der Story über die PUT-Ressource „issue/:issueId“ und dem übergebenen Feld „assignee“ geändert. Falls bereits ein Bearbeiter für diese Story vorhanden ist, wird dieser überschrieben. Zuletzt wird als Response eine Erfolgsmeldung mit dem Kürzel der Story und dem Bearbeiter an die Karte gesendet. \\ \\
-			Bild 2 von status/issue \\ \\
-			Für die Karte gibt es drei verschiedene Ressourcen. Zum Anmelden eines Teammitgliedes wird die PUT-Ressource „/login/:userId“ verwendet. Die „userId“ entspricht hierbei der UID des entsprechenden RFID-Tags. Die Zuordnung von userId und Benutzernamen im JIRA ist serverseitig in einem JSON gespeichert, siehe dazu Anhang \ref{ANHUser}. Die Funktion „getUserById“ nutzt diese Zuordnung und gibt den JIRA-Benutzernamen zurück, welcher dann als activeUser gesetzt wird. Eine Erfolgsmeldung mit dem angemeldeten Teammitglied wird zurück an das Terminal gesendet. Zuletzt wird die Funktion „startDaily“ aufgerufen, die als asynchronen Prozess einen Timer von 10 Minuten verstreichen lässt, bevor sie den activeUser zurück auf „null“ setzt und das Teammitglied somit automatisch nach 10 Minuten abmeldet. \\ \\
-			Bild von login/logoff/dailyStatus \\ \\
-			Durch Knopfdruck am Terminal kann ein Teammitglied auch manuell abgemeldet werden. Hierzu wird die PUT-Ressource „/logoff“ zur Verfügung gestellt. Sie setzt den activeUser direkt auf „null“ und gibt eine Erfolgsmeldung zurück. Falls noch ein Timer läuft, wird dieser weiter ausgeführt und setzt nach Ablauf ebenfalls „null“. Falls sich nach einem Abmelden erneut ein Teammitglied anmeldet, wird der Timer neu gestartet, sodass das Teammitglied trotzdem zehn Minuten angemeldet bleibt. Um nun zu ermitteln, ob jemand angemeldet ist, gibt es die GET-Ressource „/dailyStatus“. Diese gibt als Response lediglich den activeUser zurück. Dies ist für die Karte bei Knopfdruck relevant, aber darüber hinaus auch zum Testen des Servers hilfreich. Die weiteren Helfermethoden, globalen Variablen und Instanzierungen des Server wurden in diesem Kapitel nicht näher erläutert, sind aber in Anhang \ref{ANHServerHead} zu finden.
+			Die Ressource ''/card/issue/:cardId'' nimmt in der Variable ''cardId'' die ID einer Karte entgegen und liefert als Response die im JIRA zugewiesene Story zurück. Zuerst wird vom Server ein GET-Request an die JIRA API versendet, der einen Befehl in der ''JIRA Query Language'' (kurz JQL) enthält, der das gesamte JIRA nach Stories durchsucht, die das Feld ''card\_id'' enthalten und der ID der Karte entsprechen \cite{jql}.
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.5\textheight]{serverCardIssue}
+  				\caption{Servercode der ''card/issue''-Ressource, Teil 1. Hinweis: URL des JIRA, Nutzername und Passwort wurden aus datenschutzrechtlichen Gründen entfernt.}
+  				\label{fig:serverCardIssue}
+			\end{figure}
+			\noindent Da das Custom Field card\_id ein Freitextfeld ist, ist es möglich bei mehreren Stories die gleiche ID zu hinterlegen. Bei einer Suche mittels JQL werden alle Ergebnisse aufgelistet. Diese werden einer Relevanzsortierung durch das JIRA unterzogen bevor sie versendet werden. Das sorgt dafür, dass die Karte (meist) die Story enthält, die am aktuellsten ist. Für die weitere Sortierung wird hier eine zusätzliche Variable in der JIRA Query nötig sein, um hier auch die aktuellste Story zu garantieren. Generell empfiehlt es sich die card\_id nach der Nutzung der Karte wieder zu entfernen.
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.3\textheight]{serverIssue}
+  				\caption{Servercode der ''/issue''-Ressource. Hinweis: URL des JIRA, Nutzername und Passwort wurden aus datenschutzrechtlichen Gründen entfernt.}
+  				\label{fig:serverIssue}
+			\end{figure}
+			\noindent In den Suchergebnissen erhält man entsprechende Stories und einige weitere Informationen. Allerdings fehlen in den Suchergebnissen Informationen zu Bearbeiter und Status. Daher wird das Kürzel der ersten Story der Suchergebnisse in der Variable ''issueId'' gespeichert. Daraufhin wird ein weiterer Request an die Ressource ''/issue/:issueId'' abgesendet mit der zuvor ermittelten ID. \\ \\
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.5\textheight]{serverFilterData}
+  				\caption{Servercode der ''filterData''-Methode}
+  				\label{fig:serverFilterData}
+			\end{figure}
+			\noindent Da die Response jedoch sehr viele für die Karte irrelevante Informationen enthält, werden diese in der Funktion ''filterData'' gekürzt und lokal auf dem Server gespeichert. Das ist notwendig, um bei Knopfdruck und Statusänderung den aktuellen Status ohne API-Call zu ermitteln und somit Wartezeit zu sparen. Dazu wird in der Funktion ''updateLocalIssues'' lediglich das JSON der aktuellen Stories vom Server geladen und um die neu ermittelte Story erweitert, falls sie nicht schon vorhanden ist. Zuletzt werden die gefilterten Daten an die Karte gesendet, Struktur siehe Anhang \ref{ANHInfStory}. Die Ressource /issue/:issueId führt lediglich den zweiten Schritt aus und ermittelt Informationen zum Kürzel einer Story in der Variable issueId.
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.4\textheight]{serverStatus1}
+  				\caption{Servercode der ''/status''-Ressource, Teil 1. Hinweis: URL des JIRA, Nutzername und Passwort wurden aus datenschutzrechtlichen Gründen entfernt.}
+  				\label{fig:serverStatus1}
+			\end{figure}
+			\noindent Für das Ändern eines Status gibt es die PUT-Ressource ''/status/:issueId'', wobei die ''issueId'' das Kürzel der Story beschreibt. Zu Beginn wird ermittelt, ob ein Teammitglied zum Daily angemeldet ist. Dies ist in der Variable ''activeUser'' festgehalten. Ist niemand zum Daily angemeldet, wird die Variable auf ''null'' gesetzt. Der Status einer Story soll nur verändert werden können, wenn ein Daily stattfindet und somit jemand angemeldet ist. In diesem Fall wird zuerst anhand des Kürzels der aktuelle Status ermittelt, indem die lokal gespeicherten Stories nach der issueId durchsucht werden und der Status gesucht wird. In JIRA geschieht dies durch sogenannte Transitions, die in jedem JIRA-Projekt selbst du den Administrator definiert werden können (REF). Jede diese Transitions hat eine eindeutige ID. Auf dem Server ist die Zuordnung von Status zu TransitionId in Form eines JSON gespeichert, siehe Anhang \ref{ANHTransi}. Der Server findet die TransitionId des nächsten Status und speichert diese in der Variable ''transitionId''. 
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.5\textheight]{serverStatus2}
+  				\caption{Servercode der ''/status''-Ressource, Teil 2. Hinweis: URL des JIRA, Nutzername und Passwort wurden aus datenschutzrechtlichen Gründen entfernt.}
+  				\label{fig:serverStatus2}
+			\end{figure}
+			\noindent Mit dieser ID wird die POST-Ressource ''/issue/:issueId/transitions'' der JIRA API aufgerufen und die neue Transition übergeben. Daraufhin wird (unabhängig vom Erfolg des vorherigen Requests) der neue Bearbeiter der Story über die PUT-Ressource ''issue/:issueId'' und dem übergebenen Feld ''assignee'' geändert. Falls bereits ein Bearbeiter für diese Story vorhanden ist, wird dieser überschrieben. Zuletzt wird als Response eine Erfolgsmeldung mit dem Kürzel der Story und dem Bearbeiter an die Karte gesendet. 
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.4\textheight]{serverLoginLogoff}
+  				\caption{Servercode der ''/login'', ''/logoff'' und ''/dailyStatus''-Ressourcen}
+  				\label{fig:serverLoginLogoff}
+			\end{figure}
+			\noindent Für die Karte gibt es drei verschiedene Ressourcen. Zum Anmelden eines Teammitgliedes wird die PUT-Ressource ''/login/:userId'' verwendet. Die ''userId'' entspricht hierbei der UID des entsprechenden RFID-Tags. Die Zuordnung von userId und Benutzernamen im JIRA ist serverseitig in einem JSON gespeichert, siehe dazu Anhang \ref{ANHUser}. Die Funktion ''getUserById'' nutzt diese Zuordnung und gibt den JIRA-Benutzernamen zurück, welcher dann als activeUser gesetzt wird. Eine Erfolgsmeldung mit dem angemeldeten Teammitglied wird zurück an das Terminal gesendet. Zuletzt wird die Funktion ''startDaily'' aufgerufen, die als asynchronen Prozess einen Timer von 10 Minuten verstreichen lässt, bevor sie den activeUser zurück auf ''null'' setzt und das Teammitglied somit automatisch nach 10 Minuten abmeldet.
+			\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.18\textheight]{serverStartDaily}
+  				\caption{Servercode der ''startDaily''-Funktion}
+  				\label{fig:serverStartDaily}
+			\end{figure}
+			\noindent Durch Knopfdruck am Terminal kann ein Teammitglied auch manuell abgemeldet werden. Hierzu wird die PUT-Ressource ''/logoff'' zur Verfügung gestellt. Sie setzt den activeUser direkt auf ''null'' und gibt eine Erfolgsmeldung zurück. Falls noch ein Timer läuft, wird dieser weiter ausgeführt und setzt nach Ablauf ebenfalls ''null''. Falls sich nach einem Abmelden erneut ein Teammitglied anmeldet, wird der Timer neu gestartet, sodass das Teammitglied trotzdem zehn Minuten angemeldet bleibt. Um nun zu ermitteln, ob jemand angemeldet ist, gibt es die GET-Ressource ''/dailyStatus''. Diese gibt als Response lediglich den activeUser zurück. Dies ist für die Karte bei Knopfdruck relevant, aber darüber hinaus auch zum Testen des Servers hilfreich. Die weiteren Helfermethoden, globalen Variablen und Instanzierungen des Server wurden in diesem Kapitel nicht näher erläutert, sind aber in Anhang \ref{ANHServerHead} zu finden.
 			\subsubsection{Tabellarische Auflistung der REST-URIs}
 			Die zuvor erläuterten Ressourcen werden in der folgenden Tabelle mit einer kurzen Beschreibung und ihrer REST-Methode aufgelistet. 
 			\begin{table}[H]
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{Ressource}  & \textbf{Methode} & \textbf{Beschreibung}                                 \\ \hline
-/card/issue/:cardId & GET              & Ermittlung der der Karte zugewiesenen Story im JIRA   \\ \hline
+/card/issue/:cardId & GET              & Ermittlung einer Story durch cardId \\ \hline
 /issue/:issueId       & GET              & Ermittlung einer Story anhand ihrer Abkürzung         \\ \hline
 /status/:issueId      & PUT              & Verändert den Status und Bearbeiter einer Story       \\ \hline
 /login/:userId      & PUT              & Meldet ein Teammitglied zum Daily am Board an         \\ \hline
 /logoff             & PUT              & Meldet ein angemeldetes Teammitglied wieder ab         \\ \hline
-/dailyStatus        & GET              & Ermittelt, ob und welches Teammitglied angemeldet ist \\ \hline
+/dailyStatus        & GET              & Ermittelt angemeldete Teammitglieder \\ \hline
 \end{tabular}
 \end{table}
 			\subsubsection{Schnittstellen zur JIRA Server platform REST-API}
@@ -381,13 +417,13 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 \hline
 \textbf{Ressource}                & \textbf{Methode} & \textbf{Beschreibung}                         \\ \hline
 /search?jql=card\_id$\sim$:cardId & GET              & Suche von Stories mit einer KartenID          \\ \hline
-/issue/:issueId                   & GET              & Ermittlung einer Story anhand ihrer Abkürzung \\ \hline
+/issue/:issueId                   & GET              & Ermittlung einer Story  \\ \hline
 /issue/:issueId/transitions       & POST             & Verändert den Status einer Story              \\ \hline
 /issue/:issueId                   & PUT              & Verändert den Bearbeiter einer Story          \\ \hline
 \end{tabular}
 \end{table}
 			\newpage
-	\section{Evaluation anhand der User Stories}
+	\section{Evaluation anhand der User Stories} \label{eval}
 			\subsection{Produktivitätssteigerung}
 			\subsection{Vermeidung von Mehrkosten}
 			\subsection{Vermeidung von Inkonsistenzen}
@@ -400,6 +436,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
  	  \subsection{Informationen zur Story} \label{ANHInfStory}
  	  \subsection{Zuordnung TransistionsId zu Status} \label{ANHTransi}
  	  \subsection{Zuordnung UID zu Username} \label{ANHUser}
+ 	  \section{Ergänzungen zur Implementation}
  	  \subsection{Zusätzliche Variablen und Methoden des Servers} \label{ANHServerHead}
  	  \section{Physisches Board} \label{ANHPhysischesBoard}
  	  \section{Prototyp}
