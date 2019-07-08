@@ -53,7 +53,8 @@ app.put('/status/:issueId', function (req, res) {
         let transitionId = increaseStatus(req.params.issueId);
         axios({
             method: 'post',
-            url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issueId + '/transitions?expand=transitions.fields',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/'
+                + req.params.issueId + '/transitions?expand=transitions.fields',
             auth: {
                 username: 'astrutz',
                 password: 'Tanacu12345!'
@@ -85,7 +86,8 @@ app.put('/status/:issueId', function (req, res) {
             }).catch(function (error) {
                 console.error(error['response']['data']['errorMessages']);
             });
-            let responseString = "Forwarding status of " + req.params.issueId + " assigned to " + activeUser;
+            let responseString = "Forwarding status of "
+                + req.params.issueId + " assigned to " + activeUser;
             res.send(responseString);
         });
     }
