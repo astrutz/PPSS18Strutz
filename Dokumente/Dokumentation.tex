@@ -374,7 +374,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
   				\caption{Servercode der ''/status''-Ressource, Teil 1. Hinweis: URL des JIRA, Nutzername und Passwort wurden aus datenschutzrechtlichen Gründen entfernt.}
   				\label{fig:serverStatus1}
 			\end{figure}
-			\noindent Für das Ändern eines Status gibt es die PUT-Ressource ''/status/:issueId'', wobei die ''issueId'' das Kürzel der Story beschreibt. Zu Beginn wird ermittelt, ob ein Teammitglied zum Daily angemeldet ist. Dies ist in der Variable ''activeUser'' festgehalten. Ist niemand zum Daily angemeldet, wird die Variable auf ''null'' gesetzt. Der Status einer Story soll nur verändert werden können, wenn ein Daily stattfindet und somit jemand angemeldet ist. In diesem Fall wird zuerst anhand des Kürzels der aktuelle Status ermittelt, indem die lokal gespeicherten Stories nach der issueId durchsucht werden und der Status gesucht wird. In JIRA geschieht dies durch sogenannte Transitions, die in jedem JIRA-Projekt selbst du den Administrator definiert werden können (REF). Jede diese Transitions hat eine eindeutige ID. Auf dem Server ist die Zuordnung von Status zu TransitionId in Form eines JSON gespeichert, siehe Anhang \ref{ANHTransi}. Der Server findet die TransitionId des nächsten Status und speichert diese in der Variable ''transitionId''. 
+			\noindent Für das Ändern eines Status gibt es die PUT-Ressource ''/status/:issueId'', wobei die ''issueId'' das Kürzel der Story beschreibt. Zu Beginn wird ermittelt, ob ein Teammitglied zum Daily angemeldet ist. Dies ist in der Variable ''activeUser'' festgehalten. Ist niemand zum Daily angemeldet, wird die Variable auf ''null'' gesetzt. Der Status einer Story soll nur verändert werden können, wenn ein Daily stattfindet und somit jemand angemeldet ist. In diesem Fall wird zuerst anhand des Kürzels der aktuelle Status ermittelt, indem die lokal gespeicherten Stories nach der issueId durchsucht werden und der Status gesucht wird. In JIRA geschieht dies durch sogenannte Transitions, die in jedem JIRA-Projekt selbst du den Administrator definiert werden können \ref{ANHTransi}. Jede diese Transitions hat eine eindeutige ID. Auf dem Server ist die Zuordnung von Status zu TransitionId in Form eines JSON gespeichert, siehe Anhang \ref{ANHTransi}. Der Server findet die TransitionId des nächsten Status und speichert diese in der Variable ''transitionId''. 
 			\begin{figure}[H] 
   				\centering
     			\includegraphics[height=0.5\textheight]{serverStatus2}
@@ -395,7 +395,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
   				\caption{Servercode der ''startDaily''-Funktion}
   				\label{fig:serverStartDaily}
 			\end{figure}
-			\noindent Durch Knopfdruck am Terminal kann ein Teammitglied auch manuell abgemeldet werden. Hierzu wird die PUT-Ressource ''/logoff'' zur Verfügung gestellt. Sie setzt den activeUser direkt auf ''null'' und gibt eine Erfolgsmeldung zurück. Falls noch ein Timer läuft, wird dieser weiter ausgeführt und setzt nach Ablauf ebenfalls ''null''. Falls sich nach einem Abmelden erneut ein Teammitglied anmeldet, wird der Timer neu gestartet, sodass das Teammitglied trotzdem zehn Minuten angemeldet bleibt. Um nun zu ermitteln, ob jemand angemeldet ist, gibt es die GET-Ressource ''/dailyStatus''. Diese gibt als Response lediglich den activeUser zurück. Dies ist für die Karte bei Knopfdruck relevant, aber darüber hinaus auch zum Testen des Servers hilfreich. Die weiteren Helfermethoden, globalen Variablen und Instanzierungen des Server wurden in diesem Kapitel nicht näher erläutert, sind aber in Anhang \ref{ANHServerHead} zu finden.
+			\noindent Durch Knopfdruck am Terminal kann ein Teammitglied auch manuell abgemeldet werden. Hierzu wird die PUT-Ressource ''/logoff'' zur Verfügung gestellt. Sie setzt den activeUser direkt auf ''null'' und gibt eine Erfolgsmeldung zurück. Falls noch ein Timer läuft, wird dieser weiter ausgeführt und setzt nach Ablauf ebenfalls ''null''. Falls sich nach einem Abmelden erneut ein Teammitglied anmeldet, wird der Timer neu gestartet, sodass das Teammitglied trotzdem zehn Minuten angemeldet bleibt. Um nun zu ermitteln, ob jemand angemeldet ist, gibt es die GET-Ressource ''/dailyStatus''. Diese gibt als Response lediglich den activeUser zurück. Dies ist für die Karte bei Knopfdruck relevant, aber darüber hinaus auch zum Testen des Servers hilfreich. Die weiteren Helfermethoden, globalen Variablen und Instanzierungen des Server wurden in diesem Kapitel nicht näher erläutert, sind aber auf den Abbildungen \ref{fig:ANHserverHead}, \ref{fig:ANHserverAppListen}, \ref{fig:ANHserverUpdateLocal} und \ref{fig:ANHServerHelper} in Anhang \ref{ANHServer} zu finden.
 			\subsubsection{Tabellarische Auflistung der REST-URIs}
 			Die zuvor erläuterten Ressourcen werden in der folgenden Tabelle mit einer kurzen Beschreibung und ihrer REST-Methode aufgelistet. 
 			\begin{table}[H]
@@ -432,14 +432,40 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 	
 	\newpage
  	\begin{appendix}
- 	  \section{JSON-Strukturen} \label{ANHJSON}
- 	  \subsection{Informationen zur Story} \label{ANHInfStory}
- 	  \subsection{Zuordnung TransistionsId zu Status} \label{ANHTransi}
- 	  \subsection{Zuordnung UID zu Username} \label{ANHUser}
- 	  \section{Ergänzungen zur Implementation}
- 	  \subsection{Zusätzliche Variablen und Methoden des Servers} \label{ANHServerHead}
- 	  \section{Physisches Board} \label{ANHPhysischesBoard}
- 	  \section{Prototyp}
+ 		\section{JSON-Strukturen} \label{ANHJSON}
+ 	  		\subsection{Informationen zur Story} \label{ANHInfStory}
+ 	  		\subsection{Zuordnung TransistionsId zu Status} \label{ANHTransi}
+ 	 	 	\subsection{Zuordnung UID zu Username} \label{ANHUser}
+ 	 	\newpage
+ 	 	\section{Ergänzungen zur Server-Implementation} \label{ANHServer}
+ 	  		\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.25\textheight]{serverHead}
+  				\caption{Servercode der globalen Variablen und Instanzierungen}
+  				\label{fig:ANHserverHead}
+			\end{figure}
+ 	  		\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.09\textheight]{serverAppListen}
+  				\caption{Servercode der Initialisierung des Servers}
+  				\label{fig:ANHserverAppListen}
+			\end{figure}
+ 	  		\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.4\textheight]{serverUpdateLocal}
+  				\caption{Servercode der Aktualisierung der lokal gespeicherten Stories}
+  				\label{fig:ANHserverUpdateLocal}
+			\end{figure}
+ 	  		\begin{figure}[H] 
+  				\centering
+    			\includegraphics[height=0.65\textheight]{serverHelper}
+  				\caption{Servercode der weiteren Hilfsmethoden}
+  				\label{fig:ANHServerHelper}
+			\end{figure}
+		\newpage 	  	
+ 	  	\section{Physisches Board} \label{ANHPhysischesBoard}
+		\newpage 	  	
+ 	  	\section{Prototyp}
  	\end{appendix}
  	
  	\newpage
