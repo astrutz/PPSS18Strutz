@@ -144,7 +144,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		\subsubsection{Adaptierte JIRA-Funktionalitäten}
 		Bisher sind physische Boards in ihren Funktionalitäten sehr beschränkt, insbesondere im Vergleich zu JIRA. Das Team kann unterstützt werden, indem häufig getätigte Interaktionen am digitalen Board auch am physischen Board verfügbar sind. Hilfreich ist hier die Zuweisung des Bearbeiters, da sich dieser oft im Daily ergibt, wenn die aktuellen Aufgaben für den Tag festgelegt werden. 
 	\newpage
-	\section{Definition von Anforderungen an das System in Form von User Stories}
+	\section{Definition von Anforderungen an das System in Form von User Stories} \label{stories}
 	Im Folgenden werden aus den Alleinstellungsmerkmalen Anforderungen definiert. Diese werden als User Stories nach dem Template von Mike Cohn beschrieben \cite{template}. Die User Stories sind die Grundlage zu Diskussion der Evaluation in Kapitel \ref{Eval}. \\ \\
 	\textbf{Story einer Karte zuweisen} \\
 	Als Scrum Master möchte ich einer digitalen Karte eine Story aus dem JIRA zuweisen, um den Sprint vorzubereiten und ein Abbild des digitalen Boards auf dem physischen Boards zu sehen. \\ \\
@@ -174,7 +174,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	\begin{itemize}
 		\setlength\itemsep{0em}
 		\item Ein Teammitglied kann sich im Daily einer Unteraufgabe oder Story zuweisen
-		\item Das System bietet dem Mitglied eine Möglichkeit sich zu authentifizieren
+		\item Das System bietet jedem Mitglied eine Möglichkeit sich zu authentifizieren
 		\item Die Karte leitet den neuen Bearbeiter an das JIRA weiter
 		\item Der neue Bearbeiter wird auf der Karte angezeigt
 	\end{itemize}
@@ -259,7 +259,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 		Boards wie das ESP8266 besitzen einen verhältnismäßig geringen Speicher und können keine aufwendigen Prozesse ausführen. Aus diesem Grund soll ein möglichst großer Teil der Anwendungslogik auf einen Server verlagert werden, der sowohl mit den einzelnen Karten als auch mit JIRA kommuniziert. Weitere Systeme, die in Zukunft an das neue Board verknüpft werden, sollten ebenfalls mit diesem Server kommunizieren. \\ \\
 		Es wird sich um einen REST-Server handeln, da sich der ESP8266 relativ einfach mit diesem verbinden kann \cite{nodemcuexamples}. Umgesetzt wird der Server im Javascript-Framework NodeJS mit Nutzung der Middleware Express. Über HTTP tauschen sich die Karte und das Terminal mit dem Server aus. Dazu stellt der Server verschiedene Endpunkte bereit, über die Daten gesendet und empfangen können. Die Daten werden im JSON-Format versendet, da sie sowohl vom Server, als auch von der Karte leicht zu verarbeiten sind \cite{arduinojson}. \\ \\
 		Die Kommunikation mit dem digitalen Board findet über die ''Jira Software Server REST API'' statt \cite{jiraapi}. Hier werden Informationen zu Stories und Unteraufgaben geladen, sowie Status und Bearbeiter von Stories und Unteraufgaben verändert und angepasst. Die Authentifizierung findet durch HTTP Basic mit SSL Verschlüsselung statt, wobei die Zugangsdaten auf dem Server gespeichert sind. Um Missbrauch durch Nutzung des Servers zu verhindern, muss sich dieser im selben Netz wie die Karte und das Terminal befinden und darf nicht von außen erreichbar sein. Ist dies doch der Fall, so müssen die Zugangsdaten in der Karte und dem Terminal gespeichert sein, sodass der Server diese an die JIRA API weiterleitet. Für den Prototyp reicht es aus die Daten serverseitig zu speichern und diesen nur in Betrieb zu nehmen, wenn das System getestet wird. Die Requests an das JIRA werden mit dem Node-Modul axios versendet \cite{npmaxios}.
-		\subsection{Auswahl der JIRA API zur Anbindung des digitalen Boards}
+		\subsection{Auswahl der JIRA API zur Anbindung des digitalen Boards} \label{decideJira}
 		Es gibt verschiedene Möglichkeiten mit einem JIRA programmatisch zu interagieren. So gibt es grundlegend zwei APIs, die genutzt werden können \cite{jiraapi}. Die ''Service Desk Server REST API'' bietet die Möglichkeit Kundenanfragen zu verarbeiten und tangiert die Möglichkeit in JIRA Stories zu formulieren und abzurufen nicht und eignet sich daher nicht \cite{jiraserviceapi}. Darüber hinaus gibt es die ''Server platform REST API'', die die Möglichkeit gibt die JIRA Server-Anwendung anzusprechen, in der Stories und Issues gespeichert sind \cite{jiraserverapi}. Daher wird diese API verwendet.\\ \\
 		Um das digitale Board in Form von JIRA mit der Karte zu verknüpfen muss es möglich sein einer Story eine Karte zuzuweisen. Dazu soll eine Story eine neue Eingabekomponente, ein sogenanntes ''Custom Field'', erhalten \cite{jiracustomfield}. In diesem Feld wird eine eindeutige ID eingetragen, die jede Karte vorher erhalten hat. So kann der Server die JIRA API nach einer Story und dem Custom Field anfragen und somit Karte und Story verbinden. 
 	\newpage
@@ -424,9 +424,22 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 \end{table}
 			\newpage
 	\section{Evaluation anhand der User Stories} \label{eval}
-			\subsection{Produktivitätssteigerung}
-			\subsection{Vermeidung von Mehrkosten}
-			\subsection{Vermeidung von Inkonsistenzen}
+	Im folgenden Kapitel wird das System mit Hilfe der in Kapitel \ref{stories} formulierten User Stories evaluiert. Hierzu werden insbesondere die Akzeptanzkriterien mit dem Verhalten des Systems verglichen und gegebenenfalls Maßnahmen abgeleitet, um es weiter zu verbessern.
+			\subsection{Story einer Karte zuweisen}
+			Die Karte wird wie gefordert eine ID zugewiesen. Dies passiert aktuell jedoch nicht automatisch. Das bedeutet, dass diese ID im Quellcode der Karte gespeichert ist und somit für jede Karte händisch eingetragen werden muss. Dies ist nötig, da die Karte bei einem Neustart (z.B. nach Unterbrechung der Stromzufuhr) ihre zugewiesenen Variablen verliert. Wenn die ID der Karte dynamisch auf dem Server generiert wird, muss es eine Möglichkeit geben diese auch serverseitig der Karte zuzuordnen. Denn wenn sich die Karte neu startet und ihre zuvor generierte ID beim Server anfragt, dann kann dieser die Karte nicht identifizieren und somit ihre ID nicht ausfindig machen. Hier gibt es Verbesserungspotential. Für den Prototypen erhält jede Karte ihre ID durch den Quellcode. \\ \\
+Die Möglichkeit eine Karte mit einer Story, bzw. Unteraufgabe zu verknüpfen besteht. Im in Kapitel \ref{decideJira} erläuterten Custom Field lässt sich eine ID eintragen. Außerdem kann die Karte mit der Ressource ''/card/issue/:cardId'' anhand ihrer ID erfragen, um eine Story für sie hinterlegt ist. Bei jeder dieser Abfragen hinterlegt der Server in einem JSON die Zuordnung von Karten-ID und Informationen zur Story, siehe auch Anhang \ref{ANHInfStory}. \\ \\
+Somit wurde die Story ''Story einer Karte zuweisen'' erfüllt. Alle Akzeptanzkriterien wurden implementiert, jedoch lässt sich die Umsetzung noch verbessern, sodass das System einfacher auf viele Karten portierbar ist.
+			\subsection{Stories und Unteraufgaben auf einer Karte anzeigen}
+			Wie in Anhang \ref{ANHPrototyp} zu sehen kann die Karte Stories anzeigen. Die Abkürzung wird über dem Titel der Story angezeigt, zusätzlich wird der Bearbeiter am unteren Rand abgebildet. Diese Informationen werden, wie im vorherigen Abschnitt bereits erwähnt, aus dem JIRA ermittelt und durch das E-Ink Display auch permanent angezeigt. \\ \\
+			Verfehlt wurde das Akzeptanzkriterien die Karte regelmäßig zu aktualisieren. Um die neusten Informationen für die Karte zu laden, muss der Knopf an der Karte betätigt werden. Andernfalls aktualisiert sich die Karte nicht, anders als in der Story gefordert. Der einfache Weg dies umzusetzen wäre ein Zeitintervall, nach dem die Karte jedes Mal den Server anfragt und gegebenenfalls das Display aktualisiert. Allerdings gibt es (der Karte nicht bekannte) Zeiträume an denen eine Anfrage an den Server nicht nötig ist, wie z.B. an gesetzlichen Feiertagen oder nachts. Eine andere Möglichkeit wäre die Implementation einer Nachrichtenwarteschlange. Hierbei versendet der Server Nachrichten zu bestimmten Themen, die die einzelnen Karten verfolgen können, nach dem publish/subscribe-Prinzip. \\ \\
+			Im Groben wurde die Story erfüllt und umgesetzt, wobei es Abstriche bei der Aktualisierung gibt. Eine Weiterentwicklung in diese Richtung ist für das Praxisprojekt nicht mehr vorgesehen, allerdings für die Bachelorarbeit denkbar. Für den Prototypen reicht die manuelle Aktualisierung aus.
+			\subsection{Stories und Unteraufgaben einem Teammitglied zuweisen}
+			Die Zuweisung von Teammitgliedern wurde durch das Terminal umgesetzt. Dadurch kann sich jedes Teammitglied anmelden und sich Stories zuweisen, jedoch nur wenn auch der Status der Story verändert wird. Das erfüllt zwar das Akzeptanzkriterium, schränkt das Team allerdings in ein, da zur Veränderung des Bearbeiters stets eine Statusänderung der Story erfolgen muss. Wenn ein Teammitglied z.B. durch Krankheit ausfällt und ein anderes Teammitglied seine Aufgaben übernimmt, muss der Status verändert werden, zur Not durch dreimaligen Knopfdruck, um den ursprünglichen Status wiederherzustellen. \\ \\
+			Die Authentifizierung ist durch die RFID-Tags und die Zuordnung in Anhang \ref{ANHUser} umgesetzt. Ein angemeldetes Teammitglied wird bei Statusveränderung der Story an den Server weitergeleitet. Dieser weist die Story mittels der Ressource ''/issue/:issueId'' dem richtigen Teammitglied zu. Das Anzeigen des neuen Bearbeiters fehlt noch. Um dies umzusetzen muss die Karte automatisch nach der Anpassung aktualisiert werden. \\ \\
+			Die Funktion der Zuweisung wurde umgesetzt und kann verwendet werden. Allerdings gestaltet sich diese umständlich, wenn der Status der Story nicht verändert werden muss. Zusätzlich fehlt eine automatische Aktualisierung nach Veränderung des Bearbeiters. 
+			\subsection{Status von Stories und Unteraufgaben verändern}
+			Die Statusveränderung ist durch Knopfdruck und anschließender Weiterleitung an den Server durch die Karte möglich. Auch Fehler sind damit abgedeckt, da ein Teammitglied an einen vorherigen Status zurückkehren kann durch mehrmaliges Betätigen. Dieser Ablauf lässt sich jedoch noch verbessern. So könnte der Knopfdruck durch Sensorik ersetzt werden, bei der die Karte automatisch erkennt, in welchem Status sie sich befindet. Damit würde dem Team der Umgang mit dem Board erleichtert werden. Die genaue Technologie muss abgewägt werden, um einerseits den Stromverbrauch der Karte gering zu halten und andererseits die Anpassungen am Board klein zu halten, um das System einfach auf verschiedenen physischen Boards zu installieren und konfigurieren. \\ \\
+			Generell wurde diese Story mit einfachen Mitteln erfüllt, jedoch gibt es hier ein großes Potenzial zur Verbesserung in der Bachelorarbeit.
 	\newpage	
 	\section{Fazit und Ausblick}
 	
@@ -465,7 +478,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 		\newpage 	  	
  	  	\section{Physisches Board} \label{ANHPhysischesBoard}
 		\newpage 	  	
- 	  	\section{Prototyp}
+ 	  	\section{Prototyp} \label{ANHPrototyp}
  	\end{appendix}
  	
  	\newpage
