@@ -104,7 +104,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
  			Die wichtigste Aufgabe im Daily ist die Aktualisierung der Status der Stories. Daher müssen Stories auf beiden Boards so verschoben werden können, dass sich der Status auf beiden Boards anpasst.
 		\end{description}
 	\newpage	
-	\section{Analyse bisheriger Produkte auf dem Markt und Ableitung von Alleinstellungsmerkmalen}
+	\section{Analyse bisheriger Produkte auf dem Markt und Ableitung von Alleinstellungsmerkmalen} \label{markt}
 	Im Folgenden werden auf dem Markt erhältliche Lösungen beschrieben und hinsichtlich der Problemstellung analysiert. Dabei werden konkurrierende und inhaltlich ähnliche Systeme beschrieben und anhand ihrer Vor- und Nachteile eingestuft, insbesondere in Bezug auf folgende in Kapitel \ref{taktisch} definierten Ziele:
 	\begin{itemize} 
 		\item Automatische Synchronisation der Boards 
@@ -263,7 +263,7 @@ Im Prototyp werden die Karten mit Schalter ausgestattet. Das stellt jedoch keine
 		Es gibt verschiedene Möglichkeiten mit einem JIRA programmatisch zu interagieren. So gibt es grundlegend zwei APIs, die genutzt werden können \cite{jiraapi}. Die ''Service Desk Server REST API'' bietet die Möglichkeit Kundenanfragen zu verarbeiten und tangiert die Möglichkeit in JIRA Stories zu formulieren und abzurufen nicht und eignet sich daher nicht \cite{jiraserviceapi}. Darüber hinaus gibt es die ''Server platform REST API'', die die Möglichkeit gibt die JIRA Server-Anwendung anzusprechen, in der Stories und Issues gespeichert sind \cite{jiraserverapi}. Daher wird diese API verwendet.\\ \\
 		Um das digitale Board in Form von JIRA mit der Karte zu verknüpfen muss es möglich sein einer Story eine Karte zuzuweisen. Dazu soll eine Story eine neue Eingabekomponente, ein sogenanntes ''Custom Field'', erhalten \cite{jiracustomfield}. In diesem Feld wird eine eindeutige ID eingetragen, die jede Karte vorher erhalten hat. So kann der Server die JIRA API nach einer Story und dem Custom Field anfragen und somit Karte und Story verbinden. 
 	\newpage
-	\section{Implementation des Prototypen}
+	\section{Implementation des Prototypen} \label{impl}
 	Im folgenden Kapitel wird die Umsetzung der User Stories in Form eines Prototypen erläutert. Hierbei liegt der Fokus auf die Anwendungslogik und den Anschluss von Sensoren an die jeweiligen Mikrocontrollern.
 		\subsection{Umsetzung eines Anmeldeterminals zur Verwendung des Boards in Dailies}
 			\subsubsection{Benötigte Sensoren und angeschlossene Hardware}
@@ -447,16 +447,33 @@ Somit wurde die Story ''Story einer Karte zuweisen'' erfüllt. Alle Akzeptanzkri
 	Zu Beginn dieser Arbeit wurde die Problemstellung der Synchronisierung der physischen und digitalen Boards erläutert und einzelne Lösungsansätze diskutiert, wobei eine bidirektionale Synchronisation beider Boards gewählt wurde. Nach Festlegung der Forschungsfrage ''Wie lassen sich analoge und digitale Scrum-Boards automatisch synchronisieren?'' wurden Ziele definiert, um die Problemstellung mit dem ausgesuchten Grundgedanken zu lösen. Daraufhin wurden bisher verfügbare Produkte auf dem Markt hinsichtlich dieser Ziele analysiert und abgewägt. Aus den Schwächen jener entstanden Anforderungen im ''User Story''-Format. Zur Erfüllung dieser Stories wurde die notwendige Anwendungslogik, sowie dadurch entstehende Systemarchitektur erläutert und skizziert. Für die einzelnen Komponenten des zuvor beschriebenen Systems wurden verschiedene Technologien in Erwägung gezogen und sich schlussendlich für passende Lösungen zur Umsetzung der User Stories entschieden. Nachdem der Prototyp des Systems implementiert wurde, wurde dies anhand des Quellcodes erläutert und erklärt. Abschließend wurde das System mit Hilfe der User Stories evaluiert. Dabei ergab sich, dass das System zum größten Teil alle Stories und Akzeptanzkriterien erfüllt hat, wobei es an einigen Stellen noch Möglichkeiten zur Verbesserung des Systems gibt. Insgesamt wurden die erarbeiteten Ziele jedoch erreicht.
 	\subsection{Beantwortung der Forschungsfrage}
 	\textit{''Wie lassen sich analoge und digitale Scrum-Boards automatisch synchronisieren?''} \\ \\
-	- Lösungsansätze, Markt und Alleinstellungsmerkmale anreißen \\
-	- Prototyp und Funktionen als Antwort verwenden \\
-	- Konklusion: Prototyp kann Synchronisierung unterstützen, zur Verwendung im Alltag aber noch zu kompliziert, schwer zu bedienen und zu wenig Funktionen
+	In Kapitel \ref{markt} wurden verschiedene Produkte auf dem Markt und Lösungsansätze beleuchtet. Die dort vorgestellten Alternativen sind in der Lage die Synchronisation von analogen und digitalen Boards zu unterstützen. Die eigentliche automatische Synchronisation kann mit dem in Kapitel \ref{impl} umgesetzten System am besten erzielt werden, da es Alleinstellungsmerkmale besitzt, die das Problem direkt adressieren. Der umgesetzte Prototyp ist in seiner Funktionsweise und der Nutzung im Alltag noch beschränkt, zeigt jedoch die Möglichkeiten auf, die eine vollständige automatisierte Synchronisation erreichen können und beantwortet somit die Forschungsfrage.
 	\subsection{Ausblick zur Bachelorarbeit}
+	Um aus dem Prototypen ein nutzbares System zu entwickeln wird in der Bachelorarbeit eine leichtgewichtige Evaluation in Form von Befragungen innerhalb des Unternehmens ''kernpunkt'' durchgeführt. Das Ergebnis dieser Evaluation wird in Anforderungen formuliert, welche mit der Weiterentwicklung des Systems erfüllt werden sollen. Nach der Umsetzung wird das System anhand der Anforderungen bewertet und ein Fazit für die Nutzbarkeit des Systems gezogen. 
 	\newpage
  	\begin{appendix}
  		\section{JSON-Strukturen} \label{ANHJSON}
  	  		\subsection{Informationen zur Story} \label{ANHInfStory}
+ 	  			\begin{figure}[H] 
+  					\centering
+    				\includegraphics[height=0.35\textheight]{infoStory}
+  					\caption{JSON mit weiteren Informationen einer Beispielstory}
+  					\label{fig:infoStory}
+				\end{figure}
  	  		\subsection{Zuordnung TransistionsId zu Status} \label{ANHTransi}
+ 	  			\begin{figure}[H] 
+  					\centering
+    				\includegraphics[height=0.25\textheight]{uidUsername}
+  					\caption{JSON zur Zuordnung von JIRA-TransitionId zu Status in einem Beispielprojekt}
+  					\label{fig:uidUsername}
+				\end{figure}
  	 	 	\subsection{Zuordnung UID zu Username} \label{ANHUser}
+ 	 	 		\begin{figure}[H] 
+  					\centering
+    				\includegraphics[height=0.3\textheight]{rfidUser}
+  					\caption{JSON zur Zuordnung von UID der RFID-Tags zu JIRA-Nutzernamen}
+  					\label{fig:ANHUser}
+				\end{figure}
  	 	\newpage
  	 	\section{Ergänzungen zur Server-Implementation} \label{ANHServer}
  	  		\begin{figure}[H] 
