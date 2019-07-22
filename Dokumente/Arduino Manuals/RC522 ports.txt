@@ -2,12 +2,12 @@ RFID-Reader RC522
 -------------------------
 RC522		ESP8266
 ------		--------
-SDA		S3
-SCK		D7
-MOSI		S1
+SDA		D8
+SCK		D5
+MOSI		D7
 MISO		D6
 GND		G
-RST		RST
+RST		D3
 3.3V		3V
 
 
@@ -23,3 +23,12 @@ CLK		D5
 DIN		D7
 GND		G
 3.3V		3V
+
+
+Button KY-002
+--------------
+Button		ESP8266
+------		-------
+S		D6
++		3V
+-		G

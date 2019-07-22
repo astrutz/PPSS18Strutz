@@ -1,0 +1,16 @@
+[
+  {
+    "name":"PoCs in Latex formatieren",
+    "abbreviation":"PPBA-7",
+    "assignee":"Alexander Strutz",
+    "status":"In Arbeit",
+    "issuetype":"Story"
+  },
+  {
+    "name":"Technologieentscheidung",
+    "abbreviation":"PPBA-9",
+    "assignee":"Alexander Strutz",
+    "status":"Aufgaben",
+    "issuetype":"Story"
+  }
+]
