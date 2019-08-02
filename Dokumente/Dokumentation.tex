@@ -29,7 +29,7 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	
 	\newpage
 	\section{Einleitung} \label{Einleitung}
-		Laut der Studie ''Status Quo Agile 2016/2017'' der Hochschule Koblenz verwenden 63\% der Software-Firmen und Agenturen agile Methoden in ihren täglichen Arbeitsprozessen \cite{hskob}. Agile, auch leichtgewichtig genannte Prozesse, können in verschiedenen Frameworks realisiert werden, jedoch orientieren sich alle an dem Rahmenwerk des ''Agilen Manifests''. Das agile Manifest setzt den Fokus auf die vier Werte ''Individuals and interactions over processes and tools'', ''Working software over comprehensive documentation'', ''Customer collaboration over contract negotiation'' und ''Responding to change over following a plan'' \cite{manifest}. Aus diesen Werten ergeben sich zwölf Prinzipien, die dem agilen Manifest angehören. Jedes agile Framework versucht die Werte und Prinzipien des Manifests umzusetzen und praktisch zu integrieren. \\ \\
+		Laut der Studie ''Status Quo Agile 2016/2017'' der Hochschule Koblenz verwenden 63\% der Software-Firmen und Agenturen agile Methoden in ihren täglichen Arbeitsprozessen \cite{hskob}. Agile, auch leichtgewichtig genannte, Prozesse können in verschiedenen Frameworks realisiert werden, jedoch orientieren sich alle an dem Rahmenwerk des ''Agilen Manifests''. Das agile Manifest setzt den Fokus auf die vier Werte ''Individuals and interactions over processes and tools'', ''Working software over comprehensive documentation'', ''Customer collaboration over contract negotiation'' und ''Responding to change over following a plan'' \cite{manifest}. Aus diesen Werten ergeben sich zwölf Prinzipien, die dem agilen Manifest angehören. Jedes agile Framework versucht die Werte und Prinzipien des Manifests umzusetzen und praktisch zu integrieren. \\ \\
 		Das in 82\% der befragten Firmen genutzte Framework ''Scrum'' gilt als meist genutzte agile Arbeitsmethode \cite{hskob}. Im Vordergrund stehen hierbei selbstorganisierte Teams. Diese Teams arbeiten interdisziplinär und bestehen aus drei bis neun Mitgliedern \cite{guide}. Sie ''entscheiden selbst, wie sie ihre Arbeit am besten erledigen, anstatt dieses durch andere Personen außerhalb des Teams vorgegeben zu bekommen'' \cite{guide}. Die zu erledigenden Aufgaben (''Stories'' genannt) werden durch den ''Product Owner'', einem Mitglied des Teams, in Absprache mit dem Kunden definiert und im ''Product Backlog'' priorisiert. Das Product Backlog listet alle Stories auf, die vom Product Owner erstellt wurden.\\ \\
 		Zu Beginn eines jeden Arbeitsinkrements, auch ''Sprint'' genannt, wählt das Team gemäß Priorisierung die Stories, die im folgenden Sprint zu bearbeiten sind. Jeder Sprint erhält ebenfalls ein Backlog, in dem Stories des Sprints nach ihrer Priorisierung gelistet enthalten sind. \\ \\
 		Die Stories werden anhand von ''Story Points'' in ihrer Komplexität geschätzt. Hierbei werden Punkte nicht nach Zeitaufwand, sondern nach vergleichbaren Stories vergeben. Möglich sind Punkte innerhalb der Fibonacci-Folge bis 40. Die Schätzung erfolgt gemeinsam durch das Team in einem sogenannten ''Refinement''. Der Sprint sollte so geplant werden, dass am Sprintende alle gewählten Stories erledigt sind. Eine Story kann hierbei drei Status einnehmen: ''To Do'', ''In Work'' oder ''Done''. Um das Team über die Status der einzelnen Stories informiert zu halten, gibt es täglich das ''Daily''. Hier berichtet jedes Teammitglied welche Story es am Vortag bearbeitet hat und ob sich der Status verändert hat. Um das Sprint Backlog zu visualisieren werden ''Boards'' verwendet. Bei diesen Boards kann es sich um Tafeln, Whiteboards oder ähnliches handeln, auf denen die Stories auf Zetteln ausgedruckt aufgehangen werden. Hierbei gibt es drei Spalten, die die Status der Stories abbilden. Im Daily werden die Stories gemäß dem aktuellen Status verschoben. Die Organisation und Administration des Boards obliegt dem ''Scrum Master'', der ''dafür verantwortlich ist, Scrum entsprechend des Scrum Guides zu fördern und zu unterstützen'' \cite{guide}.
@@ -159,7 +159,17 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 	\newpage
 	\section{Definition von Anforderungen an das System in Form von User Stories} \label{stories}
 	Im Folgenden werden aus den Alleinstellungsmerkmalen Anforderungen definiert. Diese werden als User Stories nach dem Template von Mike Cohn beschrieben \cite{template}. Die User Stories sind die Grundlage zur Diskussion der Evaluation in Kapitel \ref{eval}. \\ \\
-	\textbf{Story einer Karte zuweisen} \\
+	\textbf{Stories und Unteraufgaben auf einer Karte anzeigen} \\
+	Als Teammitglied möchte ich Stories und Unteraufgaben auf Karten angezeigt bekommen, um am physischen Board den aktuellen Stand des Sprints zu sehen. \\ \\
+	\textit{Akzeptanzkriterien}
+	\begin{itemize}
+		\setlength\itemsep{0em}
+		\item Jede Karte zeigt eine Story oder Unteraufgabe an
+		\item Die Karte zeigt Titel, Abkürzung und Bearbeiter an
+		\item Die Karte aktualisiert sich selbstständig in einem angemessenen Intervall
+	\end{itemize}
+	\noindent
+	\\ \textbf{Story einer Karte zuweisen} \\
 	Als Scrum Master möchte ich einer digitalen Karte eine Story aus dem JIRA zuweisen, um den Sprint vorzubereiten und ein Abbild des digitalen Boards auf dem physischen Board zu sehen. \\ \\
 	\textit{Akzeptanzkriterien}
 	\begin{itemize}
@@ -167,20 +177,8 @@ tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 		\item Jede Karte besitzt eine eindeutige ID
 		\item Das JIRA bietet eine Möglichkeit die ID einer Karte einer Story zuzuweisen
 		\item Das System speichert die Zuordnung zwischen Story und Karte
-		\item Die Karte kann anhand ihrer ID erfragen, ob eine Story hinterlegt ist
 	\end{itemize}
-	\noindent
-	\\ \textbf{Stories und Unteraufgaben auf einer Karte anzeigen} \\
-	Als Teammitglied möchte ich Stories und Unteraufgaben auf Karten angezeigt bekommen, um am physischen Board den aktuellen Stand des Sprints zu sehen. \\ \\
-	\textit{Akzeptanzkriterien}
-	\begin{itemize}
-		\setlength\itemsep{0em}
-		\item Jede Karte zeigt eine Story oder Unteraufgabe an
-		\item Die Karte zeigt Titel, Abkürzung und Bearbeiter an
-		\item Die Informationen werden automatisch aus dem JIRA ermittelt
-		\item Die Karte aktualisiert sich selbstständig in einem angemessenen Intervall
-	\end{itemize}
-	\noindent
+		\noindent
 	\\ \textbf{Stories und Unteraufgaben einem Teammitglied zuweisen} \\
 	Als Mitglied des Teams möchte ich mir im Daily Stories und Unteraufgaben zuweisen, um meine Arbeit und Beteiligung transparent zu halten. \\ \\
 	\textit{Akzeptanzkriterien}
@@ -272,10 +270,10 @@ Im Prototyp werden die Karten mit Schaltern ausgestattet. Das stellt jedoch kein
 		Boards wie das ESP8266 besitzen einen verhältnismäßig geringen Speicher und können keine aufwendigen Prozesse ausführen. Aus diesem Grund soll ein möglichst großer Teil der Anwendungslogik auf einen Server verlagert werden, der sowohl mit den einzelnen Karten als auch mit JIRA kommuniziert. Weitere Systeme, die in Zukunft an das neue Board verknüpft werden, sollten ebenfalls mit diesem Server kommunizieren. \\ \\
 		Es wird sich um einen REST-Server handeln, da sich der ESP8266 relativ einfach mit diesem verbinden kann \cite{nodemcuexamples}. Umgesetzt wird der Server im Javascript-Framework NodeJS mit Nutzung der Middleware Express. Über HTTP tauschen sich die Karte und das Terminal mit dem Server aus. Dazu stellt der Server verschiedene Endpunkte bereit, über die Daten gesendet und empfangen werden können. Die Daten werden im JSON-Format versendet, da sie sowohl vom Server, als auch von der Karte leicht zu verarbeiten sind \cite{arduinojson}. \\ \\
 		Die Kommunikation mit dem digitalen Board findet über die ''Jira Software Server REST API'' statt \cite{jiraapi}. Hier werden Informationen zu Stories und Unteraufgaben geladen, sowie Status und Bearbeiter von Stories und Unteraufgaben verändert und angepasst. Die Authentifizierung findet durch HTTP Basic mit SSL Verschlüsselung statt, wobei die Zugangsdaten auf dem Server gespeichert sind. Um Missbrauch durch Nutzung des Servers zu verhindern, muss sich dieser im selben Netz wie die Karte und das Terminal befinden und darf nicht von außen erreichbar sein. Ist dies doch der Fall, so müssen die Zugangsdaten in der Karte und dem Terminal gespeichert sein, sodass der Server diese an die JIRA API weiterleitet. Für den Prototyp reicht es aus die Daten serverseitig zu speichern und diesen nur in Betrieb zu nehmen, wenn das System getestet wird. Die Requests an das JIRA werden mit dem Node-Modul axios versendet \cite{npmaxios}.
-		\subsection{Auswahl der JIRA API zur Anbindung des digitalen Boards} \label{decideJira}
+		\subsection{Auswahl der JIRA API} \label{decideJira}
 		Es gibt verschiedene Möglichkeiten mit einem JIRA programmatisch zu interagieren. So gibt es grundlegend zwei APIs, die genutzt werden können \cite{jiraapi}. Die ''Service Desk Server REST API'' bietet die Möglichkeit Kundenanfragen zu verarbeiten und tangiert die Möglichkeit in JIRA Stories zu formulieren und abzurufen nicht und eignet sich daher nicht \cite{jiraserviceapi}. Darüber hinaus gibt es die ''Server platform REST API'', die die Möglichkeit gibt die JIRA Server-Anwendung anzusprechen, in der Stories und Issues gespeichert sind \cite{jiraserverapi}. Daher wird diese API verwendet.\\ \\
 		Um das digitale Board in Form von JIRA mit der Karte zu verknüpfen muss es möglich sein einer Story eine Karte zuzuweisen. Dazu soll eine Story eine neue Eingabekomponente, ein sogenanntes ''Custom Field'', erhalten \cite{jiracustomfield}. In diesem Feld wird eine eindeutige ID eingetragen, die jede Karte vorher erhalten hat. So kann der Server die JIRA API nach einer Story und dem Custom Field anfragen und somit Karte und Story verbinden. 
-		\subsection{Stromversorgung der Karte mittels mobiler Stromzufuhr}
+		\subsection{Stromversorgung der Karte}
 		Die Versorgung der Karte erfolgt in der Entwicklungsphase stationär. Für ein im Alltag taugliches System muss hier eine Lösung gefunden werden. Hierbei sollte die Stromversorgung in der Karte integriert sein und mindestens die Länge eines Sprints halten. Die Nutzung von Akkus über die USB-Schnittstelle ist nicht möglich, da die verbrauchte Stromstärke des ESP zu gering ist, um z.B. im Deep Sleep versorgt zu werden. Im Rahmen der weiteren Entwicklung muss in der Bachelorarbeit hier eine Lösung seitens der Hardware gefunden werden.
 	\newpage
 	\section{Implementation des Prototypen} \label{impl}
