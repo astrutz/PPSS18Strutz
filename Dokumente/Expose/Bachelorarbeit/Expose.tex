@@ -1,0 +1,65 @@
+\documentclass[12pt,titlepage]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\setkomafont{disposition}{\normalfont\bfseries}
+\usepackage[a4paper,lmargin={3cm},rmargin={3cm},
+tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{cite}
+\usepackage{hyperref}
+
+\begin{document}
+	\begin{titlepage}
+		\title{Exposé \\ \glqq Nutzerzentrierte Entwicklung eines Systems zur Synchronisation von analogen und digitalen Scrumboards\grqq{}} 
+		\subtitle{Bachelorarbeit}
+		\author{Alexander Strutz \vspace{0.5cm}\\ Betreuer: 
+		Prof. Dr. Matthias Böhmer,\\Oliver Blum}
+ 		\date{18. September 2019}
+		\maketitle
+	\end{titlepage}
+	\paragraph{Kontext und Forschungsfrage} \leavevmode \\
+	Im vorangegangenen Praxisprojekt wurde das Problemfeld der Asynchronität von analogen Whiteboards und digitalen Ticketsystemen, wie JIRA im agilen Framework Scrum behandelt. Als Lösung wurde ein Prototyp entwickelt, der auf Papier ausgedruckte Karten durch Mirkocontroller kombiniert mit E-Paper Displays ersetzt. Diese Mikrocontroller können mit JIRA kommunizieren und verschiedene Parameter einer Story verändern. Durch verschiedene Knöpfe kann ein Nutzer rudimentär mit der digitalen Karte interagieren. Der erstellte Prototyp hat nötige Kernfunktionalitäten, jedoch auch ein großes Potential für Verbesserungen. \\ \\
+	Die Bachelorarbeit wird durch folgende Forschungsfrage geleitet: ''Wie lässt sich die Synchronisierung von analogen und digitalen Scrum-Boards nutzerzentriert gestalten?''
+	\paragraph{Theorien und Grundlagen} \leavevmode \\
+	Als Haupttheorie von agilen Arbeitsprozessen und Scrum werden sowohl das agile Manifest, als auch der Scrum Guide angeführt \cite{guide}. Darüber hinaus wird der Evaluationsprozess an ISO zwar angelehnt, jedoch deutlich leichtgewichtiger durchgeführt \cite{ISO15288}. So ist auch dieser Entwicklungsprozess menschzentriert, allerdings wird er aufgrund der begrenzten Zeit so reduziert, dass es weniger Iterationen und vereinfachte Evaluationen gibt. Weitere Grundlage ist der bisherige Prototyp mit seiner Systemarchitektur. Dieser Prototyp wird je nach Nutzeranforderungen angepasst und erweitert. 
+	\paragraph{Ergebnis und Verwendung} \leavevmode \\
+	Ergebnis dieser Arbeit soll ein System werden, welches von Scrum-Teams alltäglich genutzt werden kann und sich einfach in verschiedene Unternehmen integrieren lässt. Insbesondere muss die Interaktion einfacher und verständlicher gestaltet werden, sodass es von Nutzern schnell verstanden wird. Durch Evaluation des Systems in mehreren Scrum-Teams im Unternehmen kernpunkt soll der Erfolg sichergestellt werden. Ferner werden Überlegungen und Abwägungen getroffen, inwieweit sich das System für eine Produktion in Massen eignet und welche Schritte für eine Markteinführung nötig wären. \\ \\
+Ein solches Produkt kann als Grundlage zur Entwicklung weiterer „Brückensysteme“ dienen, die die Verzahnung von digitalen und analogen Boards weiter vorantreiben würden. Ein positiver Nebeneffekt wäre die Verbesserung der Kommunikation innerhalb des Teams durch ein stets aktuelles Board. \\ \\
+	Die Relevanz dieses Themas wird verdeutlicht, wenn man Studie ''Status Quo Agile 2016/2017'' betrachtet. Demnach nutzen 85\% der agilen Unternehmen Scrum \cite{hskob}. Diese Unternehmen können durch die Ergebnisse dieser Arbeit die Qualität ihrer Teams, sowie ihren Umsatz steigern. Somit entstehen auch wirtschaftlich wertvolle Erkenntnisse.
+	An diesen Erkenntnissen sind dementsprechend Personen in leitenden Positionen interessiert. Aber auch Scrum Master, Product Owner und Entwickler profitieren von einem Prototyp und einer Weiterentwicklung. Ferner können diese Boards zur Weiterentwicklung und auf Messen zu Agilität in Unternehmen genutzt werden.
+	\paragraph{Grober Aufbau der Arbeit} \leavevmode \\
+	Zu Beginn wird der im Praxisprojekt entwickelte Prototyp im Unternehmen kernpunkt vorgestellt und in verschiedenen Scrum-Teams im Rahmen eines Daily getestet. Hierbei wird der Prototyp vorher nicht angepasst oder verändert, um Probleme und Inkompatibilitäten direkt ausmachen zu können. Die Rückmeldungen der einzelnen Teammitglieder werden protokolliert, sodass diese Evaluation möglichst simpel und leichtgewichtig gestaltet ist. Die Ergebnisse der Evaluation werden zu Anforderungen an das System definiert. Wie im Praxisprojekt ist hier auch die Formulierung in Form von User Stories möglich. Nach Umsetzung dieser Stories wird das System erneut evaluiert, es werden neue Anforderungen abgeleitet und umgesetzt. Dieser Prozess wird mehrfach wiederholt, um das System inkrementell zu verbessern. Zum Abschluss der Arbeit wird das System mit dem Anfangszustand verglichen, insbesondere in Bezug auf die Nutzbarkeit und Verbesserung der Arbeit von Scrum-Teams. Dieser abschließende Vergleich stellt die finale Evaluation dar und wird mit dem Fazit vervollständigt.
+	\paragraph{Ungefährer Projektplan} \leavevmode \\
+	Im Folgenden wird ein Projektplan mit groben Meilensteinen dargestellt. Hierbei wurden keine festen Daten, sondern Wochen in Relation zum Beginn der Arbeit angegeben. Grund hierfür ist, dass der Anfangstermin noch nicht feststeht, sich aber jeder Meilenstein an der Anmeldung und den dann neun verbleibenden Wochen orientiert. \\
+	\begin{table}[H]
+\centering
+\caption{\textbf{Meilensteine der Bachelorarbeit}}
+\begin{tabular}{|c|l|}
+\hline
+\multicolumn{1}{|l|}{\textbf{Datum}} & {\textbf{Artefakt}} \\ \hline
+Woche 1, Tag 1                                 & Detaillierte Gliederung erstellt \\ \hline
+Woche 1, Tag 4                                 & Einleitung und Vorgehensweise beschrieben\\ \hline
+Woche 2, Tag 1                                       & Erste Evaluation durchgeführt \\ \hline
+Woche 2, Tag 2                                       & Erstes Inkrement an Anforderungen dokumentiert \\ \hline
+Woche 3, Tag 3                                       & Erstes Inkrement an Anforderungen umgesetzt \\ \hline
+Woche 3, Tag 5                                       & Zweite Evaluation durchgeführt \\ \hline
+Woche 4, Tag 1                                       & Zweites Inkrement an Anforderungen dokumentiert \\ \hline
+Woche 5, Tag 2                                       & Zweites Inkrement an Anforderungen umgesetzt \\ \hline
+Woche 5, Tag 4                                       & Dritte Evaluation durchgeführt \\ \hline
+Woche 5, Tag 5                                       & Dritte Inkrement an Anforderungen dokumentiert\\ \hline
+Woche 7, Tag 2                                       & System vervollständigt \\ \hline
+Woche 7, Tag 4                                       & Finale Evaluation durchgeführt \\ \hline
+Woche 8, Tag 2                                       & Bachelorarbeit fertiggestellt, bereit zur Korrektur \\ \hline
+Woche 8, Tag 3                                       & Bachelorarbeit Korrektur gelesen und in Druck gegeben \\ \hline
+Woche 8, Tag 5                                       & Bachelorarbeit abgegeben \\ \hline
+\end{tabular}
+\end{table}
+\newpage
+\bibliography{Expose}
+ 	\bibliographystyle{plain}
+\end{document}
