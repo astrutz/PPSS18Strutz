@@ -244,3 +244,4 @@ TSWLatexianTemp*
 *.spl
 
 /Dokumente/**/*.pdf
+/Dokumente/tempalte/
