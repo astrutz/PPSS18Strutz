@@ -1,0 +1,17 @@
+.custom-headline {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.accordionIcon{
+    width: 24px;
+    height: 24px;
+    float: right;
+    margin-left: 20px;
+}
+
+.accordionContent{
+    display: none;
+    border: none;
+    background-color: #f5f5f5;
+}
