@@ -129,8 +129,6 @@ app.listen(PORT, function () {
     var mqtt = require('mqtt');
     var client = mqtt.connect('mqtt://192.168.178.52');
 
-    //TODO: Update card overview every X Minutes and send informations to subscribers if there is any new
-
     client.on('connect', function () {
         setInterval(async function () {
             let cardsToUpdate = await updateCardOverview();
@@ -286,8 +284,14 @@ function renderHistory(historyItem) {
 function renderHistoryEntry(historyEntry) {
     let beginDate = new Date(historyEntry['timestampBegin'] * 1000);
     let endDate = new Date(historyEntry['timestampEnd'] * 1000);
-    let beginDateString = beginDate.getDay() + '.' + beginDate.getMonth() + '.' + beginDate.getFullYear() + ' ' + beginDate.getHours() + ':' + beginDate.getMinutes();
-    let endDateString = endDate.getDay() + '.' + endDate.getMonth() + '.' + endDate.getFullYear() + ' ' + endDate.getHours() + ':' + endDate.getMinutes();
+    let minutes;
+    if(beginDate.getMinutes() < 10){
+        minutes = '0' + beginDate.getHours().toString();
+    } else {
+        minutes = beginDate.getHours().toString();
+    }
+    let beginDateString = beginDate.getDay() + '.' + beginDate.getMonth() + '.' + beginDate.getFullYear() + ' ' + beginDate.getHours() + ':' + minutes;
+    let endDateString = endDate.getDay() + '.' + endDate.getMonth() + '.' + endDate.getFullYear() + ' ' + endDate.getHours() + ':' + minutes;
     return historyEntry['abbreviation'] + ' von ' + beginDateString + ' bis ' + endDateString;
 }
 

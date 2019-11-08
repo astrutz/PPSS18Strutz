@@ -13,8 +13,10 @@
 GxEPD2_3C < GxEPD2_420c, GxEPD2_420c::HEIGHT / 2 > display(GxEPD2_420c(/*CS=D8*/ SS, /*DC=D3*/ 0, /*RST=D4*/ 2, /*BUSY=D2*/ 4));
 #endif
 
-const char* ssid = "kernarea.de/BYOD";
-const char* password = "4m0b!l35";
+const char* ssid = "WG-Lan";
+const char* password = "52489315989173508174";
+//const char* ssid = "kernarea.de/BYOD";
+//const char* password = "4m0b!l35";
 const char* abbreviation = "";
 const byte interruptPin = 12;
 const char* cardID = "1234";
