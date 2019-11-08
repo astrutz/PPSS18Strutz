@@ -126,7 +126,20 @@ app.get('/dailyStatus', function (req, res) {
 
 app.listen(PORT, function () {
     console.log('Server listening on port ' + PORT + '!');
-    updateCardOverview();
+    var mqtt = require('mqtt');
+    var client = mqtt.connect('mqtt://192.168.178.52');
+
+    //TODO: Update card overview every X Minutes and send informations to subscribers if there is any new
+
+    client.on('connect', function () {
+        setInterval(async function () {
+            let cardsToUpdate = await updateCardOverview();
+            for (let i in cardsToUpdate) {
+                client.publish(cardsToUpdate[i]['cardId'].toString(), cardsToUpdate[i]['abbreviation']);
+                console.log('Message sent: ' + cardsToUpdate[i]['cardId'].toString() + ' with ' + cardsToUpdate[i]['abbreviation']);
+            }
+        }, 20000);
+    });
 });
 
 function filterData(data, abbreviation) {
@@ -279,60 +292,73 @@ function renderHistoryEntry(historyEntry) {
 }
 
 function updateCardOverview() {
-    let overviewList = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
-    axios({
-        method: 'get',
-        url: 'https://jira.kernarea.de/rest/api/2/search?jql=card_id!~x_id',
-        auth: {
-            username: 'astrutz',
-            password: 'TarguMures56!'
-        }
-    }).then(function (response) {
-        let issueList = response.data['issues'];
-        for (let i in overviewList) {
-            let found = false;
-            for (let j in issueList) {
-                //customfield_14305 is the card_id saved in JIRA issues
-                if (overviewList[i]['cardId'] === issueList[j]['fields']['customfield_14305']) {
-                    found = true;
-                    if (overviewList[i]['abbreviation'] !== issueList[j]['key']) {
-                        if (overviewList[i]['abbreviation'] != null) {
-                            let newHistoryItem = JSON.parse(JSON.stringify(overviewList[i]));
-                            delete newHistoryItem['history'];
-                            delete newHistoryItem['cardId'];
-                            newHistoryItem['timestampEnd'] = Date.now();
-                            overviewList[i]['history'].push(newHistoryItem);
+    return new Promise((resolve, reject) => {
+        let updatesCards = [];
+        let overviewList = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
+        axios({
+            method: 'get',
+            url: 'https://jira.kernarea.de/rest/api/2/search?jql=card_id!~x_id',
+            auth: {
+                username: 'astrutz',
+                password: 'TarguMures56!'
+            }
+        }).then(function (response) {
+            let issueList = response.data['issues'];
+            for (let i in overviewList) {
+                let found = false;
+                for (let j in issueList) {
+                    //customfield_14305 is the card_id saved in JIRA issues
+                    if (overviewList[i]['cardId'] === issueList[j]['fields']['customfield_14305']) {
+                        found = true;
+                        if (overviewList[i]['abbreviation'] !== issueList[j]['key']) {
+                            //A card will be updated with a new story!
+                            if (overviewList[i]['abbreviation'] != null) {
+                                let newHistoryItem = JSON.parse(JSON.stringify(overviewList[i]));
+                                delete newHistoryItem['history'];
+                                delete newHistoryItem['cardId'];
+                                newHistoryItem['timestampEnd'] = Math.floor(Date.now() / 1000);
+                                overviewList[i]['history'].push(newHistoryItem);
+                            }
+                            overviewList[i]['timestampBegin'] = Math.floor(Date.now() / 1000);
+                            overviewList[i]['abbreviation'] = issueList[j]['key'];
+                            overviewList[i]['name'] = issueList[j]['fields']['summary'];
+                            overviewList[i]['assignee'] = issueList[j]['fields']['assignee']['displayName'];
+                            overviewList[i]['status'] = issueList[j]['fields']['status']['name'];
+                            overviewList[i]['issuetype'] = issueList[j]['fields']['issuetype']['name'];
+                            let newUpdateItem = {};
+                            newUpdateItem['name'] = overviewList[i]['name'];
+                            newUpdateItem['assignee'] = overviewList[i]['assignee'];
+                            newUpdateItem['abbreviation'] = overviewList[i]['abbreviation'];
+                            newUpdateItem['status'] = overviewList[i]['status'];
+                            newUpdateItem['issuetype'] = overviewList[i]['issuetype'];
+                            newUpdateItem['cardId'] = overviewList[i]['cardId'];
+                            updatesCards.push(newUpdateItem);
+                            fs.writeFileSync('cardOverview.json', JSON.stringify(overviewList), 'UTF-8');
                         }
-                        overviewList[i]['timestampBegin'] = Date.now();
-                        overviewList[i]['abbreviation'] = issueList[j]['key'];
-                        overviewList[i]['name'] = issueList[j]['fields']['summary'];
-                        overviewList[i]['assignee'] = issueList[j]['fields']['assignee']['displayName'];
-                        overviewList[i]['status'] = issueList[j]['fields']['status']['name'];
-                        overviewList[i]['issuetype'] = issueList[j]['fields']['issuetype']['name'];
+                    }
+                }
+                if (!found) {
+                    if (overviewList[i]['abbreviation'] != null) {
+                        let newHistoryItem = JSON.parse(JSON.stringify(overviewList[i]));
+                        delete newHistoryItem['history'];
+                        delete newHistoryItem['cardId'];
+                        newHistoryItem['timestampEnd'] = Math.floor(Date.now() / 1000);
+                        overviewList[i]['timestampBegin'] = null;
+                        overviewList[i]['abbreviation'] = null;
+                        overviewList[i]['name'] = null;
+                        overviewList[i]['assignee'] = null;
+                        overviewList[i]['status'] = null;
+                        overviewList[i]['issuetype'] = null;
+                        overviewList[i]['history'].push(newHistoryItem);
                         fs.writeFileSync('cardOverview.json', JSON.stringify(overviewList), 'UTF-8');
                     }
                 }
             }
-            if (!found) {
-                if (overviewList[i]['abbreviation'] != null) {
-                    let newHistoryItem = JSON.parse(JSON.stringify(overviewList[i]));
-                    delete newHistoryItem['history'];
-                    delete newHistoryItem['cardId'];
-                    newHistoryItem['timestampEnd'] = Date.now();
-                    overviewList[i]['timestampBegin'] = null;
-                    overviewList[i]['abbreviation'] = null;
-                    overviewList[i]['name'] = null;
-                    overviewList[i]['assignee'] = null;
-                    overviewList[i]['status'] = null;
-                    overviewList[i]['issuetype'] = null;
-                    overviewList[i]['history'].push(newHistoryItem);
-                    fs.writeFileSync('cardOverview.json', JSON.stringify(overviewList), 'UTF-8');
-                }
-            }
-        }
-
-    }).catch(function (error) {
-        console.log(error);
+        }).catch(function (error) {
+            console.log(error);
+            reject(error);
+        }).finally(function () {
+            resolve(updatesCards);
+        });
     });
-    //TODO Call this every X Seconds, look for saved card_id's, check it with the JSON and update
 }

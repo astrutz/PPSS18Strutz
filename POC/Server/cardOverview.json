@@ -1,40 +1,23 @@
 [
   {
     "cardId": "1234545",
+    "timestampBegin": 1573238588,
+    "abbreviation": "PPBA-8",
+    "name": "Technologierecherche",
+    "assignee": "Alexander Strutz",
+    "status": "Fertig",
+    "issuetype": "Story",
+    "history": [
+    ]
+  },
+  {
+    "cardId": "7658545",
     "timestampBegin": null,
     "abbreviation": null,
     "name": null,
     "assignee": null,
     "status": null,
     "issuetype": null,
-    "history": [
-      {
-        "timestampBegin": 1554466986,
-        "timestampEnd": 1564489386,
-        "abbreviation": "PPBA-9",
-        "name": "Technologieentscheidung",
-        "assignee": "Alexander Strutz",
-        "status": "Aufgaben",
-        "issuetype": "Story"
-      },
-      {
-        "timestampBegin": 1554466996,
-        "abbreviation": "PPBA-8",
-        "name": "PoCs evaluieren",
-        "assignee": "Alexander Strutz",
-        "status": "In Arbeit",
-        "issuetype": "Story",
-        "timestampEnd": 1573142678830
-      },
-      {
-        "timestampBegin": 1573142878659,
-        "abbreviation": "PPBA-34",
-        "name": "Domänenrecherche",
-        "assignee": "Alexander Strutz",
-        "status": "In Arbeit",
-        "issuetype": "Story",
-        "timestampEnd": 1573142900563
-      }
-    ]
+    "history": []
   }
 ]
