@@ -63,46 +63,65 @@ app.get('/issue/:issueId', function (req, res) {
 });
 
 app.put('/status/:issueId', function (req, res) {
-    if (activeUser !== "null") {
-        let transitionId = increaseStatus(req.params.issueId);
-        axios({
-            method: 'post',
-            url: 'https://jira.kernarea.de/rest/api/2/issue/'
-                + req.params.issueId + '/transitions?expand=transitions.fields',
-            auth: {
-                username: 'astrutz',
-                password: 'TarguMures56!'
-            },
-            data: {
-                transition: {
-                    "id": transitionId
-                }
+    let transitionId = increaseStatus(req.params.issueId);
+    axios({
+        method: 'post',
+        url: 'https://jira.kernarea.de/rest/api/2/issue/'
+            + req.params.issueId + '/transitions?expand=transitions.fields',
+        auth: {
+            username: 'astrutz',
+            password: 'TarguMures56!'
+        },
+        data: {
+            transition: {
+                "id": transitionId
             }
-        }).then(function (response) {
-        }).catch(function (error) {
-            console.error(error['response']['data']['errorMessages']);
-        }).then(function () {
-            axios({
-                method: 'put',
-                url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issueId,
-                auth: {
-                    username: 'astrutz',
-                    password: 'TarguMures56!'
-                },
-                data: {
-                    "fields": {
-                        "assignee": {
-                            "name": activeUser
+        }
+    }).then(function (response) {
+    }).catch(function (error) {
+        console.error(error['response']['data']['errorMessages']);
+    }).then(function () {
+            if (activeUser !== "null") {
+                axios({
+                        method: 'put',
+                        url: 'https://jira.kernarea.de/rest/api/2/issue/' + req.params.issueId,
+                        auth: {
+                            username: 'astrutz',
+                            password: 'TarguMures56!'
+                        },
+                        data: {
+                            "fields": {
+                                "assignee": {
+                                    "name": activeUser
+                                }
+                            }
                         }
                     }
-                }
-            }).then(function (response) {
-            }).catch(function (error) {
-                console.error(error['response']['data']['errorMessages']);
-            });
-            let responseString = "Forwarding status of "
-                + req.params.issueId + " assigned to " + activeUser;
-            res.send(responseString);
+                ).then(function (response) {
+                }).catch(function (error) {
+                    console.error(error['response']['data']['errorMessages']);
+                });
+                let responseString = "Forwarding status of "
+                    + req.params.issueId + " assigned to " + activeUser;
+                res.send(responseString);
+            } else {
+                res.send("Forwarding status of " + req.params.issueId);
+            }
+        }
+    );
+});
+
+app.put('/card/:cardId', function (req, res) {
+    let issueID = findAbbreviationByCardId(req.params.cardId);
+    if (issueID != null) {
+        axios({
+                method: 'put',
+                url: 'http://localhost:' + PORT + '/status/' + issueID
+            }
+        ).then(function (response) {
+            res.send(response['data']);
+        }).catch(function (error) {
+            console.error(error);
         });
     }
 });
@@ -133,12 +152,27 @@ app.listen(PORT, function () {
         setInterval(async function () {
             let cardsToUpdate = await updateCardOverview();
             for (let i in cardsToUpdate) {
-                client.publish(cardsToUpdate[i]['cardId'].toString(), cardsToUpdate[i]['abbreviation']);
-                console.log('Message sent: ' + cardsToUpdate[i]['cardId'].toString() + ' with ' + cardsToUpdate[i]['abbreviation']);
+                if(cardsToUpdate[i]['abbreviation'] != null){
+                    client.publish(cardsToUpdate[i]['cardId'].toString(), cardsToUpdate[i]['abbreviation']);
+                    console.log('Message sent: ' + cardsToUpdate[i]['cardId'].toString() + ' with ' + cardsToUpdate[i]['abbreviation']);
+                } else {
+                    client.publish(cardsToUpdate[i]['cardId'].toString(), "");
+                    console.log('Message sent: ' + cardsToUpdate[i]['cardId'].toString() + ' with empty message.');
+                }
             }
         }, 20000);
     });
 });
+
+function findAbbreviationByCardId(cardId) {
+    let cardOverview = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
+    for (let i in cardOverview) {
+        if (cardOverview[i]['cardId'] === cardId) {
+            return cardOverview[i]['abbreviation'];
+        }
+    }
+    return null;
+}
 
 function filterData(data, abbreviation) {
     let filteredData = {};
@@ -285,10 +319,10 @@ function renderHistoryEntry(historyEntry) {
     let beginDate = new Date(historyEntry['timestampBegin'] * 1000);
     let endDate = new Date(historyEntry['timestampEnd'] * 1000);
     let minutes;
-    if(beginDate.getMinutes() < 10){
-        minutes = '0' + beginDate.getHours().toString();
+    if (beginDate.getMinutes() < 10) {
+        minutes = '0' + beginDate.getMinutes().toString();
     } else {
-        minutes = beginDate.getHours().toString();
+        minutes = beginDate.getMinutes().toString();
     }
     let beginDateString = beginDate.getDay() + '.' + beginDate.getMonth() + '.' + beginDate.getFullYear() + ' ' + beginDate.getHours() + ':' + minutes;
     let endDateString = endDate.getDay() + '.' + endDate.getMonth() + '.' + endDate.getFullYear() + ' ' + endDate.getHours() + ':' + minutes;
@@ -353,6 +387,14 @@ function updateCardOverview() {
                         overviewList[i]['assignee'] = null;
                         overviewList[i]['status'] = null;
                         overviewList[i]['issuetype'] = null;
+                        let newUpdateItem = {};
+                        newUpdateItem['name'] = overviewList[i]['name'];
+                        newUpdateItem['assignee'] = overviewList[i]['assignee'];
+                        newUpdateItem['abbreviation'] = overviewList[i]['abbreviation'];
+                        newUpdateItem['status'] = overviewList[i]['status'];
+                        newUpdateItem['issuetype'] = overviewList[i]['issuetype'];
+                        newUpdateItem['cardId'] = overviewList[i]['cardId'];
+                        updatesCards.push(newUpdateItem);
                         overviewList[i]['history'].push(newHistoryItem);
                         fs.writeFileSync('cardOverview.json', JSON.stringify(overviewList), 'UTF-8');
                     }

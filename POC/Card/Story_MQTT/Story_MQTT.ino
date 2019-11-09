@@ -2,9 +2,9 @@
 
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
-#include <Fonts/FreeSansBold18pt7b.h>
 #include <Fonts/FreeSans18pt7b.h>
 #include <Fonts/FreeSans12pt7b.h>
+#include <Fonts/FreeSansBold12pt7b.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <ESP8266HTTPClient.h>
@@ -26,6 +26,10 @@ PubSubClient client(espClient);
 HTTPClient http;
 StaticJsonDocument<2048> doc;
 void drawStory(const char &title, const char &abbr, const char &assignee);
+void ICACHE_RAM_ATTR buttonClick();
+int pressed = false;
+const byte interruptPin = 12;
+const char* abbreviation = "";
 
 void setup_wifi() {
 
@@ -49,24 +53,21 @@ void setup_wifi() {
 
 void drawStory(const char* title, const char* abbr, const char* assignee)
 {
-  display.setFont(&FreeSans18pt7b);
-  display.setTextColor(GxEPD_BLACK);
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  display.getTextBounds(title, 0, 0, &tbx, &tby, &tbw, &tbh);
-  uint16_t x = tbw;
-  uint16_t y = tbh;
   display.setFullWindow();
   display.firstPage();
   do
   {
     display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x + 50, 0);
+    display.setFont(&FreeSansBold12pt7b);
+    display.setTextColor(GxEPD_BLACK);
+    display.setCursor(0, 30);
     display.println(abbr);
-    display.setFont(&FreeSansBold18pt7b);
+    display.println();
+    display.setFont(&FreeSans18pt7b);
     display.println(title);
-    display.setCursor(x + 50, display.height() - 50);
     display.setFont(&FreeSans12pt7b);
-    display.print(assignee);
+    display.setCursor(0, 280);
+    display.println(assignee);
   }
   while (display.nextPage());
   display.hibernate();
@@ -78,7 +79,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print(topic);
   Serial.print("] ");
   char url[128];
-  strcpy(url, "http://192.168.178.52:3000/issue/");
+  strcpy(url, "http://");
+  strcat(url, mqtt_server);
+  strcat(url, ":3000/issue/");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
     char c = char(payload[i]);
@@ -86,24 +89,44 @@ void callback(char* topic, byte* payload, unsigned int length) {
     strcat(url, pChar);
   }
   Serial.println();
+  if (length > 1) {
 
-  http.begin(url);
-  int httpResponseCode = http.GET();
+    http.begin(url);
+    int httpResponseCode = http.GET();
 
-  if (httpResponseCode > 0) {
+    if (httpResponseCode > 0) {
 
-    String response = http.getString();
-    deserializeJson(doc, http.getString());
-    const char* storyName = doc["name"];
-    const char* abbreviation = doc["abbreviation"];
-    const char* storyAssignee = doc["assignee"];
-    drawStory(storyName, abbreviation, storyAssignee);
-    Serial.println(storyName);
+      String response = http.getString();
+      deserializeJson(doc, http.getString());
+      const char* storyName = doc["name"];
+      abbreviation = doc["abbreviation"];
+      const char* storyAssignee = doc["assignee"];
+      drawStory(storyName, abbreviation, storyAssignee);
+
+    } else {
+      Serial.print("Error on sending GET Request: ");
+      Serial.println(httpResponseCode);
+    }
 
   } else {
-    Serial.print("Error on sending GET Request: ");
-    Serial.println(httpResponseCode);
+    display.setFullWindow();
+    display.firstPage();
+    do
+    {
+      display.setFont(&FreeSans18pt7b);
+      display.fillScreen(GxEPD_WHITE);
+      display.setCursor(80, 130);
+      display.setTextColor(GxEPD_BLACK);
+      display.println("Display ist frei");
+      display.setFont(&FreeSans12pt7b);
+      display.setCursor(80, 170);
+      display.print("Karten-ID: ");
+      display.print(card_id);
+    }
+    while (display.nextPage());
+    display.hibernate();
   }
+
 
 }
 
@@ -129,6 +152,8 @@ void setup() {
   Serial.begin(115200);
   display.init(115200);
   display.hibernate();
+  pinMode (interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), buttonClick, RISING);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
@@ -140,4 +165,23 @@ void loop() {
     reconnect();
   }
   client.loop();
+
+  if (pressed == true) {
+    char url[128];
+    strcpy(url, "http://");
+    strcat(url, mqtt_server);
+    strcat(url, ":3000/card/");
+    strcat(url, card_id);
+    http.begin(url);
+    int httpResponseCode = http.PUT("");
+    if (httpResponseCode > 0) {
+      Serial.println("Status changed");
+    }
+    pressed = false;
+  }
+}
+
+void ICACHE_RAM_ATTR buttonClick()
+{
+  pressed = true;
 }
