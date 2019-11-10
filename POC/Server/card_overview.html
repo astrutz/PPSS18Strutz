@@ -9,7 +9,25 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="custom-headline">Übersicht der verwendeten Karten</h1>
+    <div class="cardOverview">
+        <h1 class="custom-headline">Übersicht der verwendeten Karten</h1>
+    </div>
+    <div class="row" id="assign">
+        <div class="col-4">
+            <input id="storyAbbreviation" type="text" placeholder="Story-ID">
+        </div>
+        <div class="col-4">
+            <button onclick="assignCard('')" type="button" class="btn btn-primary">Story einer Karte zuweisen</button>
+        </div>
+    </div>
+    <div class="row" id="deassign">
+        <div class="col-4">
+            <input id="cardId" type="text" placeholder="Karten-ID">
+        </div>
+        <div class="col-4">
+            <button onclick="assignCard('de')" type="button" class="btn btn-danger">Story von Karte lösen</button>
+        </div>
+    </div>
 </div>
 </body>
 <script>
@@ -23,6 +41,30 @@
             $("#content" + element).css("display", "block");
             $("#accordionIcon" + element).attr("src", "/img/baseline-keyboard_arrow_up-24px.svg");
         }
+    }
+
+    function assignCard(prefix) {
+        let abbreviation = '';
+        if (prefix !== '') {
+            abbreviation = $('#cardId').val();
+        } else {
+            abbreviation = $('#storyAbbreviation').val();
+        }
+        let request = new XMLHttpRequest();
+        request.open("GET", "/card/" + prefix + "assign/" + abbreviation);
+        request.addEventListener('load', function (event) {
+            if (request.status >= 200 && request.status < 300) {
+                if (request.responseText != null) {
+                    $('#deassign').append('<div class="alert alert-success" role="alert">' + 'Aktion wurde erfolgreich durchgeführt!' + '</div>');
+                } else {
+                    $('#deassign').append('<div class="alert alert-danger" role="alert">' + 'Aktion konnte nicht durchgeführt werden!' + '</div>');
+
+                }
+            } else {
+                console.warn(request.statusText, request.responseText);
+            }
+        });
+        request.send();
     }
 </script>
 </html>

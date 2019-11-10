@@ -22,6 +22,54 @@ app.get('/card/overview', function (req, res) {
     res.send(renderCardOverview());
 });
 
+app.get('/card/assign/:storyAbbr', function (req, res) {
+    let storyAbbreviation = req.params.storyAbbr;
+    let cardId = getCardIdForStory();
+    if (cardId != null) {
+        axios({
+            method: 'put',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/' + storyAbbreviation,
+            auth: {
+                username: 'astrutz',
+                password: 'TarguMures56!'
+            },
+            data: {
+                "fields": {
+                    "customfield_14305": cardId
+                }
+            }
+        }).then(function (response) {
+            res.send(cardId);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    } else {
+        res.send(null);
+    }
+});
+
+app.get('/card/deassign/:cardID', function (req, res) {
+    let storyAbbreviation = findAbbreviationByCardId(req.params.cardID);
+    axios({
+        method: 'put',
+        url: 'https://jira.kernarea.de/rest/api/2/issue/' + storyAbbreviation,
+        auth: {
+            username: 'astrutz',
+            password: 'TarguMures56!'
+        },
+        data: {
+            "fields": {
+                "customfield_14305": null
+            }
+        }
+    }).then(function (response) {
+        res.send(storyAbbreviation);
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+});
+
 app.get('/card/issue/:cardId', function (req, res) {
     axios({
         method: 'get',
@@ -152,7 +200,7 @@ app.listen(PORT, function () {
         setInterval(async function () {
             let cardsToUpdate = await updateCardOverview();
             for (let i in cardsToUpdate) {
-                if(cardsToUpdate[i]['abbreviation'] != null){
+                if (cardsToUpdate[i]['abbreviation'] != null) {
                     client.publish(cardsToUpdate[i]['cardId'].toString(), cardsToUpdate[i]['abbreviation']);
                     console.log('Message sent: ' + cardsToUpdate[i]['cardId'].toString() + ' with ' + cardsToUpdate[i]['abbreviation']);
                 } else {
@@ -163,6 +211,16 @@ app.listen(PORT, function () {
         }, 20000);
     });
 });
+
+function getCardIdForStory() {
+    let cardOverview = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
+    for (let i in cardOverview) {
+        if (cardOverview[i]['abbreviation'] === null) {
+            return cardOverview[i]['cardId'];
+        }
+    }
+    return null;
+}
 
 function findAbbreviationByCardId(cardId) {
     let cardOverview = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
@@ -269,9 +327,9 @@ function renderCardOverview() {
     const dom = new JSDOM(fs.readFileSync("card_overview.html", "UTF-8"));
     const $ = (require('jquery'))(dom.window);
     if (overviewList.length > 0) {
-        $('.container').append(renderOverviewTable(overviewList));
+        $('.cardOverview').append(renderOverviewTable(overviewList));
     } else {
-        $('.container').append('Es sind keine Karten im System eingetragen');
+        $('.cardOverview').append('Es sind keine Karten im System eingetragen');
     }
     return $("html").html();
 }
