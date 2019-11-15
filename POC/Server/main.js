@@ -240,6 +240,7 @@ function filterData(data, abbreviation) {
         filteredData.assignee = data["assignee"]["displayName"];
         filteredData.status = data["status"]["name"];
         filteredData.issuetype = "Story";
+        filteredData.progress = getProgressCount(data);
     } else if (data["issuetype"]["name"].toLowerCase() === "unteraufgabe") {
         filteredData.name = data["summary"];
         filteredData.abbreviation = abbreviation;
@@ -252,6 +253,21 @@ function filterData(data, abbreviation) {
     }
     updateLocalIssues(filteredData);
     return filteredData;
+}
+
+function getProgressCount(data) {
+    let doneCounter = 0;
+    let subissues = data['subtasks'];
+    for (let i in subissues) {
+        if (subissues[i]['fields']['status']['name'] === "Fertig") {
+            doneCounter++;
+        }
+    }
+    if (subissues.length === 0) {
+        return 0;
+    } else {
+        return Math.round((doneCounter / subissues.length) * 100);
+    }
 }
 
 function updateLocalIssues(issue) {
@@ -406,7 +422,7 @@ function updateCardOverview() {
                     //customfield_14305 is the card_id saved in JIRA issues
                     if (overviewList[i]['cardId'] === issueList[j]['fields']['customfield_14305']) {
                         found = true;
-                        if (overviewList[i]['abbreviation'] !== issueList[j]['key']) {
+                        if ((overviewList[i]['abbreviation'] !== issueList[j]['key']) || (overviewList[i]['progress'] !== getProgressCount(issueList[j]['fields']))) {
                             //A card will be updated with a new story!
                             if (overviewList[i]['abbreviation'] != null) {
                                 let newHistoryItem = JSON.parse(JSON.stringify(overviewList[i]));
@@ -421,6 +437,7 @@ function updateCardOverview() {
                             overviewList[i]['assignee'] = issueList[j]['fields']['assignee']['displayName'];
                             overviewList[i]['status'] = issueList[j]['fields']['status']['name'];
                             overviewList[i]['issuetype'] = issueList[j]['fields']['issuetype']['name'];
+                            overviewList[i]['progress'] = getProgressCount(issueList[j]['fields']);
                             let newUpdateItem = {};
                             newUpdateItem['name'] = overviewList[i]['name'];
                             newUpdateItem['assignee'] = overviewList[i]['assignee'];
@@ -445,6 +462,7 @@ function updateCardOverview() {
                         overviewList[i]['assignee'] = null;
                         overviewList[i]['status'] = null;
                         overviewList[i]['issuetype'] = null;
+                        overviewList[i]['progress'] = 0;
                         let newUpdateItem = {};
                         newUpdateItem['name'] = overviewList[i]['name'];
                         newUpdateItem['assignee'] = overviewList[i]['assignee'];
