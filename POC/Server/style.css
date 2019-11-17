@@ -19,3 +19,12 @@
 .row{
     margin-top: 20px;
 }
+
+.settingsLeft{
+    margin-left: 15px;
+    width: 50%;
+}
+
+.settingsRight{
+    width: 25%;
+}

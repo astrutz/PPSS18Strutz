@@ -3,12 +3,114 @@ const axios = require('axios');
 const fs = require('fs');
 const jsdom = require('jsdom');
 const {JSDOM} = jsdom;
-var myParser = require("body-parser");
+var bodyparser = require("body-parser");
 let activeUser = "null";
 let app = express();
 let issueId = '';
 let PORT = process.env.PORT || 3000;
-app.use(myParser.json({extended: true}));
+app.use(bodyparser.urlencoded({extended: true}));
+
+app.put('/sprint/assign/', function (req, res) {
+    let boardId = JSON.parse(fs.readFileSync('settings.json', 'UTF-8'))['boardId'];
+    let sprints = [];
+    let issues = [];
+    let counter = 0;
+    axios({
+        method: 'get',
+        url: 'https://jira.kernarea.de/rest/agile/1.0/board/' + boardId + '/sprint',
+        auth: {
+            username: 'astrutz',
+            password: 'TarguMures56!'
+        }
+    }).then(function (response) {
+        for (let i in response.data.values) {
+            if (response.data.values[i]['state'] === 'active') {
+                sprints.push(response.data.values[i]);
+            }
+        }
+        for (let i in sprints) {
+            axios({
+                method: 'get',
+                url: 'https://jira.kernarea.de/rest/agile/1.0/sprint/' + sprints[i]['id'] + '/issue/?jql=card_id is EMPTY AND type = Story',
+                auth: {
+                    username: 'astrutz',
+                    password: 'TarguMures56!'
+                }
+            }).then(function (res) {
+                for (let j in res.data['issues']) {
+                    issues.push(res.data['issues'][j]['key']);
+                }
+                counter++;
+            }).finally(function () {
+                if (counter === sprints.length) {
+                    let cardOverview = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
+                    let emptyCards = [], emptyIssues, busyIssues;
+                    for (let k in cardOverview) {
+                        if (cardOverview[k]['abbreviation'] == null) {
+                            emptyCards.push(cardOverview[k]);
+                        }
+                    }
+                    emptyIssues = issues.slice(0, emptyCards.length);
+                    busyIssues = issues.slice(emptyCards.length, issues.length);
+                    for (let l in emptyIssues) {
+                        let mixedString = emptyIssues[l] + ',' + emptyCards[l]['cardId'];
+                        axios({
+                            method: 'put',
+                            url: 'http://localhost:' + PORT + '/direct/assign/' + mixedString
+                        }).then(function (response) {
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+                    res.send(busyIssues);
+                }
+            });
+        }
+    });
+});
+
+app.put('/direct/assign/:mixedString', function (req, res) {
+    let story = req.params.mixedString.split(',')[0];
+    let card = req.params.mixedString.split(',')[1];
+    axios({
+        method: 'put',
+        url: 'https://jira.kernarea.de/rest/api/2/issue/' + story,
+        auth: {
+            username: 'astrutz',
+            password: 'TarguMures56!'
+        },
+        data: {
+            "fields": {
+                "customfield_14305": card
+            }
+        }
+    }).then(function (response) {
+        res.send(card);
+    }).catch(function (error) {
+        console.log(error);
+    });
+});
+
+app.put('/sprint/deassign', function (req, res) {
+    let cardOverview = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
+    for (let i in cardOverview) {
+        let cardId = cardOverview[i]['cardId'];
+        axios({
+            method: 'put',
+            url: 'http://localhost:' + PORT + '/card/deassign/' + cardId
+        }).then(function (response) {
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    res.sendStatus(200);
+});
+
+app.post('/settings', function (req, res) {
+    let settingsJson = req.body.settingsJson;
+    fs.writeFileSync('settings.json', JSON.stringify(settingsJson), 'UTF-8');
+    res.sendStatus(200);
+});
 
 app.get('/img/:title', function (req, res) {
     res.sendFile(__dirname + '/img/' + req.params.title);
@@ -22,7 +124,7 @@ app.get('/card/overview', function (req, res) {
     res.send(renderCardOverview());
 });
 
-app.get('/card/assign/:storyAbbr', function (req, res) {
+app.put('/card/assign/:storyAbbr', function (req, res) {
     let storyAbbreviation = req.params.storyAbbr;
     let cardId = getCardIdForStory();
     if (cardId != null) {
@@ -48,26 +150,27 @@ app.get('/card/assign/:storyAbbr', function (req, res) {
     }
 });
 
-app.get('/card/deassign/:cardID', function (req, res) {
+app.put('/card/deassign/:cardID', function (req, res) {
     let storyAbbreviation = findAbbreviationByCardId(req.params.cardID);
-    axios({
-        method: 'put',
-        url: 'https://jira.kernarea.de/rest/api/2/issue/' + storyAbbreviation,
-        auth: {
-            username: 'astrutz',
-            password: 'TarguMures56!'
-        },
-        data: {
-            "fields": {
-                "customfield_14305": null
+    if (storyAbbreviation != null) {
+        axios({
+            method: 'put',
+            url: 'https://jira.kernarea.de/rest/api/2/issue/' + storyAbbreviation,
+            auth: {
+                username: 'astrutz',
+                password: 'TarguMures56!'
+            },
+            data: {
+                "fields": {
+                    "customfield_14305": null
+                }
             }
-        }
-    }).then(function (response) {
-        res.send(storyAbbreviation);
-    }).catch(function (error) {
-        console.log(error);
-    });
-
+        }).then(function (response) {
+            res.send(storyAbbreviation);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
 });
 
 app.get('/card/issue/:cardId', function (req, res) {
@@ -195,7 +298,7 @@ app.listen(PORT, function () {
     console.log('Server listening on port ' + PORT + '!');
     var mqtt = require('mqtt');
     var client = mqtt.connect('mqtt://192.168.178.52');
-
+    let intervall = JSON.parse(fs.readFileSync('settings.json', 'UTF-8'))['intervall'];
     client.on('connect', function () {
         setInterval(async function () {
             let cardsToUpdate = await updateCardOverview();
@@ -208,7 +311,7 @@ app.listen(PORT, function () {
                     console.log('Message sent: ' + cardsToUpdate[i]['cardId'].toString() + ' with empty message.');
                 }
             }
-        }, 20000);
+        }, intervall);
     });
 });
 
@@ -225,7 +328,7 @@ function getCardIdForStory() {
 function findAbbreviationByCardId(cardId) {
     let cardOverview = JSON.parse(fs.readFileSync('cardOverview.json', 'UTF-8'));
     for (let i in cardOverview) {
-        if (cardOverview[i]['cardId'] === cardId) {
+        if (cardOverview[i]['cardId'] === cardId && cardOverview[i]['abbreviation'] != null) {
             return cardOverview[i]['abbreviation'];
         }
     }
@@ -233,20 +336,37 @@ function findAbbreviationByCardId(cardId) {
 }
 
 function filterData(data, abbreviation) {
+    let rows = JSON.parse(fs.readFileSync("settings.json", "UTF-8"))['rows'];
     let filteredData = {};
+    for (let i in rows) {
+        switch (rows[i]) {
+            case 'abbreviation':
+                filteredData['row' + i] = abbreviation;
+                break;
+            case 'title':
+                filteredData['row' + i] = data["summary"];
+                break;
+            case 'bar':
+                filteredData['row' + i] = getProgressCount(data);
+                filteredData['isBar'] = 1;
+                break;
+            case 'points':
+                filteredData['row' + i] = data["customfield_10002"];
+                filteredData['isBar'] = 0;
+                break;
+            case 'assignee':
+                filteredData['row' + i] = data["assignee"]["displayName"];
+                break;
+            case 'null':
+                filteredData['row' + i] = '';
+                break;
+        }
+    }
+    //filteredData.status = data["status"]["name"];
     if (data["issuetype"]["name"].toLowerCase() === "story") {
-        filteredData.name = data["summary"];
-        filteredData.abbreviation = abbreviation;
-        filteredData.assignee = data["assignee"]["displayName"];
-        filteredData.status = data["status"]["name"];
-        filteredData.issuetype = "Story";
-        filteredData.progress = getProgressCount(data);
+        //filteredData.issuetype = "Story";
     } else if (data["issuetype"]["name"].toLowerCase() === "unteraufgabe") {
-        filteredData.name = data["summary"];
-        filteredData.abbreviation = abbreviation;
-        filteredData.assignee = data["assignee"]["displayName"];
-        filteredData.status = data["status"]["name"];
-        filteredData.issuetype = "Unteraufgabe";
+        //filteredData.issuetype = "Unteraufgabe";
     } else {
         console.error("Issuetype = " + data["issuetype"]["name"]);
         filteredData.name = "Error!";
@@ -339,6 +459,7 @@ async function startDaily() {
 }
 
 function renderCardOverview() {
+    let settingsList = JSON.parse(fs.readFileSync("settings.json", "UTF-8"));
     let overviewList = JSON.parse(fs.readFileSync("cardOverview.json", "UTF-8"));
     const dom = new JSDOM(fs.readFileSync("card_overview.html", "UTF-8"));
     const $ = (require('jquery'))(dom.window);
@@ -346,6 +467,11 @@ function renderCardOverview() {
         $('.cardOverview').append(renderOverviewTable(overviewList));
     } else {
         $('.cardOverview').append('Es sind keine Karten im System eingetragen');
+    }
+    $('input[name="intervallNumber"]').attr('value', settingsList['intervall'] / 1000);
+    $('input[name="boardNumber"]').attr('value', settingsList['boardId']);
+    for (let i in settingsList['rows']) {
+        $('#inputRow' + i).find('option[value="' + settingsList['rows'][i] + '"]').attr('selected', 'selected');
     }
     return $("html").html();
 }
@@ -434,7 +560,11 @@ function updateCardOverview() {
                             overviewList[i]['timestampBegin'] = Math.floor(Date.now() / 1000);
                             overviewList[i]['abbreviation'] = issueList[j]['key'];
                             overviewList[i]['name'] = issueList[j]['fields']['summary'];
-                            overviewList[i]['assignee'] = issueList[j]['fields']['assignee']['displayName'];
+                            if (issueList[j]['fields']['assignee'] === null) {
+                                overviewList[i]['assignee'] = "";
+                            } else {
+                                overviewList[i]['assignee'] = issueList[j]['fields']['assignee']['displayName'];
+                            }
                             overviewList[i]['status'] = issueList[j]['fields']['status']['name'];
                             overviewList[i]['issuetype'] = issueList[j]['fields']['issuetype']['name'];
                             overviewList[i]['progress'] = getProgressCount(issueList[j]['fields']);

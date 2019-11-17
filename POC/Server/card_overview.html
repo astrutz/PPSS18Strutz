@@ -6,26 +6,115 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../../style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container">
-    <div class="cardOverview">
-        <h1 class="custom-headline">Übersicht der verwendeten Karten</h1>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-overview-tab" data-toggle="tab" href="#nav-overview" role="tab"
+           aria-controls="nav-overview" aria-selected="true">Kartenübersicht</a>
+        <a class="nav-item nav-link" id="nav-assignment-tab" data-toggle="tab" href="#nav-assignment" role="tab"
+           aria-controls="nav-assignment" aria-selected="false">Zuweisung</a>
+        <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab"
+           aria-controls="nav-settings" aria-selected="false">Einstellungen</a>
     </div>
-    <div class="row" id="assign">
-        <div class="col-4">
-            <input id="storyAbbreviation" type="text" placeholder="Story-ID">
-        </div>
-        <div class="col-4">
-            <button onclick="assignCard('')" type="button" class="btn btn-primary">Story einer Karte zuweisen</button>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-overview" role="tabpanel" aria-labelledby="nav-overview-tab">
+        <div class="container">
+            <div class="cardOverview">
+                <h1 class="custom-headline">Übersicht der verwendeten Karten</h1>
+            </div>
         </div>
     </div>
-    <div class="row" id="deassign">
-        <div class="col-4">
-            <input id="cardId" type="text" placeholder="Karten-ID">
+    <div class="tab-pane fade" id="nav-assignment" role="tabpanel" aria-labelledby="nav-assignment-tab">
+        <div class="container">
+            <h1 class="custom-headline">Zuweisung und Lösen von Stories</h1>
+            <div class="row" id="assign">
+                <div class="col-4">
+                    <input id="storyAbbreviation" type="text" placeholder="Story-ID">
+                </div>
+                <div class="col-4">
+                    <button onclick="assignCard('')" type="button" class="btn btn-primary">Story einer Karte zuweisen
+                    </button>
+                </div>
+            </div>
+            <div class="row" id="deassign">
+                <div class="col-4">
+                    <input id="cardId" type="text" placeholder="Karten-ID">
+                </div>
+                <div class="col-4">
+                    <button onclick="assignCard('de')" type="button" class="btn btn-danger">Story von Karte lösen
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <row class="row" id="assignAll">
+                <div class="col-4">
+                    <button onclick="assignAll('')" type="button" class="btn btn-primary">Gesamten Sprint zuweisen
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button onclick="assignAll('de')" type="button" class="btn btn-danger">Gesamten Sprint
+                        abschließen
+                    </button>
+                </div>
+            </row>
         </div>
-        <div class="col-4">
-            <button onclick="assignCard('de')" type="button" class="btn btn-danger">Story von Karte lösen</button>
+    </div>
+    <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+        <div id="settingsContainer" class="container">
+            <h1 class="custom-headline">Einstellung und Konfiguration des Systems</h1>
+            <div class="row">
+                <label class="settingsLeft">Aktualisierungsintervall in Sekunden</label>
+                <input name="intervallNumber" id="intervall" class="settingsRight" type="number" placeholder="20">
+            </div>
+            <div class="row">
+                <label class="settingsLeft">Text in oberster Reihe</label>
+                <select id="inputRow0" class="settingsRight" name="abbreviationrow">
+                    <option value="abbreviation">Abkürzung</option>
+                    <option value="title">Titel</option>
+                    <option value="assignee">Bearbeiter</option>
+                    <option value="null">(Leer)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label class="settingsLeft">Text in Titelzeile</label>
+                <select id="inputRow1" class="settingsRight" name="titlerow">
+                    <option value="abbreviation">Abkürzung</option>
+                    <option value="title">Titel</option>
+                    <option value="assignee">Bearbeiter</option>
+                    <option value="null">(Leer)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label class="settingsLeft">Anzeige in Fortschrittszeile</label>
+                <select id="inputRow2" class="settingsRight" name="progressrow">
+                    <option value="bar">Balken</option>
+                    <option value="points">Storypoints</option>
+                </select>
+            </div>
+            <div class="row">
+                <label class="settingsLeft">Text in unterster Reihe</label>
+                <select id="inputRow3" class="settingsRight" name="assigneerow">
+                    <option value="abbreviation">Abkürzung</option>
+                    <option value="title">Titel</option>
+                    <option value="assignee">Bearbeiter</option>
+                    <option value="null">(Leer)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label class="settingsLeft">ID des JIRA-Boards</label>
+                <input name="boardNumber" id="board" class="settingsRight" type="number" placeholder="0">
+            </div>
+            <br/>
+            <button id="saveBtn" onclick="saveSettings()" style="text-align: center" class="btn btn-success">Speichern
+            </button>
         </div>
     </div>
 </div>
@@ -43,6 +132,28 @@
         }
     }
 
+    function assignAll(prefix) {
+        $.ajax({
+            url: '/sprint/' + prefix + 'assign',
+            type: 'PUT',
+            success: function (data) {
+                if (prefix === 'de') {
+                    $('#assignAll').append('<br/><br/><div class="alert alert-success" role="alert">' + 'Aktion wurde erfolgreich durchgeführt!' + '</div>');
+                } else {
+                    if (data.length < 1) {
+                        $('#assignAll').append('<br/><br/><div class="alert alert-success" role="alert">' + 'Aktion wurde erfolgreich durchgeführt!' + '</div>');
+                    } else {
+                        let failureString = 'Folgende Stories konnten nicht zugewiesen werden, da keine Karte verfügbar war: ';
+                        for (let i in data) {
+                            failureString = failureString + data[i] + ',';
+                        }
+                        $('#assignAll').append('<br/><br/><div class="alert alert-danger" role="alert">' + failureString + '</div>');
+                    }
+                }
+            }
+        });
+    }
+
     function assignCard(prefix) {
         let abbreviation = '';
         if (prefix !== '') {
@@ -51,7 +162,7 @@
             abbreviation = $('#storyAbbreviation').val();
         }
         let request = new XMLHttpRequest();
-        request.open("GET", "/card/" + prefix + "assign/" + abbreviation);
+        request.open("PUT", "/card/" + prefix + "assign/" + abbreviation);
         request.addEventListener('load', function (event) {
             if (request.status >= 200 && request.status < 300) {
                 if (request.responseText != null) {
@@ -65,6 +176,27 @@
             }
         });
         request.send();
+    }
+
+    function saveSettings() {
+        let settingsJson = {};
+        settingsJson['intervall'] = parseInt($('#intervall').val(), 10) * 1000;
+        settingsJson['boardId'] = parseInt($('#board').val(), 10);
+        let rowArray = [];
+        for (let i = 0; i < 4; i++) {
+            rowArray.push($('#inputRow' + i).val());
+        }
+        settingsJson['rows'] = rowArray;
+        $.ajax({
+            url: '/settings',
+            type: 'POST',
+            data: {
+                settingsJson
+            },
+            success: function () {
+                $('#settingsContainer').append('<br/><br/><div class="alert alert-success" role="alert">' + 'Aktion wurde erfolgreich durchgeführt!' + '</div>');
+            }
+        });
     }
 </script>
 </html>
