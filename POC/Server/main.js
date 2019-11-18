@@ -296,10 +296,17 @@ app.get('/dailyStatus', function (req, res) {
 
 app.listen(PORT, function () {
     console.log('Server listening on port ' + PORT + '!');
+    var mqttOptions = {
+        username: 'gzxwcdxc',
+        password: 'iTeRc1cdW_RG'
+    }; //cloud Usage
+
     var mqtt = require('mqtt');
-    var client = mqtt.connect('mqtt://192.168.178.52');
+    //var client = mqtt.connect('mqtt://192.168.178.52'); For localhost usage
+    var client = mqtt.connect('mqtt://farmer.cloudmqtt.com:12744', mqttOptions); //Cloud Usage
     let intervall = JSON.parse(fs.readFileSync('settings.json', 'UTF-8'))['intervall'];
     client.on('connect', function () {
+        console.log('E');
         setInterval(async function () {
             let cardsToUpdate = await updateCardOverview();
             for (let i in cardsToUpdate) {
